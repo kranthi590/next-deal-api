@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const SQL = require('@nearform/sql');
 
 const logger = require('./logger');
@@ -36,9 +36,7 @@ const closeConnection = () => {
 };
 
 const executeQuery = (query) => new Promise((resolve, reject) => {
-  // generate SQL query
   const sql = SQL`${query}`;
-  logger.debug(`Executing query: ${sql}`);
   connection.query(sql, (error, results) => {
     if (error) {
       reject(error);
