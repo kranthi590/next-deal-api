@@ -1,0 +1,317 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an API contract for NextDeal",
+    "version": "1.0.0",
+    "title": "Swagger API docs for NextDeal",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "pasala.kk@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/api/",
+  "tags": [
+    {
+      "name": "Buyer",
+      "description": "Everything about your buyer"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/buyer": {
+      "post": {
+        "tags": ["Buyer"],
+        "summary": "Add a new buyer to system                 ",
+        "description": "",
+        "operationId": "addBuyer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Buyer object that needs to be added to the system",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Buyer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/BuyerResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "405": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/405"
+            }
+          },
+          "500": {
+            "description": "Interbal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "200": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 200
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "405": {
+      "type": "object",
+      "description": "Invalid input",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 405
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fieldName": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "type": "object",
+      "description": "Internal server error",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 500
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "apiPath": {
+          "type": "string"
+        },
+        "permission": {
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "required": [
+        "addressLine1",
+        "communeId",
+        "regionId",
+        "countryId",
+        "phoneNum1"
+      ],
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "addressLine3": {
+          "type": "string"
+        },
+        "communeId": {
+          "type": "string"
+        },
+        "regionId": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "string"
+        },
+        "phoneNum1": {
+          "type": "string"
+        },
+        "phoneNum2": {
+          "type": "string"
+        },
+        "additionalData": {
+          "type": "string"
+        }
+      }
+    },
+    "Buyer": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "secondName",
+        "emailId",
+        "phoneNum1",
+        "password",
+        "businessName",
+        "businessType",
+        "slug",
+        "categoryId",
+        "address"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "secondName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "middleName": {
+          "type": "string",
+          "example": "Paul"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Rand"
+        },
+        "emailId": {
+          "type": "string",
+          "example": "john.doe@some-business.com"
+        },
+        "phoneNum1": {
+          "type": "string",
+          "example": "+56987647387"
+        },
+        "phoneNum2": {
+          "type": "string",
+          "example": "+56987647387"
+        },
+        "password": {
+          "type": "string",
+          "example": "verystrongpassowrd1233"
+        },
+        "businessName": {
+          "type": "string",
+          "example": "xyz"
+        },
+        "businessType": {
+          "type": "string",
+          "example": "furnitures"
+        },
+        "services": {
+          "type": "string",
+          "example": "some services"
+        },
+        "slug": {
+          "type": "string",
+          "example": "https://john.doe.com"
+        },
+        "additionalData": {
+          "type": "string",
+          "example": ""
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "BuyerResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "$ref": "#/definitions/Buyer"
+        }
+      ]
+    },
+    "Id": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
