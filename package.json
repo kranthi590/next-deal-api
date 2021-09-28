@@ -10,7 +10,6 @@
     "start": "NODE_ENV=prod node src/server.js"
   },
   "dependencies": {
-    "@nearform/sql": "^1.9.0",
     "accesscontrol": "^2.2.1",
     "ajv": "^8.6.3",
     "ajv-formats": "^2.1.1",
@@ -20,9 +19,7 @@
     "express-winston": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
-    "swagger-ui-express": "^4.1.6",
-    "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.5"
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
