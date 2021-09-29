@@ -1,5 +1,6 @@
 const responseBuilder = require('../helpers/api.response');
 const registerBuyerRoutes = require('./buyer.routes');
+const registerConfigRoutes = require('./config.routes');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
@@ -9,6 +10,9 @@ const initRoutes = (app) => {
 
   // Register buyer routes
   app.use('/buyer', registerBuyerRoutes);
+
+  // Register config routes
+  app.use('/config', registerConfigRoutes);
 };
 
 module.exports = initRoutes;

@@ -12,10 +12,11 @@ const init = async () => {
   try {
     await sequelize.authenticate();
     logger.info('Connection has been established successfully.');
+    return true;
   } catch (error) {
     logger.error(`Unable to connect to the database:${error}`);
+    return false;
   }
-  return sequelize;
 };
 
 const closeConnection = () => {
