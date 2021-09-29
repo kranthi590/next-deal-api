@@ -15,7 +15,7 @@ const init = () => new Promise((resolve) => {
     host: MYSQL_HOST,
     user: MYSQL_USER,
     password: MYSQL_PASSWORD,
-    database: `${MYSQL_DB}_${NODE_ENV}`,
+    database: `${MYSQL_DB}`,
   });
   connection.connect((err) => {
     if (err) {
