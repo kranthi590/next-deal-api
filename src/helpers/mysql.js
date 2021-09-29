@@ -1,35 +1,31 @@
-const mysql = require('mysql2');
+const { Sequelize } = require('sequelize');
+const logger = require('./logger');
 
-let connection;
+let sequelize;
 
 // eslint-disable-next-line consistent-return
-const init = () => new Promise((resolve) => {
-  const {
-    MYSQL_HOST,
-    MYSQL_USER,
-    MYSQL_PASSWORD,
-    MYSQL_DB,
-    NODE_ENV,
-  } = process.env;
-  connection = mysql.createConnection({
-    host: MYSQL_HOST,
-    user: MYSQL_USER,
-    password: MYSQL_PASSWORD,
-    database: `${MYSQL_DB}`,
+const init = async () => {
+  logger.debug('Initialize mysql connection....');
+  sequelize = new Sequelize(process.env.MYSQL_CONNECTION, {
+    logging: process.env.MYSQL_DEBUG === 'true',
   });
-  connection.connect((err) => {
-    if (err) {
-      console.error('Error while connecting to database', err);
-      resolve(false);
-    } else {
-      console.log('Connected to mysql successfully...');
-      resolve(true);
-    }
-  });
-});
-
-const closeConnection = () => {
-  connection.end();
+  try {
+    await sequelize.authenticate();
+    logger.info('Connection has been established successfully.');
+  } catch (error) {
+    logger.error(`Unable to connect to the database:${error}`);
+  }
+  return sequelize;
 };
 
-module.exports = { init, closeConnection };
+const closeConnection = () => {
+  if (sequelize) {
+    sequelize.close();
+  }
+};
+
+const getConnection = () => sequelize;
+
+module.exports = {
+  init, closeConnection, sequelize, getConnection,
+};
