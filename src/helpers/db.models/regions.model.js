@@ -6,6 +6,11 @@ const Regions = getConnection().define('regions', {
   ordinal: Sequelize.STRING,
   created_at: Sequelize.DATE,
   updated_at: Sequelize.DATE,
+  order_num: {
+    type: Sequelize.DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+  },
 }, { timestamps: false });
 
 module.exports = {
