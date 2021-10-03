@@ -19,29 +19,30 @@ CREATE TABLE regions (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar(64) NOT NULL,
   ordinal varchar(4) NOT NULL UNIQUE,
+  order_num INT NOT NULL UNIQUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   country_id int(11) NOT NULL,
   FOREIGN KEY (country_id) REFERENCES countries(id)
 ) ENGINE=INNODB;
 
-INSERT INTO regions (country_id,name,ordinal)
+INSERT INTO regions (country_id,name,ordinal, order_num)
 VALUES
-    (1,'Arica y Parinacota','XV'),
-    (1,'Tarapacá','I'),
-    (1,'Antofagasta','II'),
-    (1,'Atacama','III'),
-    (1,'Coquimbo','IV'),
-    (1,'Valparaiso','V'),
-    (1,'Metropolitana de Santiago','RM'),
-    (1,'Libertador General Bernardo O\'Higgins','VI'),
-    (1,'Maule','VII'),
-    (1,'Biobío','VIII'),
-    (1,'La Araucanía','IX'),
-    (1,'Los Ríos','XIV'),
-    (1,'Los Lagos','X'),
-    (1,'Aisén del General Carlos Ibáñez del Campo','XI'),
-    (1,'Magallanes y de la Antártica Chilena','XII');
+    (1,'Arica y Parinacota','XV', 15),
+    (1,'Tarapacá','I', 2),
+    (1,'Antofagasta','II', 3),
+    (1,'Atacama','III', 4),
+    (1,'Coquimbo','IV', 5),
+    (1,'Valparaiso','V', 6),
+    (1,'Metropolitana de Santiago','RM', 1),
+    (1,'Libertador General Bernardo O\'Higgins','VI', 7),
+    (1,'Maule','VII', 8),
+    (1,'Biobío','VIII', 9),
+    (1,'La Araucanía','IX', 10),
+    (1,'Los Ríos','XIV', 14),
+    (1,'Los Lagos','X', 11),
+    (1,'Aisén del General Carlos Ibáñez del Campo','XI', 12),
+    (1,'Magallanes y de la Antártica Chilena','XII', 13);
 
 DROP TABLE IF EXISTS provincias;
 CREATE TABLE provincias (
