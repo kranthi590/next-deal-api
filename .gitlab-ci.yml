@@ -10,7 +10,7 @@ default:
 build:
     stage: build
     script:
-      - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/"$SERVICE_NAME"
+      - gcloud builds submit --tag gcr.io/"$GCP_PROJECT_ID"/"$SERVICE_NAME"
 
 
 deploy:
@@ -18,4 +18,4 @@ deploy:
   only:
     - main
   script:
-    - gcloud run deploy $SERVICE_NAME --image gcr.io/"$"GCP_PROJECT_ID"/"$SERVICE_NAME" --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn
+    - gcloud run deploy "$SERVICE_NAME" --image gcr.io/"$"GCP_PROJECT_ID"/"$SERVICE_NAME" --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn
