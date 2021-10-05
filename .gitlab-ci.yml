@@ -14,7 +14,7 @@ build:
 
 
 deploy:
-  stage: deploy-dev
+  stage: deploy
   only:
     - main
   script:
