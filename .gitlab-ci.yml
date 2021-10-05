@@ -1,11 +1,14 @@
 variables:
   SERVICE_NAME: "nextdealapi"
 
-default:
-  image: google/cloud-sdk:alpine
-  before_script:
-      - gcloud config set project "$GCP_PROJECT_ID"
-      - gcloud auth activate-service-account --key-file "$GOOGLE_CLOUD_CREDENTIALS"
+stages:
+  - build
+  - deploy-dev
+
+image: google/cloud-sdk:alpine
+before_script:
+    - gcloud config set project "$GCP_PROJECT_ID"
+    - gcloud auth activate-service-account --key-file "$GOOGLE_CLOUD_CREDENTIALS"
 
 build:
     stage: build
@@ -13,7 +16,7 @@ build:
       - gcloud builds submit --tag gcr.io/"$GCP_PROJECT_ID"/"$SERVICE_NAME"
 
 
-deploy:
+deploy-dev:
   stage: deploy
   only:
     - main
