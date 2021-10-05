@@ -10,14 +10,12 @@ default:
 build:
     stage: build
     script:
-      - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
+      - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME
 
 
 deploy:
   stage: deploy-dev
   only:
-    - main # This pipeline stage will run on this branch alone
-
-  image: google/cloud-sdk:latest # We'll use Google Cloud SDK for Cloud Run related commands
+    - main
   script:
     - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn # Run the gcloud run deploy command to deploy our new service
