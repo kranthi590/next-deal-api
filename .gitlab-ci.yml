@@ -3,7 +3,7 @@ variables:
 
 stages:
   - build
-  - deploy-dev
+  - deploy
 
 image: google/cloud-sdk:alpine
 before_script:
