@@ -4,7 +4,7 @@ variables:
 default:
   image: google/cloud-sdk:alpine
   before_script:
-      - gcloud config set project $GOOGLE_CLOUD_PROJECT
+      - gcloud config set project $GCP_PROJECT_ID
       - gcloud auth activate-service-account --key-file $GOOGLE_CLOUD_CREDENTIALS
 
 build:
@@ -18,4 +18,4 @@ deploy:
   only:
     - main
   script:
-    - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn # Run the gcloud run deploy command to deploy our new service
+    - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn
