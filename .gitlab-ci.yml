@@ -1,16 +1,23 @@
 variables:
   SERVICE_NAME: "nextdealApiTest"
 
+default:
+  mage: google/cloud-sdk:alpine
+  before_script:
+      - gcloud config set project $GOOGLE_CLOUD_PROJECT
+      - gcloud auth activate-service-account --key-file $GOOGLE_CLOUD_CREDENTIALS
+
+build:
+    stage: build
+    script:
+      - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
+
+
 deploy:
-  stage: deploy
+  stage: deploy-dev
   only:
     - main # This pipeline stage will run on this branch alone
 
   image: google/cloud-sdk:latest # We'll use Google Cloud SDK for Cloud Run related commands
   script:
-    - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
-    - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
-    - gcloud auth configure-docker # Configure docker environment
-    - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
-    - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
     - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=KAH-secret-key-blabla,JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@10.0.0.3:3306/nextdeal_dev" --vpc-connector=next-deal-serverless-vpn # Run the gcloud run deploy command to deploy our new service
