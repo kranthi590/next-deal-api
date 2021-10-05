@@ -1,5 +1,5 @@
 variables:
-  SERVICE_NAME: "nextdealApiTest"
+  SERVICE_NAME: "nextdealapi"
 
 default:
   image: google/cloud-sdk:alpine
