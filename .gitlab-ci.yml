@@ -2,7 +2,7 @@ variables:
   SERVICE_NAME: "nextdealApiTest"
 
 default:
-  mage: google/cloud-sdk:alpine
+  image: google/cloud-sdk:alpine
   before_script:
       - gcloud config set project $GOOGLE_CLOUD_PROJECT
       - gcloud auth activate-service-account --key-file $GOOGLE_CLOUD_CREDENTIALS
