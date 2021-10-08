@@ -1,12 +1,9 @@
-const authenticateCustomerSchema = require('./authenticate-customer.json');
-const registerCustomerSchema = require('./register-customer.json');
+const registerBusinessSchema = require('./register-business.json');
 
 const getValidationSchema = (routePath) => {
   switch (routePath) {
-    case '/customer/authenticate':
-      return authenticateCustomerSchema;
-    case '/customer/register':
-      return registerCustomerSchema;
+    case '/business':
+      return registerBusinessSchema;
     default:
       return {};
   }

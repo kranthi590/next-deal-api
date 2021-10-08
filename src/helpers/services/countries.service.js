@@ -1,4 +1,4 @@
-const { Countries, Regions } = require('../helpers/db.models');
+const { Countries, Regions } = require('../db.models');
 
 const fetchCountryByCode = async (countryCode, excludeFields) => {
   const query = {
@@ -13,7 +13,10 @@ const fetchCountryByCode = async (countryCode, excludeFields) => {
   if (excludeFields) {
     query.attributes.exclude = excludeFields;
   }
-  return Countries.findOne(query);
+  return Countries.findOne({
+    include: ['regions'],
+    query,
+  });
 };
 
 const fetchRegionsByCountryId = async (countryId, excludeFields) => {

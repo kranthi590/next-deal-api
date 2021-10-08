@@ -1,6 +1,7 @@
 const responseBuilder = require('../helpers/api.response');
-const registerBuyerRoutes = require('./buyer.routes');
-const registerConfigRoutes = require('./config.routes');
+const { validationMiddleware } = require('../middleware');
+const { registerBusiness } = require('./business.handler');
+const { fetchRegionsByCountryId } = require('./countries.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
@@ -8,11 +9,11 @@ const initRoutes = (app) => {
     res.status(response.status).json(response);
   });
 
-  // Register buyer routes
-  app.use('/buyer', registerBuyerRoutes);
+  // Register business routes
+  app.post('/business', validationMiddleware, registerBusiness);
 
   // Register config routes
-  app.use('/config', registerConfigRoutes);
+  app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryId);
 };
 
 module.exports = initRoutes;
