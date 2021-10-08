@@ -2,12 +2,16 @@ require('dotenv/config');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const { v4 } = require('uuid');
+const cors = require('cors');
 
 const swaggerDocument = require('./swagger.json');
 const { init: initMysql, closeConnection } = require('./helpers/mysql');
 const logger = require('./helpers/logger');
 
 const app = express();
+app.use(cors({
+  origin: '*',
+}));
 const port = process.env.PORT || 3000;
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
