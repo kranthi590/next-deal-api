@@ -9,7 +9,7 @@
       "email": "pasala.kk@gmail.com"
     },
     "license": {
-      "name": "Apache 2.0",
+      "name": "Apache 3.1",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
@@ -21,16 +21,24 @@
       "description": "Everything about your buyer"
     }
   ],
-  "schemes": ["https", "http"],
+  "schemes": [
+    "https",
+    "http"
+  ],
   "paths": {
     "/buyer": {
       "post": {
-        "tags": ["Buyer"],
-        "summary": "Add a new buyer to system                 ",
-        "description": "",
+        "tags": [
+          "Buyer"
+        ],
+        "summary": "Add a new buyer to system",
         "operationId": "addBuyer",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -43,12 +51,12 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "successful operation",
             "schema": {
               "allOf": [
                 {
-                  "$ref": "#/definitions/200"
+                  "$ref": "#/definitions/201"
                 },
                 {
                   "properties": {
@@ -64,10 +72,16 @@
               ]
             }
           },
-          "405": {
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
             "description": "Invalid input",
             "schema": {
-              "$ref": "#/definitions/405"
+              "$ref": "#/definitions/422"
             }
           },
           "500": {
@@ -78,13 +92,227 @@
           }
         }
       }
-    }
-  },
-  "securityDefinitions": {
-    "Bearer": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
+    },
+    "/supplier": {
+      "post": {
+        "tags": [
+          "Supplier"
+        ],
+        "summary": "Add a new supplier to system                 ",
+        "description": "",
+        "operationId": "addSupplier",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Supplier object that needs to be added to the system",
+            "required": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Supplier"
+                },
+                {
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "$ref": "#/definitions/CategoryRequest"
+                    },
+                    "serviceLocations": {
+                      "type": "array",
+                      "$ref": "#/definitions/ServiceLocationRequest"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/201"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/SupplierResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Interbal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add a new user to a buyer subdomain",
+        "operationId": "addUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object that needs to be added to the system",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/201"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/UserResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Interbal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Login user to a specific buyer subdomain",
+        "operationId": "loginUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User login with credentials",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "jwt": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/UserLoginResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -101,7 +329,37 @@
         }
       }
     },
-    "405": {
+    "201": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 201
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "409": {
+      "type": "object",
+      "description": "Conflict--> Account exists already",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 409
+        },
+        "message": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        }
+      }
+    },
+    "422": {
       "type": "object",
       "description": "Invalid input",
       "properties": {
@@ -109,6 +367,9 @@
           "type": "integer",
           "format": "int32",
           "example": 405
+        },
+        "errorCode": {
+          "type": "string"
         },
         "message": {
           "type": "string"
@@ -146,9 +407,216 @@
         }
       }
     },
-    "Category": {
+    "Buyer": {
+      "type": "object",
+      "description": "Buyer Info",
+      "required": [
+        "legalName",
+        "rut",
+        "emailId",
+        "subDomainName"
+      ],
+      "properties": {
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "legalName": {
+          "type": "string"
+        },
+        "fantasyName": {
+          "type": "string"
+        },
+        "rut": {
+          "type": "string"
+        },
+        "webSiteUrl": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "additionalData": {
+          "type": "string"
+        }
+      }
+    },
+    "Supplier": {
+      "type": "object",
+      "description": "Buyer Info",
+      "required": [
+        "contactinfo",
+        "legalName",
+        "rut",
+        "emailId",
+        "subDomainName"
+      ],
+      "properties": {
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "billingAddress": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "legalName": {
+          "type": "string"
+        },
+        "fantasyName": {
+          "type": "string"
+        },
+        "rut": {
+          "type": "string"
+        },
+        "webSiteUrl": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "subDomainName": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "isShared": {
+          "type": "boolean"
+        },
+        "inchargeFullName": {
+          "type": "string"
+        },
+        "inchargeRole": {
+          "type": "string"
+        },
+        "inchargeContactInfo": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "categories": {
+          "$ref": "#/definitions/CategoryResponse"
+        }
+      }
+    },
+    "BuyerResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "$ref": "#/definitions/Buyer"
+        },
+        {
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "licencedUntil": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "SupplierResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "$ref": "#/definitions/Supplier"
+        },
+        {
+          "$ref": "#/definitions/CreatedBy"
+        },
+        {
+          "properties": {
+            "categories": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CategoryResponse"
+              }
+            },
+            "serviceLocations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ServiceLocationResponse"
+              }
+            },
+            "status": {
+              "type": "string"
+            },
+            "licencedUntil": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "Id": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatedBy": {
+      "type": "object",
+      "properties": {
+        "createdBy": {
+          "type": "string"
+        }
+      }
+    },
+    "ContactInfo": {
+      "type": "object",
+      "description": "Contact Info",
+      "required": [
+        "addressLine1",
+        "addressLine2",
+        "communeId",
+        "regionId",
+        "countryId",
+        "emailId",
+        "phoneNumber1"
+      ],
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "communeId": {
+          "type": "integer"
+        },
+        "regionId": {
+          "type": "integer"
+        },
+        "countryId": {
+          "type": "integer"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "phoneNumber1": {
+          "type": "string"
+        },
+        "phoneNumber2": {
+          "type": "string"
+        }
+      }
+    },
+    "CategoryRequest": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "CategoryResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
@@ -160,7 +628,13 @@
         }
       }
     },
-    "Role": {
+    "ServiceLocationRequest": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ServiceLocationResponse": {
       "type": "object",
       "properties": {
         "name": {
@@ -169,143 +643,98 @@
         "description": {
           "type": "string"
         },
-        "apiPath": {
-          "type": "string"
-        },
-        "permission": {
+        "id": {
           "type": "string"
         }
       }
     },
-    "Address": {
+    "User": {
       "type": "object",
-      "required": [
-        "addressLine1",
-        "communeId",
-        "regionId",
-        "countryId",
-        "phoneNum1"
-      ],
-      "properties": {
-        "addressLine1": {
-          "type": "string"
-        },
-        "addressLine2": {
-          "type": "string"
-        },
-        "addressLine3": {
-          "type": "string"
-        },
-        "communeId": {
-          "type": "string"
-        },
-        "regionId": {
-          "type": "string"
-        },
-        "countryId": {
-          "type": "string"
-        },
-        "phoneNum1": {
-          "type": "string"
-        },
-        "phoneNum2": {
-          "type": "string"
-        },
-        "additionalData": {
-          "type": "string"
-        }
-      }
-    },
-    "Buyer": {
-      "type": "object",
+      "description": "User Info",
       "required": [
         "firstName",
-        "secondName",
+        "lastName",
         "emailId",
-        "phoneNum1",
-        "password",
-        "businessName",
-        "businessType",
-        "slug",
-        "categoryId",
-        "address"
+        "password"
       ],
       "properties": {
         "firstName": {
-          "type": "string",
-          "example": "John"
-        },
-        "secondName": {
-          "type": "string",
-          "example": "Doe"
-        },
-        "middleName": {
-          "type": "string",
-          "example": "Paul"
-        },
-        "lastName": {
-          "type": "string",
-          "example": "Rand"
-        },
-        "emailId": {
-          "type": "string",
-          "example": "john.doe@some-business.com"
-        },
-        "phoneNum1": {
-          "type": "string",
-          "example": "+56987647387"
-        },
-        "phoneNum2": {
-          "type": "string",
-          "example": "+56987647387"
-        },
-        "password": {
-          "type": "string",
-          "example": "verystrongpassowrd1233"
-        },
-        "businessName": {
-          "type": "string",
-          "example": "xyz"
-        },
-        "businessType": {
-          "type": "string",
-          "example": "furnitures"
-        },
-        "services": {
-          "type": "string",
-          "example": "some services"
-        },
-        "slug": {
-          "type": "string",
-          "example": "https://john.doe.com"
-        },
-        "additionalData": {
-          "type": "string",
-          "example": ""
-        },
-        "categoryId": {
           "type": "string"
         },
-        "address": {
-          "$ref": "#/definitions/Address"
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
         }
       }
     },
-    "BuyerResponse": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/Id"
+    "UserResponse": {
+      "type": "object",
+      "description": "User Info",
+      "properties": {
+        "id": {
+          "type": "string"
         },
-        {
-          "$ref": "#/definitions/Buyer"
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
         }
-      ]
+      }
     },
-    "Id": {
+    "UserLogin": {
+      "type": "object",
+      "description": "User Info",
+      "required": [
+        "emailId",
+        "password"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserLoginResponse": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
         }
       }
     }
