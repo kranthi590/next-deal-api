@@ -413,7 +413,7 @@
       "required": [
         "legalName",
         "rut",
-        "emailId",
+        "fantasyName",
         "subDomainName"
       ],
       "properties": {
@@ -424,6 +424,9 @@
           "type": "string"
         },
         "fantasyName": {
+          "type": "string"
+        },
+        "subDomainName": {
           "type": "string"
         },
         "rut": {
@@ -446,9 +449,12 @@
       "required": [
         "contactinfo",
         "legalName",
+        "fantasyName",
         "rut",
         "emailId",
-        "subDomainName"
+        "categories",
+        "isShared",
+        "contactInfo"
       ],
       "properties": {
         "contactInfo": {
@@ -472,9 +478,6 @@
         "emailId": {
           "type": "string"
         },
-        "subDomainName": {
-          "type": "string"
-        },
         "logoUrl": {
           "type": "string"
         },
@@ -491,7 +494,7 @@
           "$ref": "#/definitions/ContactInfo"
         },
         "categories": {
-          "$ref": "#/definitions/CategoryResponse"
+          "$ref": "#/definitions/CategoryRequest"
         }
       }
     },
