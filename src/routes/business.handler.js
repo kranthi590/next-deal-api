@@ -1,5 +1,5 @@
-const registerBusiness = (req, res) => {
-  res.json({});
+const registerBusiness = async (req, res) => {
+  res.json({ status: 'ok' });
 };
 
 module.exports = {

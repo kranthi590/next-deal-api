@@ -1,19 +1,19 @@
-const responseBuilder = require('../helpers/api.response');
-const { validationMiddleware } = require('../middleware');
+const { OkResponse } = require('../helpers/response.transforms');
+const { validateMiddleware } = require('../middleware');
 const { registerBusiness } = require('./business.handler');
-const { fetchRegionsByCountryId } = require('./countries.handler');
+const { fetchRegionsByCountryCode } = require('./countries.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
-    const response = responseBuilder(200, 'OK Response');
+    const response = OkResponse(null, req.traceId, 'OK Response');
     res.status(response.status).json(response);
   });
 
   // Register business routes
-  app.post('/business', validationMiddleware, registerBusiness);
+  app.post('/business', validateMiddleware, registerBusiness);
 
   // Register config routes
-  app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryId);
+  app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
 };
 
 module.exports = initRoutes;

@@ -1,4 +1,4 @@
-const registerBusinessSchema = require('./register-business.json');
+const registerBusinessSchema = require('./register-business');
 
 const getValidationSchema = (routePath) => {
   switch (routePath) {

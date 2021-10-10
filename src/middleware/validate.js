@@ -1,31 +1,15 @@
-const Ajv = require('ajv');
-const addFormats = require('ajv-formats');
-
-const { logger } = require('../helpers/logger');
-const responseBuilder = require('../helpers/api.response');
 const getValidationSchema = require('../helpers/validations');
+const { BadRequestResponse } = require('../helpers/response.transforms');
 
-const ajv = new Ajv({ allErrors: true });
-addFormats(ajv);
-require('ajv-errors')(ajv /* , {singleError: true} */);
-
-const validate = (req, res, next) => {
+const validate = async (req, res, next) => {
   try {
-    const valid = ajv.validate(getValidationSchema(req.originalUrl),
-      { ...req.query, ...req.params, ...req.body });
-    if (!valid) {
-      const validationErrors = ajv.errors;
-      const resp = responseBuilder(400, 'Validation errors', {
-        validationErrors,
-      }, req.traceId);
-      res.status(resp.status).json(resp);
-    } else {
-      next();
-    }
+    console.log('req.originalUrl', req.originalUrl);
+    const schema = getValidationSchema(req.originalUrl);
+    await schema.validateAsync(req.body, { abortEarly: false });
+    next();
   } catch (error) {
-    logger.error(error);
-    const resp = responseBuilder(500, 'Internal server error', req.traceId);
-    res.status(resp.status).json(resp);
+    const response = BadRequestResponse(error.details, req.traceId, 'Validation errors');
+    res.status(response.status).json(response);
   }
 };
 

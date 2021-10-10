@@ -24,9 +24,6 @@ app.use('/', (req, res, next) => {
   // traceId is for the ability to track a request without happening to reassign
   // the entire pino logger on every request.
   req.traceId = id;
-  const host = req.get('host');
-  const origin = req.get('origin');
-  logger.info(`Host: ${host}, origin: ${origin}`);
   next();
 });
 

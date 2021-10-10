@@ -2,7 +2,7 @@ const logger = require('../helpers/logger');
 const { fetchCountryByCode } = require('../helpers/services/countries.service');
 const { OkResponse, NotFoundResponse, InternalServerErrorResponse } = require('../helpers/response.transforms');
 
-const fetchRegionsByCountryId = async (req, res) => {
+const fetchRegionsByCountryCode = async (req, res) => {
   let response;
   try {
     const country = await fetchCountryByCode(req.params.countryCode,
@@ -20,5 +20,5 @@ const fetchRegionsByCountryId = async (req, res) => {
 };
 
 module.exports = {
-  fetchRegionsByCountryId,
+  fetchRegionsByCountryCode,
 };

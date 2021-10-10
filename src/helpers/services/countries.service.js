@@ -2,6 +2,7 @@ const { Countries, Regions } = require('../db.models');
 
 const fetchCountryByCode = async (countryCode, excludeFields) => {
   const query = {
+    include: ['regions'],
     where: {
       active: 1,
       code: countryCode,
@@ -13,10 +14,8 @@ const fetchCountryByCode = async (countryCode, excludeFields) => {
   if (excludeFields) {
     query.attributes.exclude = excludeFields;
   }
-  return Countries.findOne({
-    include: ['regions'],
-    query,
-  });
+  console.log('query', query);
+  return Countries.findAll(query);
 };
 
 const fetchRegionsByCountryId = async (countryId, excludeFields) => {
