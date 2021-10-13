@@ -9,21 +9,22 @@ const { init: initMysql, closeConnection } = require('./helpers/mysql');
 const logger = require('./helpers/logger');
 
 const app = express();
-app.use(cors({
-  origin: '*',
-}));
+app.use(
+  cors({
+    origin: '*',
+  }),
+);
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true,
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', (req, res, next) => {
-  const id = v4();
-  // traceId is for the ability to track a request without happening to reassign
-  // the entire pino logger on every request.
-  req.traceId = id;
+  req.traceId = req.headers.trace_id || v4();
   next();
 });
 

@@ -1,7 +1,8 @@
 const { OkResponse } = require('../helpers/response.transforms');
 const { validateMiddleware } = require('../middleware');
-const { registerBusiness } = require('./business.handler');
-const { fetchRegionsByCountryCode } = require('./countries.handler');
+const registerSupplier = require('./handlers/supplier/register.handler');
+const fetchRegionsByCountryCode = require('./handlers/config/regions.handler');
+const fetchComunasByRegion = require('./handlers/config/comunas.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
@@ -9,11 +10,12 @@ const initRoutes = (app) => {
     res.status(response.status).json(response);
   });
 
-  // Register business routes
-  app.post('/business', validateMiddleware, registerBusiness);
+  // Supplier routes
+  app.post('/supplier/register', validateMiddleware, registerSupplier);
 
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
+  app.get('/config/regions/:regionId/comunas', fetchComunasByRegion);
 };
 
 module.exports = initRoutes;

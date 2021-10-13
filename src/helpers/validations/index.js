@@ -1,9 +1,9 @@
-const registerBusinessSchema = require('./register-business');
+const { supplierSchema } = require('./register-supplier');
 
 const getValidationSchema = (routePath) => {
   switch (routePath) {
-    case '/business':
-      return registerBusinessSchema;
+    case '/supplier/register':
+      return supplierSchema;
     default:
       return {};
   }

@@ -36,13 +36,6 @@ const Provincias = getConnection().define('provincias', {
   updated_at: Sequelize.DATE,
 }, { timestamps: false });
 
-Countries.hasMany(Regions, { as: 'regions', foreignKey: 'country_id' });
-
-Regions.belongsTo(Countries, {
-  foreignKey: 'country_id',
-  as: 'country',
-});
-
 const Comunas = getConnection().define('comunas', {
   name: {
     type: Sequelize.STRING,

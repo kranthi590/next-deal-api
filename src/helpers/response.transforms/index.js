@@ -7,6 +7,7 @@ const InternalServerErrorResponse = require('./500.response');
 const BadRequestResponse = require('./400.response');
 const UnauthorizedResponse = require('./401.response');
 const ForbiddenResponse = require('./403.response');
+const ConflictResponse = require('./409.response');
 
 module.exports = {
   OkResponse,
@@ -18,4 +19,5 @@ module.exports = {
   BadRequestResponse,
   UnauthorizedResponse,
   ForbiddenResponse,
+  ConflictResponse,
 };

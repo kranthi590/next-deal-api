@@ -1,17 +1,20 @@
-const { Countries, Regions } = require('./country.model');
-const { ContactInfo } = require('./contact.info.model');
-const { Role } = require('./role.model');
+const {
+  Countries, Regions, Provincias, Comunas,
+} = require('./country.model');
 
-Regions.belongsTo(Countries, { foreignKey: 'country_id' });
-ContactInfo.hasOne(Role, { as: 'role', foreignKey: 'role_id' });
-Role.belongsTo(ContactInfo, {
-  foreignKey: 'role_id',
-  as: 'contact_info',
-});
+const { Role } = require('./role.model');
+const { Supplier } = require('./supplier.model');
+const { Address, BusinessAddress } = require('./address.model');
+
+Countries.hasMany(Regions, { as: 'region', foreignKey: 'country_id' });
+Provincias.hasMany(Comunas, { as: 'comuna', foreignKey: 'provincia_id' });
 
 module.exports = {
   Countries,
   Regions,
-  ContactInfo,
   Role,
+  Provincias,
+  Supplier,
+  Address,
+  BusinessAddress,
 };
