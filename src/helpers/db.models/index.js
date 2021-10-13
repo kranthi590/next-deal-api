@@ -5,6 +5,8 @@ const {
 const { Role } = require('./role.model');
 const { Supplier } = require('./supplier.model');
 const { Address, BusinessAddress } = require('./address.model');
+const { SupplierCategoryMapping } = require('./supplier.category.mapping.model');
+const { SupplierServiceLocationsMappings } = require('./supplier.service.locations.mappings.model');
 
 Countries.hasMany(Regions, { as: 'region', foreignKey: 'country_id' });
 Provincias.hasMany(Comunas, { as: 'comuna', foreignKey: 'provincia_id' });
@@ -17,4 +19,6 @@ module.exports = {
   Supplier,
   Address,
   BusinessAddress,
+  SupplierCategoryMapping,
+  SupplierServiceLocationsMappings,
 };

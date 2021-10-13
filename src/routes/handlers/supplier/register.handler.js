@@ -1,5 +1,12 @@
 const _ = require('lodash');
-const { Supplier, Address, BusinessAddress } = require('../../../helpers/db.models');
+const {
+  Supplier,
+  Address,
+  BusinessAddress,
+  SupplierCategoryMapping,
+  SupplierServiceLocationsMappings,
+} = require('../../../helpers/db.models');
+
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 const supplierTransformRequest = require('../../../helpers/request.transforms/supplier');
@@ -41,6 +48,22 @@ const saveSupplierWithMappings = async (body) => {
     }
 
     const supplier = await Supplier.create(supplierRequest, { transaction: t });
+    await SupplierCategoryMapping.bulkCreate(
+      body.categories.map((category) => ({
+        supplier_id: supplier.dataValues.id,
+        category_id: category,
+      })),
+      { transaction: t },
+    );
+
+    await SupplierServiceLocationsMappings.bulkCreate(
+      body.serviceLocations.map((serviceLocation) => ({
+        supplier_id: supplier.dataValues.id,
+        region_id: serviceLocation,
+      })),
+      { transaction: t },
+    );
+
     return supplier;
   });
 
