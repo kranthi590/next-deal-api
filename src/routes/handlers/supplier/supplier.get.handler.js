@@ -11,7 +11,6 @@ const getSupplier = async (supplierId) => {
   const query = {
     include: ['businessAddress', 'inchargeAddress', 'billingAddress'],
     where: {
-      active: 1,
       id: supplierId,
     },
     attributes: {},
@@ -56,7 +55,7 @@ const getSupplierHandler = async (req, res) => {
     response = OkResponse(supplier, req.traceId);
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching country by code ${error}`);
+    logger.error(`Error while fetching supplier ${error}`);
   }
   res.status(response.status).json(response);
 };

@@ -1,33 +1,33 @@
 const logger = require('../../../helpers/logger');
 
-const { Buyer } = require('../../../helpers/db.models');
+const { User } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
-const getBuyer = async (buyerId) => {
+const getUser = async (userId) => {
   const query = {
     include: ['businessAddress'],
     where: {
-      id: buyerId,
+      id: userId,
     },
     attributes: {},
     raw: true,
     nest: true,
   };
-  return Buyer.findOne(query);
+  return User.findOne(query);
 };
 
-const getBuyerHandler = async (req, res) => {
+const getUserHandler = async (req, res) => {
   let response;
   try {
-    const buyer = await getBuyer(req.params.buyerId);
-    response = OkResponse(buyer, req.traceId);
+    const user = await getUser(req.params.userId);
+    response = OkResponse(user, req.traceId);
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching buyer by id ${error}`);
+    logger.error(`Error while fetching user ${error}`);
   }
   res.status(response.status).json(response);
 };
 
 module.exports = {
-  getBuyerHandler,
+  getUserHandler,
 };

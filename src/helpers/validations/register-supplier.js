@@ -20,9 +20,8 @@ const BusinessAddress = Joi.object().keys({
   countryId: Joi.number().required(),
   phoneNumber1: Joi.string().required(),
   phoneNumber2: Joi.string(),
-  additionalData: Joi.string(),
   emailId: Joi.string().email().required(),
-}).required();
+}).required().unknown();
 
 const supplierSchema = Joi.object().keys({
   fantasyName: Joi.string().required(),
@@ -40,7 +39,7 @@ const supplierSchema = Joi.object().keys({
   billingAddress: BillingAddress,
   businessAddress: BusinessAddress,
   type: Joi.string().required(),
-});
+}).unknown();
 
 module.exports = {
   supplierSchema,
