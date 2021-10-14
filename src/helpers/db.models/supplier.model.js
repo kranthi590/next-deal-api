@@ -9,47 +9,70 @@ const Supplier = getConnection().define(
       allowNull: false,
       unique: true,
     },
-    legal_name: {
+    legalName: {
       type: Sequelize.STRING,
       allowNull: false,
+      field: 'legal_name',
     },
-    fantasy_name: {
+    fantasyName: {
       type: Sequelize.STRING,
       allowNull: false,
+      field: 'fantasy_name',
     },
-    web_site_url: Sequelize.STRING,
-    logo_url: {
+    webSiteUrl: {
+      type: Sequelize.STRING,
+      field: 'web_site_url',
+    },
+    logoUrl: {
       type: Sequelize.STRING,
       allowNull: false,
+      field: 'logo_url',
     },
-    is_shared: {
+    isShared: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+      field: 'is_shared',
     },
     type: {
       type: Sequelize.STRING,
       allowNull: false,
       isIn: [['Emprendedor', 'Pyme']],
     },
-    email_id: {
+    emailId: {
       type: Sequelize.UUID,
       isEmail: true,
       allowNull: false,
+      field: 'email_id',
     },
-    in_charge_fullname: Sequelize.STRING,
-    in_charge_role: Sequelize.STRING,
-    created_by: Sequelize.INTEGER,
-    additional_data: Sequelize.STRING,
-    business_address_id: {
+    inchargeFullName: {
+      type: Sequelize.STRING,
+      field: 'in_charge_fullname',
+    },
+    inchargeRole: {
+      type: Sequelize.STRING,
+      field: 'in_charge_role',
+    },
+    createdBy: {
+      type: Sequelize.INTEGER,
+      field: 'created_by',
+    },
+    additionalData: {
+      type: Sequelize.STRING,
+      field: 'additional_data',
+    },
+    businessAddressId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      field: 'business_address_id',
     },
-    in_charge_address_id: {
+    inChargeAddressId: {
       type: Sequelize.INTEGER,
+      field: 'in_charge_address_id',
     },
-    billing_address_id: {
+    billingAddressId: {
       type: Sequelize.INTEGER,
+      field: 'billing_address_id',
     },
   },
   {

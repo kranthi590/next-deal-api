@@ -4,58 +4,102 @@ const { getConnection } = require('../mysql');
 const Address = getConnection().define(
   'addresses',
   {
-    address_line1: Sequelize.STRING,
-    address_line2: Sequelize.STRING,
-    address_line3: Sequelize.STRING,
-    commune_id: Sequelize.INTEGER,
-    region_id: Sequelize.INTEGER,
-    country_id: Sequelize.INTEGER,
-    email_id: {
+    addressLine1: {
+      type: Sequelize.STRING,
+      field: 'address_line1',
+    },
+    addressLine2: {
+      type: Sequelize.STRING,
+      field: 'address_line2',
+    },
+    address_line3: {
+      type: Sequelize.STRING,
+      field: 'address_line2',
+    },
+    communeId: {
+      type: Sequelize.INTEGER,
+      field: 'commune_id',
+    },
+    regionId: {
+      type: Sequelize.INTEGER,
+      field: 'region_id',
+    },
+    countryId: {
+      type: Sequelize.INTEGER,
+      field: 'country_id',
+    },
+    emailId: {
       type: Sequelize.STRING,
       isEmail: true,
+      field: 'email_id',
     },
-    phone_number1: Sequelize.STRING,
-    phone_number2: Sequelize.STRING,
-    additional_data: Sequelize.STRING,
+    phoneNumber1: {
+      type: Sequelize.STRING,
+      field: 'phone_number1',
+    },
+    phoneNumber2: {
+      type: Sequelize.STRING,
+      field: 'phone_number2',
+    },
+    additionalData: {
+      type: Sequelize.STRING,
+      field: 'additional_data',
+    },
   },
   { timestamps: false },
 );
 
 const BusinessAddress = getConnection().define(
-  'business_address',
+  'business_addresses',
   {
-    address_line1: {
+    addressLine1: {
       type: Sequelize.STRING,
+      field: 'address_line1',
       allowNull: false,
     },
-    address_line2: {
+    addressLine2: {
       type: Sequelize.STRING,
+      field: 'address_line2',
       allowNull: false,
     },
-    address_line3: Sequelize.STRING,
-    commune_id: {
+    address_line3: {
       type: Sequelize.STRING,
+      field: 'address_line2',
+    },
+    communeId: {
+      type: Sequelize.INTEGER,
+      field: 'commune_id',
       allowNull: false,
     },
-    region_id: {
+    regionId: {
       type: Sequelize.INTEGER,
+      field: 'region_id',
       allowNull: false,
     },
-    country_id: {
+    countryId: {
       type: Sequelize.INTEGER,
+      field: 'country_id',
       allowNull: false,
     },
-    email_id: {
-      type: Sequelize.INTEGER,
+    emailId: {
+      type: Sequelize.STRING,
       isEmail: true,
+      field: 'email_id',
       allowNull: false,
     },
-    phone_number1: {
+    phoneNumber1: {
       type: Sequelize.STRING,
+      field: 'phone_number1',
       allowNull: false,
     },
-    phone_number2: Sequelize.STRING,
-    additional_data: Sequelize.STRING,
+    phoneNumber2: {
+      type: Sequelize.STRING,
+      field: 'phone_number2',
+    },
+    additionalData: {
+      type: Sequelize.STRING,
+      field: 'additional_data',
+    },
   },
   { timestamps: false },
 );

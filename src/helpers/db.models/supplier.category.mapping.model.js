@@ -7,10 +7,14 @@ const SupplierCategoryMapping = getConnection().define(
     supplier_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      references: 'suppliers',
+      referencesKey: 'id',
     },
     category_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      references: 'categories',
+      referencesKey: 'id',
     },
   },
   { timestamps: false },

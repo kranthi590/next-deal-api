@@ -3,6 +3,7 @@ const { validateMiddleware } = require('../middleware');
 const registerSupplier = require('./handlers/supplier/register.handler');
 const fetchRegionsByCountryCode = require('./handlers/config/regions.handler');
 const fetchComunasByRegion = require('./handlers/config/comunas.handler');
+const { getSupplierHandler } = require('./handlers/supplier/get.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
@@ -12,6 +13,7 @@ const initRoutes = (app) => {
 
   // Supplier routes
   app.post('/supplier/register', validateMiddleware, registerSupplier);
+  app.get('/supplier/:supplierId', getSupplierHandler);
 
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
