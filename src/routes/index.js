@@ -1,18 +1,23 @@
-const responseBuilder = require('../helpers/api.response');
-const registerBuyerRoutes = require('./buyer.routes');
-const registerConfigRoutes = require('./config.routes');
+const { OkResponse } = require('../helpers/response.transforms');
+const { validateMiddleware } = require('../middleware');
+const registerSupplier = require('./handlers/supplier/register.handler');
+const fetchRegionsByCountryCode = require('./handlers/config/regions.handler');
+const fetchComunasByRegion = require('./handlers/config/comunas.handler');
+const { getSupplierHandler } = require('./handlers/supplier/get.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
-    const response = responseBuilder(200, 'OK Response');
+    const response = OkResponse(null, req.traceId, 'OK Response');
     res.status(response.status).json(response);
   });
 
-  // Register buyer routes
-  app.use('/buyer', registerBuyerRoutes);
+  // Supplier routes
+  app.post('/supplier/register', validateMiddleware, registerSupplier);
+  app.get('/supplier/:supplierId', getSupplierHandler);
 
   // Register config routes
-  app.use('/config', registerConfigRoutes);
+  app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
+  app.get('/config/regions/:regionId/comunas', fetchComunasByRegion);
 };
 
 module.exports = initRoutes;
