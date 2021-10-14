@@ -62,9 +62,9 @@ const BusinessAddress = getConnection().define(
       field: 'address_line2',
       allowNull: false,
     },
-    address_line3: {
+    addressLine3: {
       type: Sequelize.STRING,
-      field: 'address_line2',
+      field: 'address_line3',
     },
     communeId: {
       type: Sequelize.INTEGER,
