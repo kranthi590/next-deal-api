@@ -4,6 +4,7 @@ const { BadRequestResponse } = require('../helpers/response.transforms');
 const validate = async (req, res, next) => {
   try {
     const schema = getValidationSchema(req.originalUrl);
+    schema.unknown();
     await schema.validateAsync(req.body, { abortEarly: false });
     next();
   } catch (error) {

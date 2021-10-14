@@ -1,16 +1,12 @@
-const _ = require('lodash');
 const moment = require('moment');
 
 const { BusinessAddress } = require('../../../helpers/db.models');
 const { Buyer } = require('../../../helpers/db.models');
+const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 
-const {
-  InternalServerErrorResponse,
-  ResourceCreatedResponse,
-  ConflictResponse,
-} = require('../../../helpers/response.transforms');
+const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 
 const BuyerStatuses = {
   ACTIVE: 'active',
@@ -40,17 +36,8 @@ const registerBuyerHandler = async (req, res) => {
     const buyer = await saveBuyerWithMappings(req.body);
     response = ResourceCreatedResponse(buyer, req.traceId);
   } catch (error) {
-    const errorCode = _.get(error, 'original.code', null);
-    const isRutDuplicate = _.get(error, 'fields.rut', false);
-    const isDomainDuplicate = _.get(error, 'fields.subdomain_name', false);
-    if (errorCode === 'ER_DUP_ENTRY' && isRutDuplicate) {
-      response = ConflictResponse('ER_DUP_ENTRY_RUT', req.traceId);
-    } else if (errorCode === 'ER_DUP_ENTRY' && isDomainDuplicate) {
-      response = ConflictResponse('ER_DUP_ENTRY_SUB_DOMAIN', req.traceId);
-    } else {
-      response = InternalServerErrorResponse('', req.traceId);
-    }
-    logger.error('Error while registering supplier', error);
+    response = parseError(error, req.traceId);
+    logger.error('Error while registering buyer', error);
   }
   res.status(response.status).json(response);
 };

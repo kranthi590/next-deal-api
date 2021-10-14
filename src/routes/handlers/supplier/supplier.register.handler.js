@@ -6,13 +6,12 @@ const {
   SupplierCategoryMapping,
   SupplierServiceLocationsMappings,
 } = require('../../../helpers/db.models');
+const { parseError } = require('../../../helpers/error.parser');
 
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 
 const {
-  InternalServerErrorResponse,
-  ConflictResponse,
   ResourceCreatedResponse,
 } = require('../../../helpers/response.transforms');
 
@@ -80,13 +79,7 @@ const registerSupplier = async (req, res) => {
     const result = await saveSupplierWithMappings(req.body);
     response = ResourceCreatedResponse(result, req.traceId);
   } catch (error) {
-    const errorCode = _.get(error, 'original.code', null);
-    const isRutDuplicate = _.get(error, 'fields.rut', false);
-    if (errorCode === 'ER_DUP_ENTRY' && isRutDuplicate) {
-      response = ConflictResponse('ER_DUP_ENTRY_RUT', req.traceId);
-    } else {
-      response = InternalServerErrorResponse('', req.traceId);
-    }
+    response = parseError(error, req.traceId);
     logger.error('Error while registering supplier', error);
   }
   res.status(response.status).json(response);

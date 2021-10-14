@@ -1,18 +1,5 @@
 const Joi = require('joi');
-
-const addressSchema = Joi.object()
-  .keys({
-    addressLine1: Joi.string().required(),
-    addressLine2: Joi.string().required(),
-    addressLine3: Joi.string(),
-    communeId: Joi.number().required(),
-    regionId: Joi.number().required(),
-    countryId: Joi.number().required(),
-    phoneNumber1: Joi.string().required(),
-    phoneNumber2: Joi.string(),
-    emailId: Joi.string().email().required(),
-  })
-  .required();
+const { Address } = require('./register-supplier');
 
 const buyerSchema = Joi.object().keys({
   fantasyName: Joi.string().required(),
@@ -21,8 +8,8 @@ const buyerSchema = Joi.object().keys({
   webSiteUrl: Joi.string(),
   emailId: Joi.string().email().required(),
   subDomainName: Joi.string().required(),
-  contactInfo: addressSchema,
+  contactInfo: Address,
   additionalData: Joi.string(),
-});
+}).unknown();
 
 module.exports = { buyerSchema };
