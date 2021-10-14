@@ -8,6 +8,7 @@ const BadRequestResponse = require('./400.response');
 const UnauthorizedResponse = require('./401.response');
 const ForbiddenResponse = require('./403.response');
 const ConflictResponse = require('./409.response');
+const ResourceCreatedResponse = require('./201.response');
 
 module.exports = {
   OkResponse,
@@ -20,4 +21,5 @@ module.exports = {
   UnauthorizedResponse,
   ForbiddenResponse,
   ConflictResponse,
+  ResourceCreatedResponse,
 };

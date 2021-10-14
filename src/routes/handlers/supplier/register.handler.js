@@ -12,10 +12,9 @@ const { getConnection } = require('../../../helpers/mysql');
 
 const {
   InternalServerErrorResponse,
-  OkResponse,
   ConflictResponse,
+  ResourceCreatedResponse,
 } = require('../../../helpers/response.transforms');
-const { getSupplier } = require('./get.handler');
 
 const saveSupplierWithMappings = async (body) => {
   const result = await getConnection().transaction(async (t) => {
@@ -79,8 +78,7 @@ const registerSupplier = async (req, res) => {
   let response;
   try {
     const result = await saveSupplierWithMappings(req.body);
-    const supplier = await getSupplier(result.id);
-    response = OkResponse(supplier, req.traceId);
+    response = ResourceCreatedResponse(result, req.traceId);
   } catch (error) {
     const errorCode = _.get(error, 'original.code', null);
     const isRutDuplicate = _.get(error, 'fields.rut', false);

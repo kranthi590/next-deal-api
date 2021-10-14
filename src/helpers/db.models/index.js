@@ -8,6 +8,7 @@ const { Address, BusinessAddress } = require('./address.model');
 const { SupplierCategoryMapping } = require('./supplier.category.mapping.model');
 const { SupplierServiceLocationsMappings } = require('./supplier.service.locations.mappings.model');
 const { Categories } = require('./categories');
+const { Buyer } = require('./buyer.model');
 
 Countries.hasMany(Regions, { as: 'region', foreignKey: 'country_id' });
 Provincias.hasMany(Comunas, { as: 'comuna', foreignKey: 'provincia_id' });
@@ -19,14 +20,7 @@ Supplier.belongsTo(Address, { as: 'billingAddress', foreignKey: 'billing_address
 SupplierCategoryMapping.belongsTo(Categories, { as: 'category', foreignKey: 'category_id' });
 SupplierServiceLocationsMappings.belongsTo(Regions, { as: 'region', foreignKey: 'region_id' });
 
-/*
-Supplier.belongsToMany(Categories, { through: SupplierCategoryMapping, foreignKey: 'supplier_id' });
-Categories.belongsToMany(Supplier, { through: SupplierCategoryMapping, foreignKey: 'category_id' });
-Supplier.belongsToMany(Regions,
-  { through: SupplierServiceLocationsMappings, foreignKey: 'supplier_id' });
-Regions.belongsToMany(Supplier,
-   { through: SupplierServiceLocationsMappings, foreignKey: 'region_id' });
-*/
+Buyer.belongsTo(BusinessAddress, { as: 'businessAddress', foreignKey: 'contact_info_id' });
 
 module.exports = {
   Countries,
@@ -39,4 +33,5 @@ module.exports = {
   SupplierCategoryMapping,
   SupplierServiceLocationsMappings,
   Categories,
+  Buyer,
 };
