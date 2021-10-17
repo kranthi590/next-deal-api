@@ -1,31 +1,29 @@
 const Sequelize = require('sequelize');
+const { getConnection } = require('../mysql');
 
-module.exports = (sequelize) => ({
-  Categories: sequelize.define(
-    'categories',
-    {
-      name: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      active: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        field: 'created_at',
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        field: 'updated_at',
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
+const Categories = getConnection().define(
+  'categories',
+  {
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
-    { timestamps: false },
-  ),
-});
+    active: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
+  },
+  { timestamps: true },
+);
+
+module.exports = {
+  Categories,
+};

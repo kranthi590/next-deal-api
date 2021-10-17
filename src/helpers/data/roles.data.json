@@ -1,0 +1,7 @@
+[
+  {
+    "name": "admin",
+    "description": "Admin",
+    "api_path": "*"
+  }
+]

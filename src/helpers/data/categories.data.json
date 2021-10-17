@@ -31,5 +31,6 @@
   { "name": "Limpieza y aseo", "active": 1 },
   { "name": "Cosmética y belleza", "active": 1 },
   { "name": "Turismo", "active": 1 },
-  { "name": "Agroindustria", "active": 1 }
+  { "name": "Agroindustria", "active": 1 },
+  { "name": "Test", "active": 1 }
 ]

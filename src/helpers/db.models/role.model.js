@@ -1,24 +1,27 @@
 const Sequelize = require('sequelize');
+const { getConnection } = require('../mysql');
 
-module.exports = (sequelize) => ({
-  Role: sequelize.define(
-    'role',
-    {
-      name: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      api_path: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-      },
+const Role = getConnection().define(
+  'role',
+  {
+    name: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
     },
-    { timestamps: false },
-  ),
-});
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    api_path: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+    },
+  },
+  { timestamps: false },
+);
+
+module.exports = {
+  Role,
+};

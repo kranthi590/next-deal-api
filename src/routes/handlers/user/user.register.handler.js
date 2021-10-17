@@ -8,7 +8,7 @@ const { ResourceCreatedResponse } = require('../../../helpers/response.transform
 const saveUserWithMappings = async (body) => User.create(
   {
     businessAddress: { ...body.contactInfo },
-    roleMap: { roleId: 1 },
+    roleMap: [{ roleId: 1 }],
     ...body,
     status: 1,
   },

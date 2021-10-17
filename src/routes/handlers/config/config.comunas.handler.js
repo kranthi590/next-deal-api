@@ -1,4 +1,4 @@
-const { Provincias } = require('../../../helpers/db.models/country.model');
+const { Regions } = require('../../../helpers/db.models');
 const logger = require('../../../helpers/logger');
 const {
   NotFoundResponse,
@@ -12,9 +12,9 @@ const fetchComunasByRegion = async (req, res) => {
   let response;
   try {
     const query = {
-      include: ['comuna'],
+      include: ['comunas'],
       where: {
-        region_id: req.params.regionId,
+        id: req.params.regionId,
       },
       attributes: {},
       raw: true,
@@ -23,12 +23,12 @@ const fetchComunasByRegion = async (req, res) => {
     if (excludeFields) {
       query.attributes.exclude = excludeFields;
     }
-    const dbResponse = await Provincias.findAll(query);
+    const dbResponse = await Regions.findAll(query);
     if (dbResponse.lenth > 0) {
       response = NotFoundResponse(null, req.traceId);
     } else {
       response = OkResponse(
-        dbResponse.map((object) => object.comuna),
+        dbResponse.map((object) => object.comunas),
         req.traceId,
       );
     }

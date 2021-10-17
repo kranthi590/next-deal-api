@@ -1,10 +1,8 @@
 const moment = require('moment');
 
-const { BusinessAddress } = require('../../../helpers/db.models/buyer.model');
 const { Buyer } = require('../../../helpers/db.models/buyer.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
-const { getConnection } = require('../../../helpers/mysql');
 
 const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 
@@ -14,20 +12,36 @@ const BuyerStatuses = {
   SUSPENDED: 'suspended',
 };
 
-const saveBuyerWithMappings = async (body) => {
-  const result = await getConnection().transaction(async (t) => {
-    const businessAddress = await BusinessAddress.create(body.contactInfo, { transaction: t });
-    const buyerRequest = { ...body };
-    buyerRequest.contactInfoId = businessAddress.dataValues.id;
-    buyerRequest.status = BuyerStatuses.ACTIVE;
-    buyerRequest.licensedUntil = moment().add(30, 'days').utc().format('YYYY-MM-DD HH:mm:ss');
-    const buyer = await Buyer.create(buyerRequest, { transaction: t });
-    return {
-      ...buyer.dataValues,
-      contactInfo: businessAddress.dataValues,
-    };
-  });
-  return result;
+const saveBuyerWithMappings = async ({
+  fantasyName,
+  legalName,
+  rut,
+  webSiteUrl,
+  emailId,
+  subDomainName,
+  additionalData,
+  contactInfo,
+}) => {
+  const buyer = await Buyer.create(
+    {
+      status: BuyerStatuses.ACTIVE,
+      licensedUntil: moment().add(30, 'days').utc().format('YYYY-MM-DD HH:mm:ss'),
+      businessAddress: contactInfo,
+      fantasyName,
+      legalName,
+      rut,
+      webSiteUrl,
+      emailId,
+      subDomainName,
+      additionalData,
+    },
+    {
+      include: ['businessAddress'],
+    },
+  );
+  return {
+    ...buyer.dataValues,
+  };
 };
 
 const registerBuyerHandler = async (req, res) => {

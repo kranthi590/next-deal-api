@@ -1,23 +1,44 @@
-const { checkAndInsertData } = require('../master.data');
+const { Countries, Regions, Comunas } = require('./country.model');
 
-let Comunas;
-let Regions;
-let Countries;
+const { Role } = require('./role.model');
+const { Supplier } = require('./supplier.model');
+const { Address, BusinessAddress } = require('./address.model');
+const { SupplierCategoryMapping } = require('./supplier.category.mapping.model');
+const { SupplierServiceLocationsMappings } = require('./supplier.service.locations.mappings.model');
+const { Categories } = require('./categories');
+const { Buyer } = require('./buyer.model');
+const { User } = require('./user.model');
+const { UsersRolesMapping } = require('./user.roles.mapping');
 
-const init = async (sequelize) => {
-  const CountryModels = require('./country.model')(sequelize);
-  const CategoryModel = require('./categories')(sequelize);
+Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
+Countries.hasMany(Regions, { foreignKey: 'country_id', targetKey: 'id' });
+Buyer.belongsTo(BusinessAddress, {
+  as: 'businessAddress',
+  foreignKey: 'contact_info_id',
+  targetKey: 'id',
+});
+User.belongsTo(BusinessAddress, {
+  as: 'businessAddress',
+  foreignKey: 'contact_info_id',
+  targetKey: 'id',
+});
 
-  await sequelize.sync({ force: false });
-  Comunas = CountryModels.Comunas;
-  Regions = CountryModels.Regions;
-  Countries = CountryModels.Countries;
-  await checkAndInsertData(CountryModels, CategoryModel);
-};
+User.belongsToMany(Role, { through: UsersRolesMapping });
+Role.belongsToMany(User, { through: UsersRolesMapping });
+User.hasMany(UsersRolesMapping, { as: 'roleMap', foreignKey: 'user_id', targetKey: 'id' });
 
 module.exports = {
-  initModels: init,
-  Comunas,
-  Regions,
   Countries,
+  Regions,
+  Role,
+  Supplier,
+  Address,
+  BusinessAddress,
+  SupplierCategoryMapping,
+  SupplierServiceLocationsMappings,
+  Categories,
+  Buyer,
+  User,
+  UsersRolesMapping,
+  Comunas,
 };

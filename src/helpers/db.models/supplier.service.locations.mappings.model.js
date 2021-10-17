@@ -1,18 +1,21 @@
 const Sequelize = require('sequelize');
+const { getConnection } = require('../mysql');
 
-module.exports = (sequelize) => ({
-  SupplierServiceLocationsMappings: sequelize.define(
-    'supplier_service_locations_mappings',
-    {
-      supplier_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      region_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
+const SupplierServiceLocationsMappings = getConnection().define(
+  'supplier_service_locations_mappings',
+  {
+    supplier_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
-    { timestamps: false },
-  ),
-});
+    region_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+  },
+  { timestamps: false },
+);
+
+module.exports = {
+  SupplierServiceLocationsMappings,
+};

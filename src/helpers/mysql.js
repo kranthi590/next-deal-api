@@ -3,16 +3,22 @@ const logger = require('./logger');
 
 let sequelize;
 
-// eslint-disable-next-line consistent-return
+const setConnection = (sequelizeConnection) => {
+  sequelize = sequelizeConnection;
+};
+
 const init = async () => {
   try {
     logger.debug('Initialize mysql connection....');
-    sequelize = new Sequelize(process.env.MYSQL_CONNECTION, {
+    const connection = new Sequelize(process.env.MYSQL_CONNECTION, {
       logging: process.env.MYSQL_DEBUG === 'true',
     });
-    await sequelize.authenticate();
-    const { initModels } = require('./db.models');
-    initModels(sequelize);
+    await connection.authenticate();
+    setConnection(connection);
+    require('./db.models');
+    await connection.sync({ force: false });
+    const { checkAndInsertData } = require('./master.data');
+    await checkAndInsertData();
     logger.info('Connection has been established successfully.');
     return true;
   } catch (error) {

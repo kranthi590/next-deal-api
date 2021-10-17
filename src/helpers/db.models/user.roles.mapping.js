@@ -1,24 +1,31 @@
 const Sequelize = require('sequelize');
+const { getConnection } = require('../mysql');
 
-module.exports = (sequelize) => ({
-  UsersRolesMapping: sequelize.define(
-    'users_roles_mappings',
-    {
-      roleId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: 'roles',
-        referencesKey: 'id',
-        field: 'role_id',
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: 'users',
-        referencesKey: 'id',
-        field: 'user_id',
+const UsersRolesMapping = getConnection().define(
+  'users_roles_mappings',
+  {
+    roleId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      field: 'role_id',
+      references: {
+        model: 'roles',
+        key: 'id',
       },
     },
-    { timestamps: false },
-  ),
-});
+    userId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      field: 'user_id',
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+  },
+  { timestamps: false },
+);
+
+module.exports = {
+  UsersRolesMapping,
+};
