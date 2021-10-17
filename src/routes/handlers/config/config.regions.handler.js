@@ -19,8 +19,6 @@ const fetchRegionsByCountryCode = async (req, res) => {
         code: countryCode,
       },
       attributes: {},
-      raw: true,
-      nest: true,
     };
     if (excludeFields) {
       query.attributes.exclude = excludeFields;

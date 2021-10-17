@@ -29,7 +29,7 @@ const initRoutes = (app) => {
 
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
-  app.get('/config/regions/:regionId/comunas', fetchComunasByRegion);
+  app.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
 };
 
 module.exports = initRoutes;

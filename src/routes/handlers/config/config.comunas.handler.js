@@ -17,8 +17,6 @@ const fetchComunasByRegion = async (req, res) => {
         id: req.params.regionId,
       },
       attributes: {},
-      raw: true,
-      nest: true,
     };
     if (excludeFields) {
       query.attributes.exclude = excludeFields;
