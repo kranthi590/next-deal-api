@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     `contact_info_id` INTEGER NOT NULL,
     `buyer_id` INTEGER,
     `supplier_id` INTEGER,
-    `role_id` INTEGER NOT NULL,
     `first_name` VARCHAR(255) NOT NULL,
     `last_name` VARCHAR(255) NOT NULL,
     `email_id` CHAR(36) BINARY NOT NULL,

@@ -1,4 +1,6 @@
 const { Countries } = require('../../../helpers/db.models');
+
+console.log('Countries', Countries);
 const logger = require('../../../helpers/logger');
 const {
   NotFoundResponse,

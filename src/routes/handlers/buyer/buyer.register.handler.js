@@ -1,7 +1,7 @@
 const moment = require('moment');
 
-const { BusinessAddress } = require('../../../helpers/db.models');
-const { Buyer } = require('../../../helpers/db.models');
+const { BusinessAddress } = require('../../../helpers/db.models/buyer.model');
+const { Buyer } = require('../../../helpers/db.models/buyer.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');

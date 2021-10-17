@@ -30,7 +30,6 @@ app.use('/', (req, res, next) => {
 
 const init = async () => {
   if (await initMysql()) {
-    require('./helpers/db.models');
     const initRoutes = require('./routes');
     initRoutes(app);
     app.listen(port, () => logger.info(`Started server on port ${port}`));

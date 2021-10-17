@@ -1,33 +1,19 @@
-const { BusinessAddress, User, UsersRolesMapping } = require('../../../helpers/db.models');
+const { User } = require('../../../helpers/db.models/user.model');
 
 const logger = require('../../../helpers/logger');
-const { getConnection } = require('../../../helpers/mysql');
 const { parseError } = require('../../../helpers/error.parser');
 
 const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 
-const saveUserWithMappings = async (body) => {
-  const result = await getConnection().transaction(async (t) => {
-    const businessAddress = await BusinessAddress.create(body.contactInfo, { transaction: t });
-    const user = await User.create(
-      {
-        ...body,
-        contactInfoId: businessAddress.dataValues.id,
-        status: 1,
-      },
-      { transaction: t },
-    );
-    await UsersRolesMapping.create({
-      userId: user.dataValues.id,
-      roleId: 1, // For now every user has access to every route
-    }, { transaction: t });
-    return {
-      ...user.dataValues,
-      contactInfo: businessAddress.dataValues,
-    };
-  });
-  return result;
-};
+const saveUserWithMappings = async (body) => User.create(
+  {
+    businessAddress: { ...body.contactInfo },
+    roleMap: { roleId: 1 },
+    ...body,
+    status: 1,
+  },
+  { include: ['businessAddress', 'roleMap'] },
+);
 
 const registerUserHandler = async (req, res) => {
   let response;
@@ -35,6 +21,7 @@ const registerUserHandler = async (req, res) => {
     const user = await saveUserWithMappings(req.body);
     response = ResourceCreatedResponse(user, req.traceId);
   } catch (error) {
+    console.error(error);
     response = parseError(error, req.traceId);
     logger.error('Error while registering user', error);
   }

@@ -1,6 +1,6 @@
 const logger = require('../../../helpers/logger');
 
-const { Buyer } = require('../../../helpers/db.models');
+const { Buyer } = require('../../../helpers/db.models/buyer.model');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getBuyer = async (buyerId) => {

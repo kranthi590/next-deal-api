@@ -1,4 +1,4 @@
-const { Provincias } = require('../../../helpers/db.models');
+const { Provincias } = require('../../../helpers/db.models/country.model');
 const logger = require('../../../helpers/logger');
 const {
   NotFoundResponse,

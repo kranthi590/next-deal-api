@@ -4,7 +4,7 @@ const {
   Supplier,
   SupplierCategoryMapping,
   SupplierServiceLocationsMappings,
-} = require('../../../helpers/db.models');
+} = require('../../../helpers/db.models/supplier.model');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getSupplier = async (supplierId) => {

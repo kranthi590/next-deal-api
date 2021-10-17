@@ -5,7 +5,7 @@ const {
   BusinessAddress,
   SupplierCategoryMapping,
   SupplierServiceLocationsMappings,
-} = require('../../../helpers/db.models');
+} = require('../../../helpers/db.models/supplier.model');
 const { parseError } = require('../../../helpers/error.parser');
 
 const logger = require('../../../helpers/logger');
