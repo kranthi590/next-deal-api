@@ -11,7 +11,10 @@ const { User } = require('./user.model');
 const { UsersRolesMapping } = require('./user.roles.mapping');
 
 Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
+Regions.belongsTo(Countries);
+
 Countries.hasMany(Regions, { foreignKey: 'country_id', targetKey: 'id' });
+
 Buyer.belongsTo(BusinessAddress, {
   as: 'businessAddress',
   foreignKey: 'contact_info_id',
@@ -23,9 +26,8 @@ User.belongsTo(BusinessAddress, {
   targetKey: 'id',
 });
 
-User.belongsToMany(Role, { through: UsersRolesMapping });
-Role.belongsToMany(User, { through: UsersRolesMapping });
 User.hasMany(UsersRolesMapping, { as: 'roleMap', foreignKey: 'user_id', targetKey: 'id' });
+User.belongsTo(Buyer, { as: 'buyer', foreignKey: 'buyer_id', targetKey: 'id' });
 
 module.exports = {
   Countries,

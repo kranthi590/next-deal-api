@@ -1,4 +1,4 @@
-const { Regions } = require('../../../helpers/db.models');
+const { Regions, Countries } = require('../../../helpers/db.models');
 const logger = require('../../../helpers/logger');
 const {
   NotFoundResponse,
@@ -12,7 +12,15 @@ const fetchComunasByRegion = async (req, res) => {
   let response;
   try {
     const query = {
-      include: ['comunas'],
+      include: [
+        'comunas',
+        {
+          model: Countries,
+          where: {
+            code: req.params.countryCode,
+          },
+        },
+      ],
       where: {
         id: req.params.regionId,
       },

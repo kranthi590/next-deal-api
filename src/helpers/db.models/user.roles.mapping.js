@@ -4,6 +4,11 @@ const { getConnection } = require('../mysql');
 const UsersRolesMapping = getConnection().define(
   'users_roles_mappings',
   {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     roleId: {
       type: Sequelize.INTEGER,
       allowNull: true,
