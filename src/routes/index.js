@@ -1,5 +1,5 @@
 const { OkResponse } = require('../helpers/response.transforms');
-const { validateMiddleware } = require('../middleware');
+const { validateMiddleware, validateBuyerMiddleware } = require('../middleware');
 const registerSupplier = require('./handlers/supplier/supplier.register.handler');
 const fetchRegionsByCountryCode = require('./handlers/config/config.regions.handler');
 const fetchComunasByRegion = require('./handlers/config/config.comunas.handler');
@@ -25,9 +25,9 @@ const initRoutes = (app) => {
   app.get('/buyer/:buyerId', getBuyerHandler);
 
   // User routes
-  app.post('/user/register', validateMiddleware, registerUserHandler);
+  app.post('/user/register', validateMiddleware, validateBuyerMiddleware, registerUserHandler);
   app.get('/user/:userId', getUserHandler);
-  app.post('/user/login', validateMiddleware, userLoginHandler);
+  app.post('/user/login', validateMiddleware, validateBuyerMiddleware, userLoginHandler);
 
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);

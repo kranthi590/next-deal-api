@@ -9,7 +9,6 @@ const {
   OkResponse,
   UnauthorizedResponse,
 } = require('../../../helpers/response.transforms');
-const { getSubDomainFromRequest } = require('../../../helpers/get.subdomain');
 
 const getUser = async (emailId) => {
   const query = {
@@ -29,7 +28,9 @@ const userLoginHandler = async (req, res) => {
     const user = await getUser(emailId);
     if (!user || !bcrypt.compareSync(password, user.password)) {
       response = UnauthorizedResponse('INVALID_ACCOUNT', req.traceId);
-    } else if (user.buyer.subDomainName !== getSubDomainFromRequest(req.get('host'))) {
+    } if (!user.status) {
+      response = UnauthorizedResponse('USER_ACCOUNT_SUSPENDED', req.traceId);
+    } else if (user.buyer.subDomainName !== req.buyer.subDomainName) {
       response = UnauthorizedResponse('INVALID_ACCOUNT_DOMAIN', req.traceId);
     } else {
       const date = moment(user.buyer.licensedUntil);
