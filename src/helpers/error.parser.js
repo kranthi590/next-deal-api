@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { ConflictResponse, InternalServerErrorResponse } = require('./response.transforms');
+const { ConflictResponse, InternalServerErrorResponse, ForbiddenResponse } = require('./response.transforms');
 
 const parseError = (error, traceId) => {
   if (_.get(error, 'original.code', null) === 'ER_DUP_ENTRY' && _.get(error, 'fields.rut', false)) {
@@ -22,6 +22,9 @@ const parseError = (error, traceId) => {
   }
   if (_.get(error, 'errors[0].message', null) === 'INVALID_SUPPLIER_ID') {
     return ConflictResponse('INVALID_SUPPLIER_ID', traceId);
+  }
+  if (_.get(error, 'original.errno', null) === 1452 && _.get(error, 'fields[0]', null) === 'buyer_id') {
+    return ForbiddenResponse('INVALID_BUYER', traceId);
   }
   return InternalServerErrorResponse('', traceId);
 };

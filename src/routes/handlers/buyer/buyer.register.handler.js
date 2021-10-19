@@ -32,7 +32,7 @@ const saveBuyerWithMappings = async ({
       rut,
       webSiteUrl,
       emailId,
-      subDomainName,
+      subDomainName: subDomainName.toLowerCase(),
       additionalData,
     },
     {

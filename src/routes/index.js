@@ -8,6 +8,7 @@ const { registerBuyerHandler } = require('./handlers/buyer/buyer.register.handle
 const { getBuyerHandler } = require('./handlers/buyer/buyer.get.handler');
 const { registerUserHandler } = require('./handlers/user/user.register.handler');
 const { getUserHandler } = require('./handlers/user/user.get.handler');
+const { userLoginHandler } = require('./handlers/user/user.login.handler');
 
 const initRoutes = (app) => {
   app.get(['/', '/health'], (req, res) => {
@@ -26,6 +27,7 @@ const initRoutes = (app) => {
   // User routes
   app.post('/user/register', validateMiddleware, registerUserHandler);
   app.get('/user/:userId', getUserHandler);
+  app.post('/user/login', validateMiddleware, userLoginHandler);
 
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);

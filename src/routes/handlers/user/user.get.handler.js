@@ -1,5 +1,4 @@
 const logger = require('../../../helpers/logger');
-
 const { User } = require('../../../helpers/db.models/user.model');
 const {
   InternalServerErrorResponse,

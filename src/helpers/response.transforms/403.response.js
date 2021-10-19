@@ -7,11 +7,15 @@ const { formatResponse } = require('./responseFormat');
  * @param  {String}       [message='Forbidden'] The response message string content.
  * @return {Object}
  */
-module.exports = (data, id, message = 'Forbidden') => formatResponse({
+module.exports = (errorCode, id, message = 'Forbidden') => formatResponse({
   status: 403,
   message,
-  data,
   id,
+  errors: [
+    {
+      errorCode,
+    },
+  ],
 });
 
 /**
