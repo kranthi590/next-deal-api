@@ -1,7 +1,7 @@
 const { parseDomain } = require('parse-domain');
 const _ = require('lodash');
 
-const ignoredSubDomains = process.env.IGNORED_SUB_DOMAINS.split(',');
+const ignoredSubDomains = _.get(process.env, 'IGNORED_SUB_DOMAINS', []).split(',');
 
 const getSubDomainFromRequest = (host) => {
   const parseResult = parseDomain(host);
