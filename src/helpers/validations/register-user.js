@@ -9,7 +9,6 @@ const userSchema = Joi.object().keys({
   password: Joi.string().required(),
   additionalData: Joi.string(),
   type: Joi.string().required(),
-  buyerId: Joi.number(),
   supplierId: Joi.number(),
 }).unknown();
 

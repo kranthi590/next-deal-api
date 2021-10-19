@@ -3,18 +3,29 @@ const bcrypt = require('bcrypt');
 const { User } = require('../../../helpers/db.models/user.model');
 const logger = require('../../../helpers/logger');
 const { parseError } = require('../../../helpers/error.parser');
-const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
+const {
+  ResourceCreatedResponse,
+} = require('../../../helpers/response.transforms');
+const { Buyer } = require('../../../helpers/db.models');
 
-const saveUserWithMappings = async ({
-  firstName,
-  lastName,
-  emailId,
-  additionalData,
-  password,
-  type,
-  buyerId,
-  contactInfo,
-}) => {
+const getBuyer = async (subDomain) => {
+  const query = {
+    where: {
+      subDomainName: subDomain,
+    },
+    attributes: {},
+    raw: true,
+    nest: true,
+  };
+  return Buyer.findOne(query);
+};
+
+const saveUserWithMappings = async (
+  {
+    firstName, lastName, emailId, additionalData, password, type, contactInfo,
+  },
+  buyer,
+) => {
   const hash = bcrypt.hashSync(password, 10);
   return User.create(
     {
@@ -26,7 +37,7 @@ const saveUserWithMappings = async ({
       additionalData,
       password: hash,
       type,
-      buyerId,
+      buyerId: buyer.id,
       status: 1,
     },
     { include: ['businessAddress', 'roleMap'] },
@@ -36,7 +47,7 @@ const saveUserWithMappings = async ({
 const registerUserHandler = async (req, res) => {
   let response;
   try {
-    const user = await saveUserWithMappings(req.body);
+    const user = await saveUserWithMappings(req.body, req.buyer);
     response = ResourceCreatedResponse(user, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId);
@@ -45,4 +56,4 @@ const registerUserHandler = async (req, res) => {
   res.status(response.status).json(response);
 };
 
-module.exports = { registerUserHandler };
+module.exports = { registerUserHandler, getBuyerBySubDomain: getBuyer };
