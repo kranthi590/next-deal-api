@@ -9,6 +9,7 @@ const {
   OkResponse,
   UnauthorizedResponse,
 } = require('../../../helpers/response.transforms');
+const { getSubDomainFromRequest } = require('../../../helpers/get.subdomain');
 
 const getUser = async (emailId) => {
   const query = {
@@ -26,25 +27,26 @@ const userLoginHandler = async (req, res) => {
   try {
     const { emailId, password } = req.body;
     const user = await getUser(emailId);
-    if (!user || !bcrypt.compareSync(password, user.password)) {
-      response = UnauthorizedResponse('INVALID_ACCOUNT', req.traceId);
-    } if (!user.status) {
-      response = UnauthorizedResponse('USER_ACCOUNT_SUSPENDED', req.traceId);
-    } else if (user.buyer.subDomainName !== req.buyer.subDomainName) {
-      response = UnauthorizedResponse('INVALID_ACCOUNT_DOMAIN', req.traceId);
-    } else {
+    if (
+      user
+      && bcrypt.compareSync(password, user.password)
+      && user.buyer.subDomainName === getSubDomainFromRequest(req.get('host'))
+    ) {
       const date = moment(user.buyer.licensedUntil);
+      const { JWT_SECRET_KEY } = process.env;
       const token = jwt.sign(
         {
           emailId: user.emailId,
           domain: user.buyer.subDomainName,
         },
-        process.env.JWT_SECRET_KEY,
+        JWT_SECRET_KEY,
         {
           expiresIn: `${date.diff(moment.utc(), 'days')}d`,
         },
       );
       response = OkResponse({ user, token }, req.traceId);
+    } else {
+      response = UnauthorizedResponse('INVALID_USER_ACCOUNT', req.traceId);
     }
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
