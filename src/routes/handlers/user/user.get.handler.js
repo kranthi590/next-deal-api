@@ -5,11 +5,10 @@ const {
   OkResponse,
   NotFoundResponse,
 } = require('../../../helpers/response.transforms');
-const { Role } = require('../../../helpers/db.models');
 
 const getUser = async (userId) => {
   const query = {
-    include: ['businessAddress', Role],
+    include: ['businessAddress', 'buyer'],
     where: {
       id: userId,
     },

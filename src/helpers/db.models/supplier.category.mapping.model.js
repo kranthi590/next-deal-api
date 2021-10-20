@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const Role = getConnection().define(
+const SupplierCategoryMapping = getConnection().define(
   'supplier_category_mappings',
   {
     supplier_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'suppliers',
         key: 'id',
@@ -25,5 +25,5 @@ const Role = getConnection().define(
 );
 
 module.exports = {
-  Role,
+  SupplierCategoryMapping,
 };

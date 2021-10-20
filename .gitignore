@@ -3,3 +3,5 @@ dist
 coverage
 logs
 .DS_Store
+.idea
+.vscode

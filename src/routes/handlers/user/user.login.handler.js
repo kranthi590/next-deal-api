@@ -16,8 +16,7 @@ const getUser = async (emailId) => {
     where: {
       emailId,
     },
-    attributes: {},
-    include: ['buyer'],
+    include: ['buyer', 'businessAddress'],
   };
   return User.findOne(query);
 };
@@ -37,6 +36,7 @@ const userLoginHandler = async (req, res) => {
       const token = jwt.sign(
         {
           emailId: user.emailId,
+          userId: user.id,
           domain: user.buyer.subDomainName,
         },
         JWT_SECRET_KEY,

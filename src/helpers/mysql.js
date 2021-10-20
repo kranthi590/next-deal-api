@@ -16,7 +16,7 @@ const init = async () => {
     await connection.authenticate();
     setConnection(connection);
     require('./db.models');
-    //  await connection.sync({ force: false });
+    //  await connection.sync({ force: true });
     const { checkAndInsertData } = require('./master.data');
     await checkAndInsertData();
     logger.info('Connection has been established successfully.');

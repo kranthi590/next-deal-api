@@ -63,7 +63,7 @@ const Supplier = getConnection().define(
     },
     businessAddressId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       field: 'business_address_id',
     },
     inChargeAddressId: {
