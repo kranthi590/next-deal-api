@@ -1,77 +1,61 @@
-const _ = require('lodash');
-const {
-  Supplier,
-  Address,
-  BusinessAddress,
-  SupplierCategoryMapping,
-  SupplierServiceLocationsMappings,
-} = require('../../../helpers/db.models/supplier.model');
+const { Supplier } = require('../../../helpers/db.models/supplier.model');
 const { parseError } = require('../../../helpers/error.parser');
 
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 
-const {
-  ResourceCreatedResponse,
-} = require('../../../helpers/response.transforms');
+const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 
-const saveSupplierWithMappings = async (body) => {
-  const result = await getConnection().transaction(async (t) => {
-    const addressesPromises = [
-      BusinessAddress.create(body.businessAddress, {
-        transaction: t,
-      }),
-    ];
-
-    const contactAddressRequest = body.inchargeContactInfo;
-    if (!_.isEmpty(contactAddressRequest)) {
-      addressesPromises.push(Address.create(contactAddressRequest, { transaction: t }));
-    }
-
-    const billingAddressRequest = body.billingAddress;
-    if (!_.isEmpty(billingAddressRequest)) {
-      addressesPromises.push(Address.create(billingAddressRequest, { transaction: t }));
-    }
-
-    const [businessAddress, address1, address2] = await Promise.all(addressesPromises);
-    const supplierRequest = body;
-    supplierRequest.businessAddressId = businessAddress.dataValues.id;
-
-    if (!_.isEmpty(contactAddressRequest)) {
-      supplierRequest.inChargeAddressId = address1.dataValues.id;
-    }
-    if (!_.isEmpty(contactAddressRequest) && !_.isEmpty(billingAddressRequest)) {
-      supplierRequest.billingAddressId = address2.dataValues.id;
-    }
-
-    if (_.isEmpty(contactAddressRequest) && !_.isEmpty(billingAddressRequest)) {
-      supplierRequest.billingAddressId = address1.dataValues.id;
-    }
-
-    const supplier = await Supplier.create(supplierRequest, { transaction: t });
-
-    const mappingsPromiseArray = [
-      SupplierCategoryMapping.bulkCreate(
-        body.categories.map((category) => ({
-          supplier_id: supplier.dataValues.id,
-          category_id: category,
-        })),
-        { transaction: t },
-      ),
-      SupplierServiceLocationsMappings.bulkCreate(
-        body.serviceLocations.map((serviceLocation) => ({
-          supplier_id: supplier.dataValues.id,
-          region_id: serviceLocation,
-        })),
-        { transaction: t },
-      ),
-    ];
-
-    await Promise.all(mappingsPromiseArray);
-    return supplier;
-  });
-  return result;
-};
+const saveSupplierWithMappings = async ({
+  legalName,
+  fantasyName,
+  rut,
+  webSiteUrl,
+  emailId,
+  logoUrl,
+  isShared,
+  inchargeFullName,
+  inchargeRole,
+  businessAddress,
+  billingAddress,
+  contactInfo,
+  categories,
+  serviceLocations,
+  type,
+}) => getConnection().transaction(async (t) => {
+  const data = {
+    legalName,
+    fantasyName,
+    rut,
+    webSiteUrl,
+    emailId,
+    logoUrl,
+    isShared,
+    inchargeFullName,
+    inchargeRole,
+    type,
+    businessAddress,
+    categories: categories.map((categoryId) => ({
+      category_id: categoryId,
+    })),
+    serviceLocations: serviceLocations.map((regionId) => ({
+      region_id: regionId,
+    })),
+  };
+  const query = {
+    transaction: t,
+    include: ['businessAddress', 'categories', 'serviceLocations'],
+  };
+  if (billingAddress) {
+    data.billingAddress = billingAddress;
+    query.include.push('billingAddress');
+  }
+  if (contactInfo) {
+    data.contactInfo = contactInfo;
+    query.include.push('contactInfo');
+  }
+  return Supplier.create(data, query);
+});
 
 const registerSupplier = async (req, res) => {
   let response;

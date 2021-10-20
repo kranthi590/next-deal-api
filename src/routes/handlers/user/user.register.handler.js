@@ -5,15 +5,13 @@ const logger = require('../../../helpers/logger');
 const { parseError } = require('../../../helpers/error.parser');
 const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 const { Buyer } = require('../../../helpers/db.models');
+const { getConnection } = require('../../../helpers/mysql');
 
 const getBuyer = async (subDomain) => {
   const query = {
     where: {
       subDomainName: subDomain,
     },
-    attributes: {},
-    raw: true,
-    nest: true,
   };
   return Buyer.findOne(query);
 };
@@ -28,7 +26,7 @@ const saveUserWithMappings = async ({
   contactInfo,
 }) => {
   const hash = bcrypt.hashSync(password, 10);
-  return User.create(
+  return getConnection().transaction(async (t) => User.create(
     {
       businessAddress: { ...contactInfo },
       roleMap: [{ roleId: 1 }],
@@ -41,8 +39,8 @@ const saveUserWithMappings = async ({
       buyerId: 1,
       status: 1,
     },
-    { include: ['businessAddress', 'roleMap'] },
-  );
+    { include: ['businessAddress', 'roleMap'], transaction: t },
+  ));
 };
 
 const registerUserHandler = async (req, res) => {

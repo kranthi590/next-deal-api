@@ -6,7 +6,7 @@ const SupplierServiceLocationsMappings = getConnection().define(
   {
     supplier_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     region_id: {
       type: Sequelize.INTEGER,

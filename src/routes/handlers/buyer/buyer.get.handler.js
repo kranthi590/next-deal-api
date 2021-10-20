@@ -9,9 +9,6 @@ const getBuyer = async (buyerId) => {
     where: {
       id: buyerId,
     },
-    attributes: {},
-    raw: true,
-    nest: true,
   };
   return Buyer.findOne(query);
 };
