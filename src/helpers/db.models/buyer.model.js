@@ -33,6 +33,8 @@ const Buyer = getConnection().define(
       type: Sequelize.STRING,
       field: 'subdomain_name',
       allowNull: false,
+      unique: true,
+      isAlphanumeric: true,
     },
     status: {
       type: Sequelize.STRING,

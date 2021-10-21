@@ -8,7 +8,7 @@ const buyerSchema = Joi.object().keys({
   webSiteUrl: Joi.string(),
   emailId: Joi.string().email().required(),
   subDomainName: Joi.string().required(),
-  contactInfo: Address,
+  businessAddress: Address,
   additionalData: Joi.string(),
 }).unknown();
 
