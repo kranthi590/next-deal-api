@@ -20,13 +20,13 @@ const saveBuyerWithMappings = async ({
   emailId,
   subDomainName,
   additionalData,
-  contactInfo,
+  businessAddress,
 }) => {
   const buyer = await Buyer.create(
     {
       status: BuyerStatuses.ACTIVE,
       licensedUntil: moment().add(30, 'days').utc().format('YYYY-MM-DD HH:mm:ss'),
-      businessAddress: contactInfo,
+      businessAddress,
       fantasyName,
       legalName,
       rut,

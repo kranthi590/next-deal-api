@@ -93,6 +93,53 @@
         }
       }
     },
+    "/buyer/{buyerId}": {
+      "get": {
+        "tags": [
+          "Buyer"
+        ],
+        "summary": "Get buyer from the system",
+        "operationId": "getBuyer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "buyerId",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the user to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/BuyerResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
     "/supplier": {
       "post": {
         "tags": [
@@ -313,6 +360,140 @@
           }
         }
       }
+    },
+    "/config/countries/{countryCode}/regions": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "Fetch regions by country code",
+        "operationId": "fetchRegions",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "countryCode",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/RegionsResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Interbal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/config/countries/{countryCode}/regions/{regionId}/comunas": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "Fetch comunas by country code and region id",
+        "operationId": "fetchComunas",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "countryCode",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "regionId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/ComunasResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict--> Account exists already",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Interbal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -417,7 +598,7 @@
         "subDomainName"
       ],
       "properties": {
-        "contactInfo": {
+        "businessAddress": {
           "$ref": "#/definitions/ContactInfo"
         },
         "legalName": {
@@ -548,6 +729,46 @@
             },
             "licencedUntil": {
               "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "RegionsResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "regions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Region"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ComunasResponse": {
+      "allOf": [
+        {
+          "properties": {
+            "comunas": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Comuna"
+              }
             }
           }
         }
@@ -738,6 +959,43 @@
         },
         "contactInfo": {
           "$ref": "#/definitions/ContactInfo"
+        }
+      }
+    },
+    "Region": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "string"
+        },
+        "orderNum": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Comuna": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "regionId": {
+          "type": "string"
         }
       }
     }

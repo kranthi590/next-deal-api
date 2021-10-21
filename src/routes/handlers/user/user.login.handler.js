@@ -10,6 +10,7 @@ const {
   UnauthorizedResponse,
 } = require('../../../helpers/response.transforms');
 const { getSubDomainFromRequest } = require('../../../helpers/get.subdomain');
+const { INVALID_USER_ACCOUNT } = require('../../../helpers/constants');
 
 const getUser = async (emailId) => {
   const query = {
@@ -46,7 +47,7 @@ const userLoginHandler = async (req, res) => {
       );
       response = OkResponse({ user, token }, req.traceId);
     } else {
-      response = UnauthorizedResponse('INVALID_USER_ACCOUNT', req.traceId);
+      response = UnauthorizedResponse(INVALID_USER_ACCOUNT, req.traceId);
     }
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
