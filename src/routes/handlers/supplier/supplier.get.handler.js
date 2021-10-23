@@ -1,6 +1,6 @@
 const logger = require('../../../helpers/logger');
 
-const { Supplier } = require('../../../helpers/db.models/supplier.model');
+const { Suppliers } = require('../../../helpers/db.models/supplier.model');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getSupplier = async (supplierId) => {
@@ -11,7 +11,7 @@ const getSupplier = async (supplierId) => {
     },
     exclude: ['in_charge_address_id'],
   };
-  return Supplier.findOne(query);
+  return Suppliers.findOne(query);
 };
 
 const getSupplierHandler = async (req, res) => {

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const BusinessAddress = getConnection().define(
-  'business_addresses',
+const Addresses = getConnection().define(
+  'addresses',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -24,14 +24,29 @@ const BusinessAddress = getConnection().define(
     communeId: {
       type: Sequelize.INTEGER,
       field: 'commune_id',
+      foreignKey: true,
+      references: {
+        model: 'comunas',
+        key: 'id',
+      },
     },
     regionId: {
       type: Sequelize.INTEGER,
       field: 'region_id',
+      foreignKey: true,
+      references: {
+        model: 'regions',
+        key: 'id',
+      },
     },
     countryId: {
       type: Sequelize.INTEGER,
       field: 'country_id',
+      foreignKey: true,
+      references: {
+        model: 'countries',
+        key: 'id',
+      },
     },
     emailId: {
       type: Sequelize.STRING,
@@ -51,9 +66,9 @@ const BusinessAddress = getConnection().define(
       field: 'additional_data',
     },
   },
-  { timestamps: false },
+  { timestamps: false, tableName: 'addresses' },
 );
 
 module.exports = {
-  BusinessAddress,
+  Addresses,
 };

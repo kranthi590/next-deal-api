@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const SupplierCategoryMapping = getConnection().define(
+const SupplierCategoryMappings = getConnection().define(
   'supplier_category_mappings',
   {
     supplier_id: {
@@ -21,9 +21,9 @@ const SupplierCategoryMapping = getConnection().define(
       },
     },
   },
-  { timestamps: false },
+  { timestamps: false, tableName: 'supplier_category_mappings' },
 );
 
 module.exports = {
-  SupplierCategoryMapping,
+  SupplierCategoryMappings,
 };

@@ -13,7 +13,7 @@ const SupplierServiceLocationsMappings = getConnection().define(
       allowNull: false,
     },
   },
-  { timestamps: false },
+  { timestamps: false, tableName: 'supplier_service_locations_mappings' },
 );
 
 module.exports = {

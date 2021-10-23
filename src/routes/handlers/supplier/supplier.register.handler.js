@@ -1,4 +1,4 @@
-const { Supplier } = require('../../../helpers/db.models/supplier.model');
+const { Suppliers } = require('../../../helpers/db.models/supplier.model');
 const { parseError } = require('../../../helpers/error.parser');
 
 const logger = require('../../../helpers/logger');
@@ -54,7 +54,7 @@ const saveSupplierWithMappings = async ({
     data.contactInfo = contactInfo;
     query.include.push('contactInfo');
   }
-  return Supplier.create(data, query);
+  return Suppliers.create(data, query);
 });
 
 const registerSupplier = async (req, res) => {

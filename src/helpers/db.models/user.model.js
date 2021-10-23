@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const User = getConnection().define(
+const Users = getConnection().define(
   'users',
   {
     firstName: {
@@ -81,9 +81,10 @@ const User = getConnection().define(
         }
       },
     },
+    tableName: 'users',
   },
 );
 
 module.exports = {
-  User,
+  Users,
 };

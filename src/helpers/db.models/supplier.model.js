@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const Supplier = getConnection().define(
-  'supplier',
+const Suppliers = getConnection().define(
+  'suppliers',
   {
     rut: {
       type: Sequelize.STRING,
@@ -77,9 +77,10 @@ const Supplier = getConnection().define(
   },
   {
     timestamps: false,
+    tableName: 'suppliers',
   },
 );
 
 module.exports = {
-  Supplier,
+  Suppliers,
 };

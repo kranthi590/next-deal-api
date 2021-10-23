@@ -3,13 +3,12 @@ const jwt = require('jsonwebtoken');
 
 const moment = require('moment');
 const logger = require('../../../helpers/logger');
-const { User } = require('../../../helpers/db.models/user.model');
+const { Users } = require('../../../helpers/db.models/user.model');
 const {
   InternalServerErrorResponse,
   OkResponse,
   UnauthorizedResponse,
 } = require('../../../helpers/response.transforms');
-const { getSubDomainFromRequest } = require('../../../helpers/get.subdomain');
 const { INVALID_USER_ACCOUNT } = require('../../../helpers/constants');
 
 const getUser = async (emailId) => {
@@ -17,9 +16,9 @@ const getUser = async (emailId) => {
     where: {
       emailId,
     },
-    include: ['buyer', 'businessAddress'],
+    include: ['buyer', 'address'],
   };
-  return User.findOne(query);
+  return Users.findOne(query);
 };
 
 const userLoginHandler = async (req, res) => {
@@ -27,11 +26,7 @@ const userLoginHandler = async (req, res) => {
   try {
     const { emailId, password } = req.body;
     const user = await getUser(emailId);
-    if (
-      user
-      && bcrypt.compareSync(password, user.password)
-      && user.buyer.subDomainName === getSubDomainFromRequest(req.get('host'))
-    ) {
+    if (user && bcrypt.compareSync(password, user.password)) {
       const date = moment(user.buyer.licensedUntil);
       const { JWT_SECRET_KEY } = process.env;
       const token = jwt.sign(

@@ -21,7 +21,7 @@ const Categories = getConnection().define(
       field: 'updated_at',
     },
   },
-  { timestamps: true },
+  { timestamps: true, tableName: 'categories' },
 );
 
 module.exports = {

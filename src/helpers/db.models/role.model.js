@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const Role = getConnection().define(
-  'role',
+const Roles = getConnection().define(
+  'roles',
   {
     name: {
       type: Sequelize.STRING,
@@ -19,9 +19,9 @@ const Role = getConnection().define(
       allowNull: false,
     },
   },
-  { timestamps: false },
+  { timestamps: false, tableName: 'roles' },
 );
 
 module.exports = {
-  Role,
+  Roles,
 };

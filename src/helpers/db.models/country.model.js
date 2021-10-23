@@ -24,7 +24,7 @@ const Countries = getConnection().define(
     },
     description: Sequelize.STRING,
   },
-  { timestamps: true },
+  { timestamps: true, tableName: 'countries' },
 );
 
 const Regions = getConnection().define(
@@ -62,7 +62,7 @@ const Regions = getConnection().define(
     },
     description: Sequelize.STRING,
   },
-  { timestamps: true },
+  { timestamps: true, tableName: 'regions' },
 );
 
 const Comunas = getConnection().define(
@@ -95,7 +95,7 @@ const Comunas = getConnection().define(
       },
     },
   },
-  { timestamps: true },
+  { timestamps: true, tableName: 'comunas' },
 );
 
 module.exports = {

@@ -4,7 +4,7 @@ const CategoriesData = require('./data/categories.data.json');
 const RolesData = require('./data/roles.data.json');
 
 const {
-  Comunas, Countries, Regions, Categories, Role,
+  Comunas, Countries, Regions, Categories, Roles,
 } = require('./db.models');
 
 const checkAndInsertData = async () => {
@@ -43,9 +43,9 @@ const checkAndInsertData = async () => {
     await Categories.bulkCreate(CategoriesData);
   }
 
-  const rolesCount = await Role.count();
+  const rolesCount = await Roles.count();
   if (rolesCount === 0) {
-    await Role.bulkCreate(RolesData);
+    await Roles.bulkCreate(RolesData);
   }
 };
 

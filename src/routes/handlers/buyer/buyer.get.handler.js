@@ -1,6 +1,6 @@
 const logger = require('../../../helpers/logger');
 
-const { Buyer } = require('../../../helpers/db.models/buyer.model');
+const { Buyers } = require('../../../helpers/db.models/buyer.model');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getBuyer = async (buyerId) => {
@@ -10,7 +10,7 @@ const getBuyer = async (buyerId) => {
       id: buyerId,
     },
   };
-  return Buyer.findOne(query);
+  return Buyers.findOne(query);
 };
 
 const getBuyerHandler = async (req, res) => {

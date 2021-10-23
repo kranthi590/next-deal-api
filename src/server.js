@@ -7,6 +7,7 @@ const cors = require('cors');
 const swaggerDocument = require('./swagger.json');
 const { init: initMysql, closeConnection } = require('./helpers/mysql');
 const logger = require('./helpers/logger');
+const { initStorage } = require('./helpers/bucket.utils');
 
 const app = express();
 app.use(
@@ -29,9 +30,13 @@ app.use('/', (req, res, next) => {
 });
 
 const init = async () => {
-  if (await initMysql()) {
+  const promises = [initMysql(), initStorage()];
+  const [isConnectedToMysql, isConnectedToGCPStorage] = await Promise.all(promises);
+  if (isConnectedToMysql && isConnectedToGCPStorage) {
     require('./routes')(app);
     app.listen(port, () => logger.info(`Started server on port ${port}`));
+  } else {
+    process.exit(1);
   }
 };
 

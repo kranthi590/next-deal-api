@@ -1,9 +1,10 @@
 const moment = require('moment');
 
-const { Buyer } = require('../../../helpers/db.models/buyer.model');
+const { createBucket } = require('../../../helpers/bucket.utils');
+const { BUYER_DOMAIN_BUCKET_FORMAT } = require('../../../helpers/constants');
+const { Buyers } = require('../../../helpers/db.models/buyer.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
-
 const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
 
 const BuyerStatuses = {
@@ -22,7 +23,7 @@ const saveBuyerWithMappings = async ({
   additionalData,
   businessAddress,
 }) => {
-  const buyer = await Buyer.create(
+  const buyer = await Buyers.create(
     {
       status: BuyerStatuses.ACTIVE,
       licensedUntil: moment().add(30, 'days').utc().format('YYYY-MM-DD HH:mm:ss'),
@@ -48,6 +49,9 @@ const registerBuyerHandler = async (req, res) => {
   let response;
   try {
     const buyer = await saveBuyerWithMappings(req.body);
+    await createBucket(
+      BUYER_DOMAIN_BUCKET_FORMAT.replace('subdomain', `${buyer.subDomainName}-${buyer.id}`),
+    );
     response = ResourceCreatedResponse(buyer, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId);
