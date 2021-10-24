@@ -26,7 +26,7 @@ const userLoginHandler = async (req, res) => {
   try {
     const { emailId, password } = req.body;
     const user = await getUser(emailId);
-    if (user && bcrypt.compareSync(password, user.password)) {
+    if (user && user.status && bcrypt.compareSync(password, user.password)) {
       const date = moment(user.buyer.licensedUntil);
       const { JWT_SECRET_KEY } = process.env;
       const token = jwt.sign(
@@ -34,6 +34,7 @@ const userLoginHandler = async (req, res) => {
           emailId: user.emailId,
           userId: user.id,
           domain: user.buyer.subDomainName,
+          buyerId: user.buyer.id,
         },
         JWT_SECRET_KEY,
         {

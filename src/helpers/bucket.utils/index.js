@@ -18,12 +18,8 @@ const init = async () => {
 const getStorage = () => storage;
 
 const createBucket = async (bucketName) => {
-  try {
-    await storage.bucket(bucketName).create({ location: process.env.GCP_STORAGE_REGION });
-    logger.info(`Created bucket: ${bucketName} successfully`);
-  } catch (error) {
-    logger.error(`Error while creating bucket: ${error}`);
-  }
+  await storage.bucket(bucketName).create({ location: process.env.GCP_STORAGE_REGION });
+  logger.info(`Created bucket: ${bucketName} successfully`);
 };
 
 module.exports = {

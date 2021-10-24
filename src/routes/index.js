@@ -78,7 +78,7 @@ const initRoutes = (app) => {
 
   // User routes
   app.post('/user/register', validateMiddleware, registerUserHandler);
-  app.get('/user/:userId', authMiddleware, verifyDomainMiddleware, getUserHandler);
+  app.get('/user/profile', authMiddleware, verifyDomainMiddleware, getUserHandler);
   app.post('/user/login', validateMiddleware, userLoginHandler);
 
   // Register config routes

@@ -59,6 +59,7 @@ Users.belongsTo(Addresses, {
 
 Users.hasMany(UsersRolesMappings, { as: 'roleMap', foreignKey: 'user_id', targetKey: 'id' });
 Users.belongsTo(Buyers, { as: 'buyer', foreignKey: 'buyer_id', targetKey: 'id' });
+Buyers.hasMany(Users);
 
 module.exports = {
   Countries,
