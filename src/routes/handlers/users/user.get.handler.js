@@ -1,5 +1,5 @@
 const logger = require('../../../helpers/logger');
-const { Users } = require('../../../helpers/db.models/user.model');
+const { Users } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getUser = async (userId) => {

@@ -1,6 +1,6 @@
 const logger = require('../../../helpers/logger');
 
-const { Suppliers } = require('../../../helpers/db.models/supplier.model');
+const { Suppliers } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
 
 const getSupplier = async (supplierId) => {

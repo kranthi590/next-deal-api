@@ -2,6 +2,7 @@ const { supplierSchema } = require('./register-supplier');
 const { buyerSchema } = require('./register-buyer');
 const { userSchema } = require('./register-user');
 const { loginUserSchema } = require('./login-user');
+const { projectCreationSchema } = require('./project-create');
 
 const getValidationSchema = (routePath) => {
   switch (routePath) {
@@ -13,6 +14,8 @@ const getValidationSchema = (routePath) => {
       return userSchema;
     case '/user/login':
       return loginUserSchema;
+    case '/project/create':
+      return projectCreationSchema;
     default:
       return {};
   }

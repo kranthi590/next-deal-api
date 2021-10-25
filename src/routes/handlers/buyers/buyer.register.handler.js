@@ -1,18 +1,12 @@
 const moment = require('moment');
 
 const { createBucket } = require('../../../helpers/bucket.utils');
-const { BUYER_DOMAIN_BUCKET_FORMAT } = require('../../../helpers/constants');
-const { Buyers } = require('../../../helpers/db.models/buyer.model');
+const { BUYER_DOMAIN_BUCKET_FORMAT, BUYER_STATUS } = require('../../../helpers/constants');
+const { Buyers } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 const { ResourceCreatedResponse } = require('../../../helpers/response.transforms');
-
-const BuyerStatuses = {
-  ACTIVE: 'active',
-  IN_ACTIVE: 'inactive',
-  SUSPENDED: 'suspended',
-};
 
 const saveBuyerWithMappings = async ({
   fantasyName,
@@ -26,7 +20,7 @@ const saveBuyerWithMappings = async ({
 }) => getConnection().transaction(async (transaction) => {
   const buyer = await Buyers.create(
     {
-      status: BuyerStatuses.ACTIVE,
+      status: BUYER_STATUS.ACTIVE,
       licensedUntil: moment().add(30, 'days').utc().format('YYYY-MM-DD HH:mm:ss'),
       businessAddress,
       fantasyName,
@@ -67,4 +61,4 @@ const registerBuyerHandler = async (req, res) => {
   res.status(response.status).json(response);
 };
 
-module.exports = { registerBuyerHandler, BuyerStatuses };
+module.exports = { registerBuyerHandler };

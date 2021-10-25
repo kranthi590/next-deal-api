@@ -12,4 +12,20 @@ module.exports = {
   INVALID_DOMAIN: 'INVALID_DOMAIN',
   INVALID_JWT_TOKEN: 'INVALID_JWT_TOKEN',
   BUYERS_USERS_LIMIT_EXCEEDED: 'BUYERS_USERS_LIMIT_EXCEEDED',
+  ER_DUP_ENTRY_PROJECT_CODE: 'ER_DUP_ENTRY_PROJECT_CODE',
+  BUYER_STATUS: {
+    ACTIVE: 'active',
+    IN_ACTIVE: 'inactive',
+    SUSPENDED: 'suspended',
+  },
+  CURRENCY_TYPE: {
+    CLP: 'clp',
+    CL_UF: 'uf',
+  },
+  PROJECT_STATUS: {
+    CREATED: 'created',
+    IN_PROGRESS: 'in_progress',
+    COMPLETED: 'completed',
+    ABORTED: 'aborted',
+  },
 };

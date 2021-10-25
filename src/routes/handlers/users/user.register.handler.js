@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 
 const { Sequelize } = require('sequelize');
-const { Users } = require('../../../helpers/db.models/user.model');
+const { Users } = require('../../../helpers/db.models');
 const logger = require('../../../helpers/logger');
 const { parseError } = require('../../../helpers/error.parser');
 const {

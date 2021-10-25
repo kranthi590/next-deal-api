@@ -1,7 +1,7 @@
 const { BadRequestResponse, ForbiddenResponse } = require('../helpers/response.transforms');
 const { getSubDomainFromRequest } = require('../helpers/get.subdomain');
-const { BuyerStatuses } = require('../routes/handlers/buyer/buyer.register.handler');
 const { Buyers } = require('../helpers/db.models');
+const { BUYER_STATUS } = require('../helpers/constants');
 
 const getBuyer = async (subDomain) => {
   const query = {
@@ -20,7 +20,7 @@ const validate = async (req, res, next) => {
       response = ForbiddenResponse('INVALID_BUYER', req.traceId);
     } else {
       const buyer = await getBuyer(subDomain.toLowerCase());
-      if (!buyer || buyer.status !== BuyerStatuses.ACTIVE) {
+      if (!buyer || buyer.status !== BUYER_STATUS.ACTIVE) {
         response = ForbiddenResponse(
           !buyer ? 'INVALID_BUYER' : 'BUYER_ACCOUNT_SUSPENDED',
           req.traceId,

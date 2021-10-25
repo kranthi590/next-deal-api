@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const moment = require('moment');
 const logger = require('../../../helpers/logger');
-const { Users } = require('../../../helpers/db.models/user.model');
+const { Users } = require('../../../helpers/db.models');
 const {
   InternalServerErrorResponse,
   OkResponse,
@@ -41,6 +41,7 @@ const userLoginHandler = async (req, res) => {
           expiresIn: `${date.diff(moment.utc(), 'days')}d`,
         },
       );
+      delete user.password;
       response = OkResponse({ user, token }, req.traceId);
     } else {
       response = UnauthorizedResponse(INVALID_USER_ACCOUNT, req.traceId);

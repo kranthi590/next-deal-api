@@ -40,7 +40,7 @@ const Buyers = getConnection().define(
       type: Sequelize.STRING,
       field: 'status',
       allowNull: false,
-      isIn: [['suspended', 'active', 'inactive']],
+      isIn: ['suspended', 'active', 'inactive'],
     },
     licensedUntil: {
       type: Sequelize.DATE,

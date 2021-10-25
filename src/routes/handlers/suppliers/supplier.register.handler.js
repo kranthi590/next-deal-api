@@ -1,4 +1,4 @@
-const { Suppliers } = require('../../../helpers/db.models/supplier.model');
+const { Suppliers } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 
 const logger = require('../../../helpers/logger');

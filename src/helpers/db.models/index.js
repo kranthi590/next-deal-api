@@ -1,14 +1,15 @@
-const { Countries, Regions, Comunas } = require('./country.model');
+const { Countries, Regions, Comunas } = require('./countries.model');
 
-const { Roles } = require('./role.model');
-const { Suppliers } = require('./supplier.model');
-const { Addresses } = require('./address.model');
-const { SupplierCategoryMappings } = require('./supplier.category.mapping.model');
+const { Roles } = require('./roles.model');
+const { Suppliers } = require('./suppliers.model');
+const { Addresses } = require('./addresses.model');
+const { SupplierCategoryMappings } = require('./supplier.category.mappings.model');
 const { SupplierServiceLocationsMappings } = require('./supplier.service.locations.mappings.model');
 const { Categories } = require('./categories');
-const { Buyers } = require('./buyer.model');
-const { Users } = require('./user.model');
+const { Buyers } = require('./buyers.model');
+const { Users } = require('./users.model');
 const { UsersRolesMappings } = require('./user.roles.mapping');
+const { Projects } = require('./projects');
 
 Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
 Regions.belongsTo(Countries);
@@ -74,4 +75,5 @@ module.exports = {
   Users,
   UsersRolesMappings,
   Comunas,
+  Projects,
 };

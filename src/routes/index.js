@@ -9,17 +9,18 @@ const multer = Multer({
 
 const { OkResponse } = require('../helpers/response.transforms');
 const { validateMiddleware, authMiddleware, verifyDomainMiddleware } = require('../middleware');
-const registerSupplier = require('./handlers/supplier/supplier.register.handler');
+const registerSupplier = require('./handlers/suppliers/supplier.register.handler');
 const fetchRegionsByCountryCode = require('./handlers/config/config.regions.handler');
 const fetchComunasByRegion = require('./handlers/config/config.comunas.handler');
-const { getSupplierHandler } = require('./handlers/supplier/supplier.get.handler');
-const { registerBuyerHandler } = require('./handlers/buyer/buyer.register.handler');
-const { getBuyerHandler } = require('./handlers/buyer/buyer.get.handler');
-const { registerUserHandler } = require('./handlers/user/user.register.handler');
-const { getUserHandler } = require('./handlers/user/user.get.handler');
-const { userLoginHandler } = require('./handlers/user/user.login.handler');
+const { getSupplierHandler } = require('./handlers/suppliers/supplier.get.handler');
+const { registerBuyerHandler } = require('./handlers/buyers/buyer.register.handler');
+const { getBuyerHandler } = require('./handlers/buyers/buyer.get.handler');
+const { registerUserHandler } = require('./handlers/users/user.register.handler');
+const { getUserHandler } = require('./handlers/users/user.get.handler');
+const { userLoginHandler } = require('./handlers/users/user.login.handler');
 const { getStorage } = require('../helpers/bucket.utils');
 const logger = require('../helpers/logger');
+const { projectCreationHandler } = require('./handlers/projects/project.create.handler');
 
 const initRoutes = (app) => {
   app.get('/profile', (req, res) => {
@@ -46,10 +47,10 @@ const initRoutes = (app) => {
       return;
     }
 
-    const bucket = getStorage().bucket('node-files');
+    const bucket = getStorage().bucket('buyer-housestarcks121-21');
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(req.file.originalname);
+    const blob = bucket.file(`folder/folder1/${req.file.originalname}`);
     const blobStream = blob.createWriteStream();
 
     blobStream.on('error', (err) => {
@@ -84,6 +85,15 @@ const initRoutes = (app) => {
   // Register config routes
   app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
   app.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
+
+  // Projects routes
+  app.post(
+    '/project/create',
+    validateMiddleware,
+    authMiddleware,
+    verifyDomainMiddleware,
+    projectCreationHandler,
+  );
 };
 
 module.exports = initRoutes;
