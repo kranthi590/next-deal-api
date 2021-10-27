@@ -25,6 +25,7 @@ app.use(
 );
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', (req, res, next) => {
+  logger.info(`Headers: ${JSON.stringify(req.headers)}`);
   req.traceId = req.headers.trace_id || v4();
   next();
 });
