@@ -1,13 +1,13 @@
 const { INVALID_JWT_TOKEN, INVALID_DOMAIN } = require('../helpers/constants');
 const { getSubDomainFromRequest } = require('../helpers/get.subdomain');
+const logger = require('../helpers/logger');
 const { ForbiddenResponse } = require('../helpers/response.transforms');
 
 const verifyDomain = (req, res, next) => {
   try {
     const subDomain = getSubDomainFromRequest(req);
-    if (subDomain === '*') {
-      return next();
-    }
+    logger.info(`User: ${JSON.stringify(req.user)}`);
+    logger.info(`SubDomain: ${subDomain}`);
     if (req.user && req.user.domain === subDomain) {
       return next();
     }
