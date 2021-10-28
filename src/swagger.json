@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost",
-  "basePath": "/api/",
+  "host": "service.nextdeal.cl",
+  "basePath": "/",
   "tags": [
     {
       "name": "Buyer",
@@ -26,7 +26,7 @@
     "http"
   ],
   "paths": {
-    "/buyer": {
+    "/v1/buyer/register": {
       "post": {
         "tags": [
           "Buyer"
@@ -93,7 +93,7 @@
         }
       }
     },
-    "/buyer/{buyerId}": {
+    "/v1/buyer/{buyerId}": {
       "get": {
         "tags": [
           "Buyer"
@@ -136,11 +136,17 @@
                 }
               ]
             }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
           }
         }
       }
     },
-    "/supplier": {
+    "/v1/supplier/register": {
       "post": {
         "tags": [
           "Supplier"
@@ -224,7 +230,60 @@
         }
       }
     },
-    "/user": {
+    "/v1/supplier/{supplierId}": {
+      "get": {
+        "tags": [
+          "Supplier"
+        ],
+        "summary": "Get supplier from the system",
+        "operationId": "getsupplier",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "supplierId",
+            "type": "integer",
+            "required": true,
+            "description": "ID of the supplier to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/SupplierResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/register": {
       "post": {
         "tags": [
           "User"
@@ -291,7 +350,7 @@
         }
       }
     },
-    "/user/login": {
+    "/v1/user/login": {
       "post": {
         "tags": [
           "User"
@@ -331,7 +390,7 @@
                     "data": {
                       "allOf": [
                         {
-                          "$ref": "#/definitions/UserLoginResponse"
+                          "$ref": "#/definitions/UserResponse"
                         }
                       ]
                     }
@@ -350,6 +409,115 @@
             "description": "Invalid input",
             "schema": {
               "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/profile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a specific user profile based on JWT token",
+        "operationId": "getUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/UserResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/profile/{profileId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a specific user profile",
+        "operationId": "getUserProfileById",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileId",
+            "type": "integer",
+            "required": true,
+            "description": "ID of the user to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/UserResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
             }
           },
           "500": {
@@ -523,9 +691,43 @@
         }
       }
     },
+    "400": {
+      "type": "object",
+      "description": "Bad request",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 400
+        },
+        "message": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        }
+      }
+    },
+    "404": {
+      "type": "object",
+      "description": "Not found",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 404
+        },
+        "message": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        }
+      }
+    },
     "409": {
       "type": "object",
-      "description": "Conflict--> Account exists already",
+      "description": "Conflict",
       "properties": {
         "status": {
           "type": "integer",
@@ -936,29 +1138,6 @@
         },
         "password": {
           "type": "string"
-        }
-      }
-    },
-    "UserLoginResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "emailId": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "contactInfo": {
-          "$ref": "#/definitions/ContactInfo"
         }
       }
     },
