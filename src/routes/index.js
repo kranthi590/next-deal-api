@@ -1,4 +1,7 @@
 const Multer = require('multer');
+const express = require('express');
+
+const router = express.Router();
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
@@ -21,79 +24,85 @@ const { userLoginHandler } = require('./handlers/users/user.login.handler');
 const { getStorage } = require('../helpers/bucket.utils');
 const logger = require('../helpers/logger');
 const { projectCreationHandler } = require('./handlers/projects/project.create.handler');
+const { projectsListHandler } = require('./handlers/projects/project.list.handler');
 
-const initRoutes = (app) => {
-  app.get('/profile', (req, res) => {
-    try {
-      const fileStream = getStorage()
-        .bucket('node-files')
-        .file('APPLICATION FORM FOR PCC.pdf')
-        .createReadStream(); // stream is created
-      fileStream.on('error', (err) => {
-        logger.error('Error!', err);
-        res.status(400).json({ status: '404' });
-      });
-      fileStream.pipe(res);
-    } catch (error) {
-      logger.error('Error!', error);
+router.get('/profile', (req, res) => {
+  try {
+    const fileStream = getStorage()
+      .bucket('node-files')
+      .file('APPLICATION FORM FOR PCC.pdf')
+      .createReadStream(); // stream is created
+    fileStream.on('error', (err) => {
+      logger.error('Error!', err);
       res.status(400).json({ status: '404' });
-    }
-  });
-
-  // Process the file upload and upload to Google Cloud Storage.
-  app.post('/upload', multer.single('file'), (req, res, next) => {
-    if (!req.file) {
-      res.status(400).send('No file uploaded.');
-      return;
-    }
-
-    const bucket = getStorage().bucket('buyer-housestarcks121-21');
-
-    // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(`folder/folder1/${req.file.originalname}`);
-    const blobStream = blob.createWriteStream();
-
-    blobStream.on('error', (err) => {
-      next(err);
     });
+    fileStream.pipe(res);
+  } catch (error) {
+    logger.error('Error!', error);
+    res.status(400).json({ status: '404' });
+  }
+});
 
-    blobStream.on('finish', () => {
-      res.status(200).send({ status: 'success' });
-    });
+// Process the file upload and upload to Google Cloud Storage.
+router.post('/upload', multer.single('file'), (req, res, next) => {
+  if (!req.file) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
 
-    blobStream.end(req.file.buffer);
+  const bucket = getStorage().bucket('buyer-housestarcks121-21');
+
+  // Create a new blob in the bucket and upload the file data.
+  const blob = bucket.file(`folder/folder1/${req.file.originalname}`);
+  const blobStream = blob.createWriteStream();
+
+  blobStream.on('error', (err) => {
+    next(err);
   });
 
-  app.get(['/', '/health'], (req, res) => {
-    const response = OkResponse(null, req.traceId, 'OK Response');
-    res.status(response.status).json(response);
+  blobStream.on('finish', () => {
+    res.status(200).send({ status: 'success' });
   });
 
-  // Supplier routes
-  app.post('/supplier/register', validateMiddleware, registerSupplier);
-  app.get('/supplier/:supplierId', getSupplierHandler);
+  blobStream.end(req.file.buffer);
+});
 
-  // Buyer routes
-  app.post('/buyer/register', validateMiddleware, registerBuyerHandler);
-  app.get('/buyer/:buyerId', getBuyerHandler);
+router.get(['/', '/health'], (req, res) => {
+  const response = OkResponse(null, req.traceId, 'OK Response');
+  res.status(response.status).json(response);
+});
 
-  // User routes
-  app.post('/user/register', validateMiddleware, registerUserHandler);
-  app.get('/user/profile', authMiddleware, verifyDomainMiddleware, getUserHandler);
-  app.post('/user/login', validateMiddleware, userLoginHandler);
+// Supplier routes
+router.post('/suppliers', validateMiddleware, registerSupplier);
+router.get('/supplier/:supplierId', getSupplierHandler);
 
-  // Register config routes
-  app.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
-  app.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
+// Buyer routes
+router.post('/buyers', validateMiddleware, registerBuyerHandler);
+router.get('/buyers/:buyerId', getBuyerHandler);
 
-  // Projects routes
-  app.post(
-    '/project/create',
-    validateMiddleware,
-    authMiddleware,
-    verifyDomainMiddleware,
-    projectCreationHandler,
-  );
-};
+// User routes
+router.post('/users', validateMiddleware, registerUserHandler);
+router.get('/users/:userId', authMiddleware, verifyDomainMiddleware, getUserHandler);
+router.post('/users/login', validateMiddleware, userLoginHandler);
 
-module.exports = initRoutes;
+// Register config routes
+router.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
+router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
+
+// Projects routes
+router.post(
+  '/buyers/:buyerId/projects',
+  validateMiddleware,
+  authMiddleware,
+  verifyDomainMiddleware,
+  projectCreationHandler,
+);
+// Projects routes
+router.get(
+  '/buyers/:buyerId/projects',
+  authMiddleware,
+  verifyDomainMiddleware,
+  projectsListHandler,
+);
+
+module.exports = router;

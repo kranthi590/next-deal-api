@@ -6,7 +6,7 @@ const { ForbiddenResponse } = require('../helpers/response.transforms');
 const verifyDomain = (req, res, next) => {
   try {
     const subDomain = getSubDomainFromRequest(req);
-    logger.info(`User: ${JSON.stringify(req.user)}`);
+    logger.info('User', req.user);
     logger.info(`SubDomain: ${subDomain}`);
     if (req.user && req.user.domain === subDomain) {
       return next();

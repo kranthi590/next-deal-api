@@ -25,7 +25,7 @@ app.use(
 );
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', (req, res, next) => {
-  logger.info(`Headers: ${JSON.stringify(req.headers)}`);
+  logger.info('Headers', req.headers);
   req.traceId = req.headers.trace_id || v4();
   next();
 });
@@ -34,7 +34,8 @@ const init = async () => {
   const promises = [initMysql(), initStorage()];
   const [isConnectedToMysql, isConnectedToGCPStorage] = await Promise.all(promises);
   if (isConnectedToMysql && isConnectedToGCPStorage) {
-    require('./routes')(app);
+    const v1Routes = require('./routes');
+    app.use('/api/v1', v1Routes);
     app.listen(port, () => logger.info(`Started server on port ${port}`));
   } else {
     process.exit(1);
@@ -43,7 +44,7 @@ const init = async () => {
 
 process
   .on('unhandledRejection', (reason, p) => {
-    logger.error(`${reason} Unhandled Rejection at Promise ${p}`);
+    logger.error(`${reason} Unhandled Rejection at Promise ${p.message}`);
   })
   .on('uncaughtException', (err) => {
     logger.error(`${err}Uncaught Exception thrown`);
