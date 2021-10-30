@@ -6,18 +6,18 @@ const { projectCreationSchema } = require('./project-create');
 
 const getValidationSchema = (routePath) => {
   switch (routePath) {
-    case '/supplier/register':
+    case '/api/v1/suppliers':
       return supplierSchema;
-    case '/buyer/register':
+    case '/api/v1/buyers':
       return buyerSchema;
-    case '/user/register':
+    case '/api/v1/users':
       return userSchema;
-    case '/user/login':
+    case '/api/v1/users/login':
       return loginUserSchema;
-    case '/project/create':
+    case '/api/v1/projects':
       return projectCreationSchema;
     default:
-      return {};
+      throw new Error('NO_SCHEMA');
   }
 };
 
