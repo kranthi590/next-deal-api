@@ -97,7 +97,6 @@ router.post(
   verifyDomainMiddleware,
   projectCreationHandler,
 );
-// Projects routes
 router.get(
   '/buyers/:buyerId/projects',
   authMiddleware,

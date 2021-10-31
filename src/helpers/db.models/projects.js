@@ -29,6 +29,11 @@ const Projects = getConnection().define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    managerName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      field: 'manager_name',
+    },
     code: {
       type: Sequelize.STRING,
       allowNull: false,

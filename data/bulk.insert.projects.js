@@ -2,29 +2,29 @@ const axios = require('axios');
 
 const projectsData = require('./projects.json');
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000/api/v1';
 
 const bulkInset = async () => {
   try {
-    const res = await axios.post(`${API_URL}/user/login`, {
-      emailId: 'kranthi.5901@gmail.com',
+    const res = await axios.post(`${API_URL}/users/login`, {
+      emailId: 'pasala.kk@gmail.com',
       password: 'konahamaru',
     });
     const {
       data: {
-        data: { token },
+        data: { token, user },
       },
     } = res;
     projectsData.forEach(async (project) => {
       axios
         .post(
-          `${API_URL}/project/create`,
+          `${API_URL}/buyers/${user.buyer.id}/projects`,
           { ...project, currency: 'clp' },
           {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,
-              'nd-domain': 'housestarcks121.localhost',
+              'nd-domain': 'housestarcks.localhost',
             },
           },
         )

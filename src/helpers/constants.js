@@ -28,4 +28,6 @@ module.exports = {
     COMPLETED: 'completed',
     ABORTED: 'aborted',
   },
+  DB_FETCH_SIZE: 10,
+  DB_OFFSET_DEFAULT: 0,
 };

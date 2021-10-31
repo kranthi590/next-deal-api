@@ -4,6 +4,7 @@ const { CURRENCY_TYPE } = require('../constants');
 const projectCreationSchema = Joi.object()
   .keys({
     name: Joi.string().required(),
+    managerName: Joi.string().required(),
     startDate: Joi.date().required(),
     expectedEndDate: Joi.date().required(),
     costCenter: Joi.string().required(),

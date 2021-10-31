@@ -18,27 +18,31 @@ const projectCreationHandler = async (req, res) => {
   let response;
   try {
     const {
-      name, startDate, expectedEndDate, costCenter, estimatedBudget, currency, description,
+      name,
+      startDate,
+      expectedEndDate,
+      costCenter,
+      estimatedBudget,
+      currency,
+      description,
+      managerName,
     } = req.body;
-    const project = await Projects.create(
-      {
-        name,
-        code: generateProjectCode(name),
-        startDate,
-        expectedEndDate,
-        costCenter,
-        estimatedBudget,
-        currency,
-        description,
-        buyerId: req.user.buyerId,
-        createdBy: req.user.userId,
-        status: PROJECT_STATUS.CREATED,
-      },
-      {},
-    );
+    const project = await Projects.create({
+      name,
+      managerName,
+      code: generateProjectCode(name),
+      startDate,
+      expectedEndDate,
+      costCenter,
+      estimatedBudget,
+      currency,
+      description,
+      buyerId: req.user.buyerId,
+      createdBy: req.user.userId,
+      status: PROJECT_STATUS.CREATED,
+    });
     response = OkResponse(project, req.traceId);
   } catch (error) {
-    console.error(error);
     response = parseError(error, req.traceId);
     logger.error(`Error while creating project: ${error}`);
   }
