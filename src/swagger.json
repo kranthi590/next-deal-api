@@ -26,12 +26,12 @@
     "http"
   ],
   "paths": {
-    "/v1/buyer/register": {
+    "/v1/buyers/register": {
       "post": {
         "tags": [
           "Buyer"
         ],
-        "summary": "Add a new buyer to system",
+        "summary": "Create a new buyer to system",
         "operationId": "addBuyer",
         "consumes": [
           "application/json"
@@ -64,6 +64,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/BuyerResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -93,7 +96,7 @@
         }
       }
     },
-    "/v1/buyer/{buyerId}": {
+    "/v1/buyers/{buyerId}": {
       "get": {
         "tags": [
           "Buyer"
@@ -112,7 +115,7 @@
             "name": "buyerId",
             "type": "integer",
             "required": true,
-            "description": "Numeric ID of the user to get"
+            "description": "Numeric ID of the Buyer to get"
           }
         ],
         "responses": {
@@ -129,6 +132,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/BuyerResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -146,7 +152,123 @@
         }
       }
     },
-    "/v1/supplier/register": {
+    "/v1/buyers/{buyerId}/projects": {
+      "post": {
+        "tags": [
+          "Buyer"
+        ],
+        "summary": "Create a new project for a Buyer.",
+        "operationId": "createProject",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "buyerId",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the Buyer for which a project is being create."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Buyer object that needs to be added to the system",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProjectRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/ProjectResponse"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Buyer"
+        ],
+        "summary": "Get all projects for a specific Buyer.",
+        "operationId": "getAllProjects",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "buyerId",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the Buyer for which a project is being create."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/ProjectResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
+          }
+        }
+      }
+    },
+    "/v1/suppliers/register": {
       "post": {
         "tags": [
           "Supplier"
@@ -201,6 +323,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/SupplierResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -266,6 +391,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/SupplierResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -321,6 +449,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/UserResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -391,6 +522,9 @@
                       "allOf": [
                         {
                           "$ref": "#/definitions/UserResponse"
+                        },
+                        {
+                          "$ref": "#/definitions/CommonResponseData"
                         }
                       ]
                     }
@@ -667,6 +801,11 @@
   "definitions": {
     "200": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "properties": {
         "status": {
           "type": "integer",
@@ -680,6 +819,11 @@
     },
     "201": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "properties": {
         "status": {
           "type": "integer",
@@ -693,6 +837,11 @@
     },
     "400": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "description": "Bad request",
       "properties": {
         "status": {
@@ -710,6 +859,11 @@
     },
     "404": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "description": "Not found",
       "properties": {
         "status": {
@@ -727,6 +881,11 @@
     },
     "409": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "description": "Conflict",
       "properties": {
         "status": {
@@ -744,6 +903,11 @@
     },
     "422": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "description": "Invalid input",
       "properties": {
         "status": {
@@ -778,6 +942,11 @@
     },
     "500": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
       "description": "Internal server error",
       "properties": {
         "status": {
@@ -890,6 +1059,9 @@
           "$ref": "#/definitions/Buyer"
         },
         {
+          "$ref": "#/definitions/CommonResponseData"
+        },
+        {
           "properties": {
             "status": {
               "type": "string"
@@ -911,6 +1083,9 @@
         },
         {
           "$ref": "#/definitions/CreatedBy"
+        },
+        {
+          "$ref": "#/definitions/CommonResponseData"
         },
         {
           "properties": {
@@ -980,6 +1155,14 @@
       "type": "object",
       "properties": {
         "id": {
+          "type": "string"
+        }
+      }
+    },
+    "TraceId": {
+      "type": "object",
+      "properties": {
+        "traceId": {
           "type": "string"
         }
       }
@@ -1104,6 +1287,11 @@
     "UserResponse": {
       "type": "object",
       "description": "User Info",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonResponseData"
+        }
+      ],
       "properties": {
         "id": {
           "type": "string"
@@ -1175,6 +1363,103 @@
         },
         "regionId": {
           "type": "string"
+        }
+      }
+    },
+    "ProjectRequest": {
+      "type": "object",
+      "description": "Project Request Body",
+      "required": [
+        "name",
+        "managerName",
+        "startDate",
+        "expectedEndDate",
+        "costCenter",
+        "estimatedBudget",
+        "currency",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "managerName": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+          "example": "2021-10-24T20:59:28.367Z"
+        },
+        "expectedEndDate": {
+          "type": "string",
+          "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+          "example": "2021-10-24T20:59:28.367Z"
+        },
+        "costCenter": {
+          "type": "string"
+        },
+        "estimatedBudget": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "ProjectResponse": {
+      "type": "object",
+      "description": "Project Response.",
+      "required": [
+        "name",
+        "managerName",
+        "startDate",
+        "expectedEndDate",
+        "costCenter",
+        "estimatedBudget",
+        "currency",
+        "description"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "$ref": "#/definitions/ProjectRequest"
+        },
+        {
+          "$ref": "#/definitions/CreatedBy"
+        },
+        {
+          "$ref": "#/definitions/CommonResponseData"
+        }
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "CommonResponseData": {
+      "type": "object",
+      "description": "Common response data for all the API response objects.",
+      "required": [
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+          "example": "2021-10-24T20:59:28.367Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+          "example": "2021-10-24T20:59:28.367Z"
         }
       }
     }
