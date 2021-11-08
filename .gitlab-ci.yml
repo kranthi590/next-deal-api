@@ -24,4 +24,4 @@ deploy-dev:
   only:
     - main
   script:
-    - gcloud run deploy ${SERVICE_NAME}-dev --image gcr.io/${GCP_PROJECT_ID}/${SERVICE_NAME} --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=${JWT_SECRET_KEY},JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=${MYSQL_CONNECTION},NEXT_DEAL_SERVICE_URL=${NEXT_DEAL_SERVICE_URL}" --vpc-connector=${VPC_CONNECTOR} --min-instances=${MIN_INSTANCES} --max-instances=${MAX_INSTANCES} --timeout=50 --ingress=internal-and-cloud-load-balancing
+    - gcloud run deploy ${SERVICE_NAME}-dev --image gcr.io/${GCP_PROJECT_ID}/${SERVICE_NAME} --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=${JWT_SECRET_KEY},JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=${MYSQL_CONNECTION},NEXT_DEAL_SERVICE_URL=${NEXT_DEAL_SERVICE_URL},GCP_STORAGE_SERVICE_ACCOUNT=${GCP_STORAGE_SERVICE_ACCOUNT}" --vpc-connector=${VPC_CONNECTOR} --min-instances=${MIN_INSTANCES} --max-instances=${MAX_INSTANCES} --timeout=50 --ingress=internal-and-cloud-load-balancing
