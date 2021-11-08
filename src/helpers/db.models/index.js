@@ -10,6 +10,7 @@ const { Buyers } = require('./buyers.model');
 const { Users } = require('./users.model');
 const { UsersRolesMappings } = require('./user.roles.mapping');
 const { Projects } = require('./projects');
+const { Files } = require('./files.model');
 
 Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
 Regions.belongsTo(Countries);
@@ -52,6 +53,8 @@ Suppliers.hasMany(SupplierServiceLocationsMappings, {
   targetKey: 'id',
 });
 
+Suppliers.hasMany(Files, { as: 'logo', foreignKey: 'entity_id', targetKey: 'id' });
+
 Users.belongsTo(Addresses, {
   as: 'address',
   foreignKey: 'contact_info_id',
@@ -76,4 +79,5 @@ module.exports = {
   UsersRolesMappings,
   Comunas,
   Projects,
+  Files,
 };

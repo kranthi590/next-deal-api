@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
     return next();
   } catch (err) {
-    logger.error(err);
+    logger.error('Error while validating token: ', err);
     const resp = ForbiddenResponse(INVALID_JWT_TOKEN, req.traceId);
     return res.status(resp.status).json(resp);
   }

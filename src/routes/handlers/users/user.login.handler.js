@@ -48,7 +48,7 @@ const userLoginHandler = async (req, res) => {
     }
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching user ${error}`);
+    logger.error('Error while fetching user ', error);
   }
   res.status(response.status).json(response);
 };

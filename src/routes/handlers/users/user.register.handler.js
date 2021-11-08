@@ -74,7 +74,6 @@ const registerUserHandler = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(`req.traceId: ${req.traceId}`);
     response = parseError(error, req.traceId);
     logger.error('Error while registering user', error);
   }

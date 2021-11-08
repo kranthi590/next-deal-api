@@ -1,5 +1,8 @@
+const { createBucket } = require('../../../helpers/bucket.utils');
+const { SUPPLIER_BUCKET_FORMAT } = require('../../../helpers/constants');
 const { Suppliers } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
+const generateCode = require('../../../helpers/generate.code');
 
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
@@ -54,7 +57,15 @@ const saveSupplierWithMappings = async ({
     data.contactInfo = contactInfo;
     query.include.push('contactInfo');
   }
-  return Suppliers.create(data, query);
+  const supplier = await Suppliers.create(data, query);
+  try {
+    const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
+    await createBucket(supplierBucketName);
+  } catch (error) {
+    logger.error(`Error while creating bucket: ${error}`);
+    throw error;
+  }
+  return supplier.dataValues;
 });
 
 const registerSupplier = async (req, res) => {

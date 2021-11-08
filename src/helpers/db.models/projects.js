@@ -56,7 +56,7 @@ const Projects = getConnection().define(
     },
     costCenter: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       field: 'cost_center',
     },
     currency: {

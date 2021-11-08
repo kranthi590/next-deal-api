@@ -20,7 +20,7 @@ const getBuyerHandler = async (req, res) => {
     response = OkResponse(buyer, req.traceId);
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching buyer ${error}`);
+    logger.error('Error while fetching buyer', error);
   }
   res.status(response.status).json(response);
 };

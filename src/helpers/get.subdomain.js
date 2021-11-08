@@ -8,7 +8,6 @@ const getSubDomainFromRequest = (req) => {
     return null;
   }
   const parseResult = parseDomain(req.get('nd-domain').replace('https://', ''));
-  console.log(parseResult);
   const subDomain = _.get(parseResult, 'labels[0]', null);
   if (!subDomain || _.includes(ignoredSubDomains, subDomain)) {
     return null;

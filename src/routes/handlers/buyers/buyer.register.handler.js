@@ -44,9 +44,7 @@ const saveBuyerWithMappings = async ({
     logger.error(`Error while creating bucket: ${error}`);
     throw error;
   }
-  return {
-    ...buyer.dataValues,
-  };
+  return buyer.dataValues;
 });
 
 const registerBuyerHandler = async (req, res) => {

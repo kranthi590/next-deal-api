@@ -35,7 +35,7 @@ const fetchComunasByRegion = async (req, res) => {
     );
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching comunas by region ${error}`);
+    logger.error('Error while fetching comunas by region', error);
   }
   res.status(response.status).json(response);
 };

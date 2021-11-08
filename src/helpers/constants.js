@@ -9,6 +9,7 @@ module.exports = {
   INVALID_BUYER: 'INVALID_BUYER',
   CONFLICT: 'conflict',
   BUYER_DOMAIN_BUCKET_FORMAT: 'buyer-subdomain',
+  SUPPLIER_BUCKET_FORMAT: 'supplier-bucket',
   INVALID_DOMAIN: 'INVALID_DOMAIN',
   INVALID_JWT_TOKEN: 'INVALID_JWT_TOKEN',
   BUYERS_USERS_LIMIT_EXCEEDED: 'BUYERS_USERS_LIMIT_EXCEEDED',
@@ -30,4 +31,13 @@ module.exports = {
   },
   DB_FETCH_SIZE: 10,
   DB_OFFSET_DEFAULT: 0,
+  INVALID_FILE_TYPE: 'INVALID_FILE_TYPE',
+  IMAGES_EXTENSIONS: ['image/png', 'image/jpg', 'image/jpeg'],
+  INVALID_SUPPLIER_LOGO_FILE: 'INVALID_SUPPLIER_LOGO_FILE',
+  FILE_TYPE: {
+    PROJECT: 'project',
+    QUOTATION_REQUEST: 'quotation_request',
+    QUOTATION_RESPONSE: 'quotation_response',
+    SUPPLIER_LOGO: 'supplier_logo',
+  },
 };

@@ -44,10 +44,10 @@ const init = async () => {
 
 process
   .on('unhandledRejection', (reason, p) => {
-    logger.error(`${reason} Unhandled Rejection at Promise ${p.message}`);
+    logger.error(`${reason} Unhandled Rejection at Promise`, p);
   })
   .on('uncaughtException', (err) => {
-    logger.error(`${err}Uncaught Exception thrown`);
+    logger.error('Uncaught Exception thrown', err);
     closeConnection();
     process.exit(1);
   });

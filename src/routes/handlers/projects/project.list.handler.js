@@ -22,9 +22,8 @@ const projectsListHandler = async (req, res) => {
       response = OkResponse(projects, req.traceId);
     }
   } catch (error) {
-    console.error(error);
     response = parseError(error, req.traceId);
-    logger.error(`Error while fetching projects: ${error}`);
+    logger.error('Error while fetching projects', error);
   }
   res.status(response.status).json(response);
 };

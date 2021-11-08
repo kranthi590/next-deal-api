@@ -26,7 +26,7 @@ const fetchRegionsByCountryCode = async (req, res) => {
     response = OkResponse(dbResponse, req.traceId);
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
-    logger.error(`Error while fetching country by code ${error}`);
+    logger.error('Error while fetching country by code', error);
   }
   res.status(response.status).json(response);
 };

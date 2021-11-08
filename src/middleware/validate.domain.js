@@ -14,7 +14,7 @@ const verifyDomain = (req, res, next) => {
     const resp = ForbiddenResponse(INVALID_DOMAIN, req.traceId);
     return res.status(resp.status).json(resp);
   } catch (err) {
-    logger.error(err);
+    logger.error('Error while validating domain', err);
     const resp = ForbiddenResponse(INVALID_DOMAIN, req.traceId);
     return res.status(resp.status).json(resp);
   }

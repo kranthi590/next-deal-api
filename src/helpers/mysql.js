@@ -16,13 +16,13 @@ const init = async () => {
     await connection.authenticate();
     setConnection(connection);
     require('./db.models');
-    await connection.sync({ force: false });
-    const { checkAndInsertData } = require('./master.data');
-    await checkAndInsertData();
+    // await connection.sync({ force: false });
+    // const { checkAndInsertData } = require('./master.data');
+    // await checkAndInsertData();
     logger.info('Connection has been established successfully.');
     return true;
   } catch (error) {
-    logger.error(`Unable to connect to the database:${error}`);
+    logger.error('Unable to connect to the database:', error);
     return false;
   }
 };
