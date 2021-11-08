@@ -44,7 +44,7 @@ const saveFileMeta = async ({
 const uploadSupplierLogoHandler = async (req, res) => {
   let response;
   try {
-    const isPublic = false;
+    const isPublic = true;
     const logoFile = req.files ? req.files.find((file) => file.fieldname === 'logo') : null;
     if (!req.body.supplierId) {
       response = BadRequestResponse([{
