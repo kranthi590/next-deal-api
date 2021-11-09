@@ -41,8 +41,8 @@ const uploadFile = ({
 
 const init = async () => {
   try {
-    const credentials = JSON.parse(process.env.GCP_STORAGE_SERVICE_ACCOUNT);
     if (process.env.NODE_ENV === 'develop') {
+      const credentials = JSON.parse(process.env.GCP_STORAGE_SERVICE_ACCOUNT);
       storage = new Storage({ credentials, projectId: credentials.project_id });
     } else {
       storage = new Storage();
