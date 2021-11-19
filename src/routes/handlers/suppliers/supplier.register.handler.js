@@ -25,7 +25,7 @@ const saveSupplierWithMappings = async ({
   categories,
   serviceLocations,
   type,
-}) => getConnection().transaction(async (t) => {
+}, user) => getConnection().transaction(async (t) => {
   const data = {
     legalName,
     fantasyName,
@@ -57,12 +57,15 @@ const saveSupplierWithMappings = async ({
     data.contactInfo = contactInfo;
     query.include.push('contactInfo');
   }
+  if (user && user.buyerId) {
+    data.buyerId = user.buyerId;
+  }
   const supplier = await Suppliers.create(data, query);
+  const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
   try {
-    const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
     await createBucket(supplierBucketName);
   } catch (error) {
-    logger.error(`Error while creating bucket: ${error}`);
+    logger.error(`Error while creating bucket ${supplierBucketName}: ${error}`);
     throw error;
   }
   return supplier.dataValues;
@@ -71,7 +74,7 @@ const saveSupplierWithMappings = async ({
 const registerSupplier = async (req, res) => {
   let response;
   try {
-    const result = await saveSupplierWithMappings(req.body);
+    const result = await saveSupplierWithMappings(req.body, req.user);
     response = ResourceCreatedResponse(result, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId);

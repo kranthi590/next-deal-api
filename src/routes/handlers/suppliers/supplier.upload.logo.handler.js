@@ -8,18 +8,20 @@ const { Suppliers, Files } = require('../../../helpers/db.models');
 
 const { OkResponse, BadRequestResponse } = require('../../../helpers/response.transforms');
 const { parseError } = require('../../../helpers/error.parser');
+const { generateFileURL } = require('../../../helpers/generate.file.url');
 
 const getSupplier = async (supplierId) => {
   const query = {
     where: {
       id: supplierId,
     },
+    include: ['logo'],
     exclude: ['in_charge_address_id'],
   };
   return Suppliers.findOne(query);
 };
 
-const saveFileMeta = async ({
+const saveOrUpdateFileMeta = async ({
   supplierId,
   mimeType,
   isPublic,
@@ -27,6 +29,7 @@ const saveFileMeta = async ({
   fileLocation,
   name,
   bucketName,
+  id,
 }) => {
   const data = {
     entityId: supplierId,
@@ -38,7 +41,8 @@ const saveFileMeta = async ({
     fileSize,
     bucketName,
   };
-  return Files.create(data);
+  return id ? Files.update(data, { returning: true, where: { id } })
+    : Files.create(data);
 };
 
 const uploadSupplierLogoHandler = async (req, res) => {
@@ -66,7 +70,7 @@ const uploadSupplierLogoHandler = async (req, res) => {
         folder: 'logo',
         bucketName: supplierBucketName,
       });
-      await saveFileMeta({
+      await saveOrUpdateFileMeta({
         supplierId: supplier.id,
         mimeType: logoFile.mimetype,
         isPublic,
@@ -74,8 +78,14 @@ const uploadSupplierLogoHandler = async (req, res) => {
         fileLocation,
         name: fileName,
         bucketName: supplierBucketName,
+        id: supplier.dataValues.logo[0] ? supplier.dataValues.logo[0].id : undefined,
       });
-      response = OkResponse(null, req.traceId);
+      response = OkResponse(generateFileURL([{
+        isPublic,
+        bucketName: supplierBucketName,
+        fileLocation,
+        name: fileName,
+      }]), req.traceId);
     }
   } catch (error) {
     response = parseError(error, req.traceId);

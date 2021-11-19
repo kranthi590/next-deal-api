@@ -3,6 +3,8 @@ const { buyerSchema } = require('./register-buyer');
 const { userSchema } = require('./register-user');
 const { loginUserSchema } = require('./login-user');
 const { projectCreationSchema } = require('./project-create');
+const { createQuotationRequestSchema } = require('./quotation-request-create');
+const { createQuotationResponseSchema } = require('./quotation-response-create');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -14,8 +16,14 @@ const getValidationSchema = (routePath) => {
       return userSchema;
     case routePath === '/api/v1/users/login':
       return loginUserSchema;
-    case /^\/api\/v1\/buyers\/\d+\/projects/.test(routePath):
+    case routePath === '/api/v1/projects':
       return projectCreationSchema;
+    case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
+      return createQuotationRequestSchema;
+    case /^\/api\/v1\/projects\/\d+\/quotations\/\d+\/responses$/.test(routePath):
+      return createQuotationResponseSchema;
+    case /^\/api\/v1\/buyers\/\d+\/suppliers$/.test(routePath):
+      return supplierSchema;
     default:
       throw new Error('NO_SCHEMA');
   }

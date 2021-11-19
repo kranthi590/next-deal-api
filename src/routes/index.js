@@ -24,6 +24,13 @@ const { getFileHandler } = require('./handlers/files/file.get.handler');
 
 const { projectCreationHandler } = require('./handlers/projects/project.create.handler');
 const { projectsListHandler } = require('./handlers/projects/project.list.handler');
+const { getProjectHandler } = require('./handlers/projects/project.get.handler');
+
+const { quotationCreationHandler } = require('./handlers/quotations/quotation.request.create.handler');
+const { quotationsListHandler } = require('./handlers/quotations/quotation.requests.list.handler');
+const { quotationResponseCreationHandler } = require('./handlers/quotations/quotation.response.create.handler');
+const { quotationResponsesListHandler } = require('./handlers/quotations/quotation.responses.list.handler');
+const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.get.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -32,12 +39,14 @@ router.get(['/', '/health'], (req, res) => {
 
 // Supplier routes
 router.post('/suppliers', validateMiddleware, registerSupplier);
-router.get('/supplier/:supplierId', getSupplierHandler);
+router.get('/suppliers/:supplierId', getSupplierHandler);
 router.post('/suppliers/files', multerUploadMiddleware, uploadSupplierLogoHandler);
 
 // Buyer routes
 router.post('/buyers', validateMiddleware, registerBuyerHandler);
 router.get('/buyers/:buyerId', getBuyerHandler);
+router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandler);
+router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
 
 // User routes
 router.post('/users', validateMiddleware, registerUserHandler);
@@ -49,21 +58,40 @@ router.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
 router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
 
 // Projects routes
-router.post(
-  '/buyers/:buyerId/projects',
-  validateMiddleware,
-  authMiddleware,
-  verifyDomainMiddleware,
-  projectCreationHandler,
-);
-router.get(
-  '/buyers/:buyerId/projects',
-  authMiddleware,
-  verifyDomainMiddleware,
-  projectsListHandler,
-);
+router.post('/projects', validateMiddleware, authMiddleware,
+  verifyDomainMiddleware, projectCreationHandler);
+
+router.get('/projects', authMiddleware, verifyDomainMiddleware, projectsListHandler);
+
+router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getProjectHandler);
 
 // Files Routes
 router.get('/files/:fileId/:fileName', getFileHandler);
+
+// Quotations routes
+router.post('/projects/:projectId/quotations', validateMiddleware, authMiddleware,
+  verifyDomainMiddleware, quotationCreationHandler);
+
+router.get(
+  '/projects/:projectId/quotations',
+  authMiddleware,
+  verifyDomainMiddleware,
+  quotationsListHandler,
+);
+
+router.post(
+  '/quotations/:quotationRequestId/responses',
+  validateMiddleware,
+  authMiddleware,
+  verifyDomainMiddleware,
+  quotationResponseCreationHandler,
+);
+
+router.get(
+  '/quotations/:quotationRequestId/responses',
+  authMiddleware,
+  verifyDomainMiddleware,
+  quotationResponsesListHandler,
+);
 
 module.exports = router;

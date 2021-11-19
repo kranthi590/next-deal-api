@@ -1,6 +1,5 @@
-const { Countries, Regions, Comunas } = require('./countries.model');
-
 const { Roles } = require('./roles.model');
+const { Countries, Regions, Comunas } = require('./countries.model');
 const { Suppliers } = require('./suppliers.model');
 const { Addresses } = require('./addresses.model');
 const { SupplierCategoryMappings } = require('./supplier.category.mappings.model');
@@ -11,6 +10,9 @@ const { Users } = require('./users.model');
 const { UsersRolesMappings } = require('./user.roles.mapping');
 const { Projects } = require('./projects');
 const { Files } = require('./files.model');
+const { QuotationsRequest } = require('./quotations.request.model');
+const { QuotationsResponse } = require('./quotations.response.model');
+const { QuotationToSupplierMappings } = require('./quotation.supplier.mappings.model');
 
 Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
 Regions.belongsTo(Countries);
@@ -64,11 +66,21 @@ Users.belongsTo(Addresses, {
 Users.hasMany(UsersRolesMappings, { as: 'roleMap', foreignKey: 'user_id', targetKey: 'id' });
 Users.belongsTo(Buyers, { as: 'buyer', foreignKey: 'buyer_id', targetKey: 'id' });
 Buyers.hasMany(Users);
+QuotationsRequest.belongsTo(Projects, { as: 'project', foreignKey: 'project_id', targetKey: 'id' });
+Projects.hasMany(QuotationsRequest);
+
+QuotationsResponse.belongsTo(QuotationsRequest, { as: 'quotation', foreignKey: 'quotation_request_id', targetKey: 'id' });
+QuotationsRequest.hasMany(QuotationsResponse);
+QuotationsRequest.hasMany(QuotationToSupplierMappings, {
+  as: 'suppliers',
+  foreignKey: 'quotation_request_id',
+  targetKey: 'id',
+});
 
 module.exports = {
+  Roles,
   Countries,
   Regions,
-  Roles,
   Suppliers,
   Addresses,
   SupplierCategoryMappings,
@@ -76,8 +88,10 @@ module.exports = {
   Categories,
   Buyers,
   Users,
-  UsersRolesMappings,
   Comunas,
   Projects,
   Files,
+  QuotationsRequest,
+  QuotationsResponse,
+  UsersRolesMappings,
 };

@@ -1,17 +1,17 @@
 const Sequelize = require('sequelize');
-const { CURRENCY_TYPE, PROJECT_STATUS } = require('../constants');
+const { CURRENCY_TYPE, QUOTATION_STATUS } = require('../constants');
 const { getConnection } = require('../mysql');
 
-const Projects = getConnection().define(
-  'projects',
+const QuotationsRequest = getConnection().define(
+  'quotation_requests',
   {
-    buyerId: {
+    projectId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      field: 'buyer_id',
+      field: 'project_id',
       foreignKey: true,
       references: {
-        model: 'buyers',
+        model: 'projects',
         key: 'id',
       },
     },
@@ -28,11 +28,6 @@ const Projects = getConnection().define(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
-    managerName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      field: 'manager_name',
     },
     code: {
       type: Sequelize.STRING,
@@ -54,10 +49,10 @@ const Projects = getConnection().define(
       allowNull: true,
       field: 'actual_end_date',
     },
-    costCenter: {
-      type: Sequelize.STRING,
+    estimatedBudget: {
+      type: Sequelize.INTEGER,
       allowNull: true,
-      field: 'cost_center',
+      field: 'estimated_budget',
     },
     currency: {
       type: Sequelize.STRING,
@@ -65,20 +60,25 @@ const Projects = getConnection().define(
       field: 'currency',
       isIn: Object.values(CURRENCY_TYPE),
     },
-    estimatedBudget: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      field: 'estimated_budget',
-    },
     createdAt: {
       type: Sequelize.DATE,
       field: 'created_at',
+    },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      field: 'description',
+    },
+    comments: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      field: 'comments',
     },
     status: {
       type: Sequelize.STRING,
       allowNull: false,
       field: 'status',
-      isIn: Object.values(PROJECT_STATUS),
+      isIn: Object.values(QUOTATION_STATUS),
     },
     updatedAt: {
       type: Sequelize.DATE,
@@ -90,9 +90,9 @@ const Projects = getConnection().define(
       field: 'additional_data',
     },
   },
-  { timestamps: true, tableName: 'projects' },
+  { timestamps: true, tableName: 'quotation_requests' },
 );
 
 module.exports = {
-  Projects,
+  QuotationsRequest,
 };

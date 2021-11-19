@@ -14,6 +14,7 @@ module.exports = {
   INVALID_JWT_TOKEN: 'INVALID_JWT_TOKEN',
   BUYERS_USERS_LIMIT_EXCEEDED: 'BUYERS_USERS_LIMIT_EXCEEDED',
   ER_DUP_ENTRY_PROJECT_CODE: 'ER_DUP_ENTRY_PROJECT_CODE',
+  ER_DUP_ENTRY_QUOTATION_CODE: 'ER_DUP_ENTRY_QUOTATION_CODE',
   BUYER_STATUS: {
     ACTIVE: 'active',
     IN_ACTIVE: 'inactive',
@@ -40,4 +41,13 @@ module.exports = {
     QUOTATION_RESPONSE: 'quotation_response',
     SUPPLIER_LOGO: 'supplier_logo',
   },
+  QUOTATION_STATUS: {
+    CREATED: 'created',
+    IN_PROGRESS: 'in_progress',
+    AWARDED: 'awarded',
+    COMPLETED: 'completed',
+    ABORTED: 'aborted',
+  },
+  INVALID_PROJECT_ID: 'INVALID_PROJECT_ID',
+  INVALID_QUOTATION_STATUS: 'INVALID_QUOTATION_STATUS',
 };

@@ -18,14 +18,14 @@ const getUser = async (userId) => {
 const getUserHandler = async (req, res) => {
   let response;
   try {
-    if (req.user.userId !== req.params.userId) {
+    if (req.user.userId.toString() !== req.params.userId) {
       response = UnauthorizedResponse(INVALID_USER_ACCOUNT, req.traceId);
     } else {
       const user = await getUser(req.user.userId);
       response = OkResponse(user, req.traceId);
     }
   } catch (error) {
-    response = InternalServerErrorResponse('', req.traceId);
+    response = InternalServerErrorResponse(error, req.traceId);
     logger.error('Error while fetching user', error);
   }
   res.status(response.status).json(response);

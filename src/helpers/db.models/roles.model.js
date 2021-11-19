@@ -19,8 +19,14 @@ const Roles = getConnection().define(
       allowNull: false,
     },
   },
-  { timestamps: false, tableName: 'roles' },
+  {
+    timestamps: false,
+    tableName: 'roles',
+    freezeTableName: true,
+    paranoid: true,
+  },
 );
+Roles.sync({ force: false });
 
 module.exports = {
   Roles,

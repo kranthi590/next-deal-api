@@ -4,6 +4,16 @@ const { getConnection } = require('../mysql');
 const Suppliers = getConnection().define(
   'suppliers',
   {
+    buyerId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      field: 'buyer_id',
+      foreignKey: true,
+      references: {
+        model: 'buyers',
+        key: 'id',
+      },
+    },
     rut: {
       type: Sequelize.STRING,
       allowNull: false,

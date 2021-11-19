@@ -1,8 +1,9 @@
 const logger = require('../../../helpers/logger');
 
 const { Suppliers } = require('../../../helpers/db.models');
-const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
+const { InternalServerErrorResponse, OkResponse, UnauthorizedResponse } = require('../../../helpers/response.transforms');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
+const { INVALID_SUPPLIER_ID } = require('../../../helpers/constants');
 
 const getSupplier = async (supplierId) => {
   const query = {
@@ -20,10 +21,14 @@ const getSupplierHandler = async (req, res) => {
   try {
     const data = await getSupplier(req.params.supplierId);
     const supplier = JSON.parse(JSON.stringify(data));
-    if (supplier.logo) {
-      supplier.logo = generateFileURL(supplier.logo);
+    if (!supplier) {
+      response = UnauthorizedResponse(INVALID_SUPPLIER_ID, req.traceId);
+    } else {
+      if (supplier && supplier.logo) {
+        supplier.logo = generateFileURL(supplier.logo);
+      }
+      response = OkResponse(supplier, req.traceId);
     }
-    response = OkResponse(supplier, req.traceId);
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);
     logger.error('Error while fetching supplier', error);

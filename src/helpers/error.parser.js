@@ -13,11 +13,14 @@ const {
   INVALID_SUPPLIER_ID,
   INVALID_BUYER,
   ER_DUP_ENTRY_PROJECT_CODE,
+  INVALID_PROJECT_ID,
+  ER_DUP_ENTRY_QUOTATION_CODE,
 } = require('./constants');
 
-const parseError = (error, traceId) => {
+const parseError = (error, traceId, context) => {
   if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.code', false)) {
-    return ConflictResponse(ER_DUP_ENTRY_PROJECT_CODE, traceId);
+    return ConflictResponse(context === 'quotation_create'
+      ? ER_DUP_ENTRY_QUOTATION_CODE : ER_DUP_ENTRY_PROJECT_CODE, traceId);
   }
   if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.rut', false)) {
     return ConflictResponse(ER_DUP_ENTRY_RUT, traceId);
@@ -46,7 +49,16 @@ const parseError = (error, traceId) => {
   ) {
     return ForbiddenResponse(INVALID_BUYER, traceId);
   }
-  return InternalServerErrorResponse('', traceId);
+  if (
+    _.get(error, 'original.errno', null) === 1452
+    && _.get(error, 'fields[0]', null) === 'project_id'
+  ) {
+    return ForbiddenResponse(INVALID_PROJECT_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_PROJECT_ID) {
+    return ForbiddenResponse(INVALID_PROJECT_ID, traceId);
+  }
+  return InternalServerErrorResponse(error, traceId);
 };
 
 module.exports = {
