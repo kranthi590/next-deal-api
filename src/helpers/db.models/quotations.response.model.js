@@ -90,6 +90,7 @@ const QuotationsResponse = getConnection().define(
       type: Sequelize.BOOLEAN,
       allowNull: false,
       default: false,
+      field: 'awarded',
     },
     updatedAt: {
       type: Sequelize.DATE,

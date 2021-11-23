@@ -1,13 +1,17 @@
 const axios = require('axios');
 
-const projectsData = require('./projects.json');
+const quotationRequests = require('./quotation_requests.json');
 
 const API_URL = 'http://localhost:3000/api/v1';
+
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const bulkInset = async () => {
   try {
     const res = await axios.post(`${API_URL}/users/login`, {
-      emailId: 'kk@gmail.com',
+      emailId: 'pasala.kk@gmail.com',
       password: 'konahamaru',
     });
     const {
@@ -15,16 +19,16 @@ const bulkInset = async () => {
         data: { token },
       },
     } = res;
-    projectsData.forEach(async (project) => {
+    [quotationRequests[0]].forEach(async (project) => {
       axios
         .post(
-          `${API_URL}/projects`,
+          `${API_URL}/projects/${randomInteger(90, 101)}/quotations`,
           { ...project, currency: 'clp' },
           {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,
-              'nd-domain': 'stim.localhost',
+              'nd-domain': 'housestarcks-local1.localhost',
             },
           },
         )

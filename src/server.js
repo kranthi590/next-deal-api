@@ -8,6 +8,7 @@ const swaggerDocument = require('./swagger.json');
 const { init: initMysql, closeConnection } = require('./helpers/mysql');
 const logger = require('./helpers/logger');
 const { initStorage } = require('./helpers/bucket.utils');
+const { OkResponse } = require('./helpers/response.transforms');
 
 const app = express();
 app.use(
@@ -34,6 +35,10 @@ const init = async () => {
   const [isConnectedToMysql, isConnectedToGCPStorage] = await Promise.all(promises);
   if (isConnectedToMysql && isConnectedToGCPStorage) {
     const v1Routes = require('./routes');
+    app.get(['/', '/health'], (req, res) => {
+      const response = OkResponse(null, req.traceId, 'OK Response');
+      res.status(response.status).json(response);
+    });
     app.use('/api/v1', v1Routes);
     app.listen(port, () => logger.info(`Started server on port ${port}`));
   } else {

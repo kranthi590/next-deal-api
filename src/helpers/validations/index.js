@@ -20,7 +20,7 @@ const getValidationSchema = (routePath) => {
       return projectCreationSchema;
     case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
       return createQuotationRequestSchema;
-    case /^\/api\/v1\/projects\/\d+\/quotations\/\d+\/responses$/.test(routePath):
+    case /^\/api\/v1\/quotations\/\d+\/responses$/.test(routePath):
       return createQuotationResponseSchema;
     case /^\/api\/v1\/buyers\/\d+\/suppliers$/.test(routePath):
       return supplierSchema;

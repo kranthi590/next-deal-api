@@ -15,6 +15,7 @@ const {
   ER_DUP_ENTRY_PROJECT_CODE,
   INVALID_PROJECT_ID,
   ER_DUP_ENTRY_QUOTATION_CODE,
+  INVALID_QUOTATION_ID,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -55,8 +56,23 @@ const parseError = (error, traceId, context) => {
   ) {
     return ForbiddenResponse(INVALID_PROJECT_ID, traceId);
   }
+  if (
+    _.get(error, 'original.errno', null) === 1452
+    && _.get(error, 'fields[0]', null) === 'quotation_request_id'
+  ) {
+    return ForbiddenResponse(INVALID_QUOTATION_ID, traceId);
+  }
+  if (
+    _.get(error, 'original.errno', null) === 1452
+    && _.get(error, 'fields[0]', null) === 'supplier_id'
+  ) {
+    return ForbiddenResponse(INVALID_SUPPLIER_ID, traceId);
+  }
   if (_.get(error, 'message', null) === INVALID_PROJECT_ID) {
     return ForbiddenResponse(INVALID_PROJECT_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_QUOTATION_ID) {
+    return ForbiddenResponse(INVALID_QUOTATION_ID, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };

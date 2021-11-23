@@ -72,10 +72,13 @@ Projects.hasMany(QuotationsRequest);
 QuotationsResponse.belongsTo(QuotationsRequest, { as: 'quotation', foreignKey: 'quotation_request_id', targetKey: 'id' });
 QuotationsRequest.hasMany(QuotationsResponse);
 QuotationsRequest.hasMany(QuotationToSupplierMappings, {
-  as: 'suppliers',
+  as: 'suppliersMapping',
   foreignKey: 'quotation_request_id',
   targetKey: 'id',
 });
+
+QuotationsResponse.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
+QuotationsResponse.belongsTo(QuotationToSupplierMappings, { as: 'quotation_mapping', foreignKey: 'quotation_request_id', targetKey: 'quotation_request_id' });
 
 module.exports = {
   Roles,

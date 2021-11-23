@@ -10,7 +10,7 @@ const { OkResponse, ForbiddenResponse } = require('../../../helpers/response.tra
 const saveQuotationWithMappings = async (data) => getConnection().transaction(async (t) => {
   const quotation = await QuotationsRequest.create(data, {
     transaction: t,
-    include: ['suppliers'],
+    include: ['suppliersMapping'],
   });
   return quotation.dataValues;
 });
@@ -36,7 +36,7 @@ const quotationCreationHandler = async (req, res) => {
       where: Sequelize.and(
         { buyerId: req.user.buyerId },
         Sequelize.or(
-          { id: suppliers.sort() },
+          { id: suppliers.sort((a, b) => a - b) },
         ),
       ),
       attributes: ['id'],
@@ -58,7 +58,7 @@ const quotationCreationHandler = async (req, res) => {
         description,
         createdBy: req.user.userId,
         status: QUOTATION_STATUS.CREATED,
-        suppliers: buyersSuppliers.map((buyersSupplier) => ({
+        suppliersMapping: buyersSuppliers.map((buyersSupplier) => ({
           supplier_id: buyersSupplier.id,
         })),
       });

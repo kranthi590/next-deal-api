@@ -31,6 +31,7 @@ const { quotationsListHandler } = require('./handlers/quotations/quotation.reque
 const { quotationResponseCreationHandler } = require('./handlers/quotations/quotation.response.create.handler');
 const { quotationResponsesListHandler } = require('./handlers/quotations/quotation.responses.list.handler');
 const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.get.handler');
+const { getQuotationHandler } = require('./handlers/quotations/quotation.requests.get.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -77,6 +78,13 @@ router.get(
   authMiddleware,
   verifyDomainMiddleware,
   quotationsListHandler,
+);
+
+router.get(
+  '/quotations/:quotationRequestId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  getQuotationHandler,
 );
 
 router.post(

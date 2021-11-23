@@ -36,7 +36,7 @@ const quotationResponseCreationHandler = async (req, res) => {
       projectId,
       quotationRequestId,
       createdBy: req.user.userId,
-      awarded: false,
+      isAwarded: false,
     });
     response = OkResponse(quotation, req.traceId);
     response = OkResponse(null, req.traceId);

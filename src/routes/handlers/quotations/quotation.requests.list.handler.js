@@ -3,6 +3,7 @@ const {
   DB_FETCH_SIZE, DB_OFFSET_DEFAULT, QUOTATION_STATUS, INVALID_QUOTATION_STATUS,
 } = require('../../../helpers/constants');
 const { QuotationsRequest, QuotationsResponse } = require('../../../helpers/db.models');
+const { QuotationToSupplierMappings } = require('../../../helpers/db.models/quotation.supplier.mappings.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse, BadRequestResponse } = require('../../../helpers/response.transforms');
@@ -24,6 +25,7 @@ const quotationsListHandler = async (req, res) => {
       const quotations = await QuotationsRequest.findAndCountAll({
         attributes: ['name', 'id', 'status', 'startDate', 'actualEndDate', 'expectedEndDate', 'additionalData',
           [Sequelize.fn('COUNT', Sequelize.col('quotation_responses.id')), 'quotationsCount'],
+          [Sequelize.fn('COUNT', Sequelize.col('suppliersMapping.id')), 'suppliersCount'],
         ],
         where,
         limit,
@@ -34,7 +36,11 @@ const quotationsListHandler = async (req, res) => {
             model: QuotationsResponse,
             attributes: [],
           },
-          'suppliers',
+          {
+            model: QuotationToSupplierMappings,
+            as: 'suppliersMapping',
+            attributes: [],
+          },
         ],
         group: ['quotation_requests.id'],
         subQuery: false,
