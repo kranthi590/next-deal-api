@@ -7,14 +7,15 @@ stages:
   - deploy-staging
 
 image: google/cloud-sdk:alpine
-before_script:
-    - gcloud config set project ${GCP_PROJECT_ID}
-    - gcloud auth activate-service-account --key-file ${GCP_SERVICE_ACCOUNT_DEPLOY}
 
 build:
+    environment: staging
     stage: build
     only:
       - main
+    before_script:
+      - gcloud config set project ${GCP_PROJECT_ID}
+      - gcloud auth activate-service-account --key-file ${GCP_SERVICE_ACCOUNT_DEPLOY}
     script:
       - gcloud builds submit --tag gcr.io/${GCP_PROJECT_ID_IMAGES}/${SERVICE_NAME}
 
@@ -23,6 +24,9 @@ deploy-dev:
   stage: deploy-dev
   only:
     - main
+  before_script:
+      - gcloud config set project ${GCP_PROJECT_ID}
+      - gcloud auth activate-service-account --key-file ${GCP_SERVICE_ACCOUNT_DEPLOY}
   script:
     - gcloud run deploy ${SERVICE_NAME}-dev --image gcr.io/${GCP_PROJECT_ID_IMAGES}/${SERVICE_NAME} --service-account=${GCP_SERVICE_ACCOUNT_API} --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=${JWT_SECRET_KEY},JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=${MYSQL_CONNECTION},NEXT_DEAL_SERVICE_URL=${NEXT_DEAL_SERVICE_URL}" --vpc-connector=${VPC_CONNECTOR} --min-instances=${MIN_INSTANCES} --max-instances=${MAX_INSTANCES} --timeout=50 --ingress=internal-and-cloud-load-balancing
 
@@ -33,6 +37,7 @@ deploy-staging:
     - main
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   before_script:
     - gcloud config set project ${GCP_PROJECT_ID}
     - gcloud auth activate-service-account --key-file ${GCP_SERVICE_ACCOUNT_DEPLOY}
@@ -40,6 +45,11 @@ deploy-staging:
 >>>>>>> d6694b4 (adding staging deployment)
 =======
 >>>>>>> 1434cf7 (adding staging deployment)
+=======
+  before_script:
+      - gcloud config set project ${GCP_PROJECT_ID}
+      - gcloud auth activate-service-account --key-file ${GCP_SERVICE_ACCOUNT_DEPLOY}
+>>>>>>> 50d8cae (adding staging deployment)
   script:
     - gcloud run deploy ${SERVICE_NAME}-staging --image gcr.io/${GCP_PROJECT_ID_IMAGES}/${SERVICE_NAME} --service-account=${GCP_SERVICE_ACCOUNT_API} --region=us-central1 --platform managed --allow-unauthenticated --set-env-vars="JWT_SECRET_KEY=${JWT_SECRET_KEY},JWT_SECRET_KEY_EXPIRE=1d,MYSQL_CONNECTION=${MYSQL_CONNECTION},NEXT_DEAL_SERVICE_URL=${NEXT_DEAL_SERVICE_URL}" --vpc-connector=${VPC_CONNECTOR} --min-instances=${MIN_INSTANCES} --max-instances=${MAX_INSTANCES} --timeout=50 --ingress=internal-and-cloud-load-balancing
   when: manual
