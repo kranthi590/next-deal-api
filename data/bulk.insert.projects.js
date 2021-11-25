@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const projectsData = require('./projects.json');
+const { init: initMysql } = require('../src/helpers/mysql');
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -15,16 +16,21 @@ const bulkInset = async () => {
         data: { token },
       },
     } = res;
+    await initMysql();
+    const { Buyers } = require('../src/helpers/db.models');
+    const buyers = await Buyers.findAll();
+    const buyerIds = buyers.map((buyer) => buyer.id);
+    console.log(buyerIds);
     projectsData.forEach(async (project) => {
       axios
         .post(
           `${API_URL}/projects`,
-          { ...project, currency: 'clp' },
+          { ...project, currency: 'clp', buyerId: buyerIds[Math.floor(Math.random() * buyerIds.length)] },
           {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,
-              'nd-domain': 'stim.localhost',
+              'nd-domain': 'livefish.localhost',
             },
           },
         )

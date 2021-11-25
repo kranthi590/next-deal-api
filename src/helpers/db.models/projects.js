@@ -37,7 +37,6 @@ const Projects = getConnection().define(
     code: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
     startDate: {
       type: Sequelize.DATE,
@@ -90,7 +89,13 @@ const Projects = getConnection().define(
       field: 'additional_data',
     },
   },
-  { timestamps: true, tableName: 'projects' },
+  {
+    timestamps: true,
+    tableName: 'projects',
+    indexes: [
+      { fields: ['buyer_id', 'code'], unique: true },
+    ],
+  },
 );
 
 module.exports = {

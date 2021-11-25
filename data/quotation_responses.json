@@ -1,0 +1,129 @@
+[{
+  "netWorth": 82942,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "3-310 - Expansion Joints",
+  "deliveryDate": "1/3/2021",
+  "validityDate": "12/23/2020",
+  "description": "Unsp car occupant injured in collision w SUV nontraf, init"
+}, {
+  "netWorth": 36753,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "11-900 - Exhibit Equipment",
+  "deliveryDate": "7/18/2021",
+  "validityDate": "10/18/2021",
+  "description": "Explosion of explosive gases, subsequent encounter"
+}, {
+  "netWorth": 56104,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "7-400 - Roofing and Siding Panels",
+  "deliveryDate": "4/26/2021",
+  "validityDate": "4/7/2021",
+  "description": "Aneurysmal bone cyst, right lower leg"
+}, {
+  "netWorth": 69430,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "8-500 - Windows",
+  "deliveryDate": "11/14/2021",
+  "validityDate": "12/24/2020",
+  "description": "Oth postproc complications and disorders of nervous sys"
+}, {
+  "netWorth": 81997,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "2-815 - Fountains",
+  "deliveryDate": "3/2/2021",
+  "validityDate": "11/24/2021",
+  "description": "Poisoning by oth systemic anti-infect/parasit, assault, subs"
+}, {
+  "netWorth": 64025,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "9-050 - Basic Finish Materials and Methods",
+  "deliveryDate": "1/9/2021",
+  "validityDate": "4/30/2021",
+  "description": "Balloon collision injuring occupant, subsequent encounter"
+}, {
+  "netWorth": 61255,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "15-200 - Process Piping",
+  "deliveryDate": "11/19/2021",
+  "validityDate": "8/13/2021",
+  "description": "Nondisp fx of lower epiphysis (separation) of r femur, init"
+}, {
+  "netWorth": 74108,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "10-260 - Wall and Corner Guards",
+  "deliveryDate": "9/22/2021",
+  "validityDate": "1/4/2021",
+  "description": "Nondisp Zone I fracture of sacrum, subs for fx w nonunion"
+}, {
+  "netWorth": 90861,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "13 - Special Construction",
+  "deliveryDate": "4/7/2021",
+  "validityDate": "2/18/2021",
+  "description": "Unsp injury of peroneal artery, right leg, subs encntr"
+}, {
+  "netWorth": 57203,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "15-800 - Air Distribution",
+  "deliveryDate": "7/13/2021",
+  "validityDate": "7/30/2021",
+  "description": "Poisn by local antifung/infect/inflamm drugs, assault, subs"
+}, {
+  "netWorth": 4601,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "3-330 - Poured Concrete Basement Walls",
+  "deliveryDate": "11/20/2021",
+  "validityDate": "8/28/2021",
+  "description": "Major laceration of kidney"
+}, {
+  "netWorth": 22013,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "3-210 - Cast-In-Place Concrete",
+  "deliveryDate": "10/13/2021",
+  "validityDate": "11/13/2021",
+  "description": "Toxic effects of other corrosive organic compounds"
+}, {
+  "netWorth": 45516,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "9-680 - Carpet",
+  "deliveryDate": "6/28/2021",
+  "validityDate": "2/16/2021",
+  "description": "Prsn brd/alit mtrcy injured pick-up truck, pk-up/van, init"
+}, {
+  "netWorth": 30283,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "8-100 - Doors",
+  "deliveryDate": "12/20/2020",
+  "validityDate": "11/21/2021",
+  "description": "Subluxation of distal interphalangeal joint of l idx fngr"
+}, {
+  "netWorth": 74955,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "13-230 - Digester Covers and Appurtenances",
+  "deliveryDate": "12/11/2020",
+  "validityDate": "2/20/2021",
+  "description": "Cervical disc disorder with radiculopathy"
+}, {
+  "netWorth": 88926,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "4 - Masonry",
+  "deliveryDate": "4/29/2021",
+  "validityDate": "6/9/2021",
+  "description": "Toxic effect of contact w unsp venomous animal, accidental"
+}]

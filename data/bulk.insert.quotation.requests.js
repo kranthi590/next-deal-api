@@ -1,17 +1,15 @@
 const axios = require('axios');
 
 const quotationRequests = require('./quotation_requests.json');
+const { init: initMysql } = require('../src/helpers/mysql');
 
 const API_URL = 'http://localhost:3000/api/v1';
 
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const bulkInset = async () => {
   try {
+    const buyerId = 20;
     const res = await axios.post(`${API_URL}/users/login`, {
-      emailId: 'pasala.kk@gmail.com',
+      emailId: 'kk@gmail.com',
       password: 'konahamaru',
     });
     const {
@@ -19,16 +17,32 @@ const bulkInset = async () => {
         data: { token },
       },
     } = res;
-    [quotationRequests[0]].forEach(async (project) => {
+    await initMysql();
+    const { Suppliers, Projects } = require('../src/helpers/db.models');
+    const suppliers = await Suppliers.findAll({ where: { buyerId } });
+    const supplierIds = suppliers.map((buyer) => buyer.id);
+    console.log(supplierIds);
+
+    const projects = await Projects.findAll({ where: { buyerId } });
+    const projectIds = projects.map((buyer) => buyer.id);
+    console.log(projectIds);
+    quotationRequests.forEach(async (quotationRequest) => {
       axios
         .post(
-          `${API_URL}/projects/${randomInteger(90, 101)}/quotations`,
-          { ...project, currency: 'clp' },
+          `${API_URL}/projects/${projectIds[Math.floor(Math.random() * projectIds.length)]}/quotations`,
+          {
+            ...quotationRequest,
+            startDate: new Date(),
+            expectedEndDate: new Date(),
+            currency: 'clp',
+            suppliers: supplierIds,
+            buyerId,
+          },
           {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,
-              'nd-domain': 'housestarcks-local1.localhost',
+              'nd-domain': 'quimba.localhost',
             },
           },
         )

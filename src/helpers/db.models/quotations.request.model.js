@@ -32,7 +32,6 @@ const QuotationsRequest = getConnection().define(
     code: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
     startDate: {
       type: Sequelize.DATE,
@@ -90,7 +89,13 @@ const QuotationsRequest = getConnection().define(
       field: 'additional_data',
     },
   },
-  { timestamps: true, tableName: 'quotation_requests' },
+  {
+    timestamps: true,
+    tableName: 'quotation_requests',
+    indexes: [
+      { fields: ['project_id', 'code'], unique: true },
+    ],
+  },
 );
 
 module.exports = {
