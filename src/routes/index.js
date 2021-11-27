@@ -33,6 +33,9 @@ const { quotationResponsesListHandler } = require('./handlers/quotations/quotati
 const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.get.handler');
 const { getQuotationHandler } = require('./handlers/quotations/quotation.requests.get.handler');
 const { getQuotationAssignedForResponseHandler } = require('./handlers/quotations/quotation.response.assigned.handler');
+const { awardQuotationHandler } = require('./handlers/quotations/quotation.award.handler');
+const { completeQuotationHandler } = require('./handlers/quotations/quotation.complete.handler');
+const { getQuotationResponseHandler } = require('./handlers/quotations/quotation.response.get.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -104,10 +107,31 @@ router.get(
 );
 
 router.get(
+  '/quotations/responses/:quotationResponseId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  getQuotationResponseHandler,
+);
+
+router.get(
   '/quotations/:quotationRequestId/assignedForResponse',
   authMiddleware,
   verifyDomainMiddleware,
   getQuotationAssignedForResponseHandler,
 );
 
+router.post(
+  '/quotations/:quotationResponseId/award',
+  authMiddleware,
+  verifyDomainMiddleware,
+  awardQuotationHandler,
+);
+
+router.post(
+  '/quotations/:quotationResponseId/complete',
+  validateMiddleware,
+  authMiddleware,
+  verifyDomainMiddleware,
+  completeQuotationHandler,
+);
 module.exports = router;

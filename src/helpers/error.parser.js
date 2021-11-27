@@ -16,6 +16,10 @@ const {
   INVALID_PROJECT_ID,
   ER_DUP_ENTRY_QUOTATION_CODE,
   INVALID_QUOTATION_ID,
+  INVALID_QUOTATION_RESPONSE_ID,
+  QUOTATION_ALREADY_AWARDED,
+  QUOTATION_ALREADY_COMPLETED,
+  QUOTATION_NOT_AWARDED,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -73,6 +77,21 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === INVALID_QUOTATION_ID) {
     return ForbiddenResponse(INVALID_QUOTATION_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_QUOTATION_RESPONSE_ID) {
+    return ForbiddenResponse(INVALID_QUOTATION_RESPONSE_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_BUYER_ID) {
+    return ForbiddenResponse(INVALID_BUYER_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_ALREADY_AWARDED) {
+    return ForbiddenResponse(QUOTATION_ALREADY_AWARDED, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_ALREADY_COMPLETED) {
+    return ForbiddenResponse(QUOTATION_ALREADY_COMPLETED, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_NOT_AWARDED) {
+    return ForbiddenResponse(QUOTATION_NOT_AWARDED, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };

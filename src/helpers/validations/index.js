@@ -5,6 +5,7 @@ const { loginUserSchema } = require('./login-user');
 const { projectCreationSchema } = require('./project-create');
 const { createQuotationRequestSchema } = require('./quotation-request-create');
 const { createQuotationResponseSchema } = require('./quotation-response-create');
+const { completeQuotationSchema } = require('./complete-quotation');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -24,6 +25,8 @@ const getValidationSchema = (routePath) => {
       return createQuotationResponseSchema;
     case /^\/api\/v1\/buyers\/\d+\/suppliers$/.test(routePath):
       return supplierSchema;
+    case /^\/api\/v1\/quotations\/\d+\/complete$/.test(routePath):
+      return completeQuotationSchema;
     default:
       throw new Error('NO_SCHEMA');
   }

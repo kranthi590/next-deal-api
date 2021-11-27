@@ -7,10 +7,10 @@ const API_URL = 'http://localhost:3000/api/v1';
 
 const bulkInset = async () => {
   try {
-    const buyerId = 20;
+    const buyerId = 12;
     const res = await axios.post(`${API_URL}/users/login`, {
-      emailId: 'kk@gmail.com',
-      password: 'konahamaru',
+      emailId: 'jmccorry1@trellian.com',
+      password: 'Fe1bVI1BpX',
     });
     const {
       data: {
@@ -42,7 +42,7 @@ const bulkInset = async () => {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,
-              'nd-domain': 'quimba.localhost',
+              'nd-domain': 'podcat.localhost',
             },
           },
         )

@@ -23,10 +23,12 @@ const quotationsListHandler = async (req, res) => {
       const limit = req.query.size ? parseInt(req.query.size, 10) : DB_FETCH_SIZE;
       const offset = req.query.size ? parseInt(req.query.offset, 10) : DB_OFFSET_DEFAULT;
       const quotations = await QuotationsRequest.findAndCountAll({
-        attributes: ['name', 'id', 'status', 'startDate', 'actualEndDate', 'expectedEndDate', 'additionalData',
-          [Sequelize.fn('COUNT', Sequelize.col('quotation_responses.id')), 'quotationsCount'],
-          [Sequelize.fn('COUNT', Sequelize.col('suppliersMapping.id')), 'suppliersCount'],
-        ],
+        attributes:
+          ['name', 'id', 'status', 'startDate', 'actualEndDate',
+            'expectedEndDate', 'additionalData',
+            [Sequelize.fn('COUNT', Sequelize.col('quotation_responses.id')), 'quotationsCount'],
+            [Sequelize.fn('COUNT', Sequelize.col('suppliersMapping.id')), 'suppliersCount'],
+          ],
         where,
         limit,
         offset,

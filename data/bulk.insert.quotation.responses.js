@@ -5,9 +5,19 @@ const { init: initMysql } = require('../src/helpers/mysql');
 
 const API_URL = 'http://localhost:3000/api/v1';
 
+// MYSQL_CONNECTION=mysql://nextdealapp:nextdealapp@localhost:3306/nextdeal_local MYSQL_DEBUG=true node bulk.insert.quotation.responses.js
 const bulkInset = async () => {
   try {
-    const quotationRequestId = 368;
+    const quotationRequestId = 430;
+    const res = await axios.post(`${API_URL}/users/login`, {
+      emailId: 'jmccorry1@trellian.com',
+      password: 'Fe1bVI1BpX',
+    });
+    const {
+      data: {
+        data: { token },
+      },
+    } = res;
     await initMysql();
     const { Suppliers } = require('../src/helpers/db.models');
     const suppliers = await Suppliers.findAll({ where: { buyerId: 20 } });
@@ -25,7 +35,8 @@ const bulkInset = async () => {
           {
             headers: {
               'Content-Type': 'application/json',
-              'nd-domain': 'quimba.localhost',
+              'nd-domain': 'podcat.localhost',
+              Authorization: token,
             },
           },
         )

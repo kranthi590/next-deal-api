@@ -1,6 +1,5 @@
 const { INVALID_QUOTATION_ID } = require('../../../helpers/constants');
 const { QuotationsRequest } = require('../../../helpers/db.models');
-const { QuotationToSupplierMappings } = require('../../../helpers/db.models/quotation.supplier.mappings.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
@@ -10,12 +9,12 @@ const getQuotationHandler = async (req, res) => {
   try {
     const quotation = await QuotationsRequest.findOne({
       where: { id: req.params.quotationRequestId },
-      include: [
-        {
-          model: QuotationToSupplierMappings,
-          as: 'suppliersMapping',
-        },
-      ],
+      // include: [
+      //   {
+      //     model: QuotationToSupplierMappings,
+      //     as: 'suppliersMapping',
+      //   },
+      // ],
     });
     if (!quotation) {
       throw new Error(INVALID_QUOTATION_ID);

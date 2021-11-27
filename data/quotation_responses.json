@@ -1,129 +1,401 @@
 [{
-  "netWorth": 82942,
+  "netWorth": 39693,
   "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "3-310 - Expansion Joints",
-  "deliveryDate": "1/3/2021",
-  "validityDate": "12/23/2020",
-  "description": "Unsp car occupant injured in collision w SUV nontraf, init"
+  "paymentCondition": "3-000 - General",
+  "deliveryDate": "8/21/2021",
+  "validityDate": "12/20/2020",
+  "description": "Subcutaneous fat necrosis due to birth injury"
 }, {
-  "netWorth": 36753,
+  "netWorth": 6201,
   "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "11-900 - Exhibit Equipment",
-  "deliveryDate": "7/18/2021",
-  "validityDate": "10/18/2021",
-  "description": "Explosion of explosive gases, subsequent encounter"
+  "paymentCondition": "16-050 - Basic Electrical Materials and Methods",
+  "deliveryDate": "3/28/2021",
+  "validityDate": "11/18/2021",
+  "description": "Open bite of abd wall, right low q w/o penet perit cav, sqla"
 }, {
-  "netWorth": 56104,
+  "netWorth": 9494,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "2-780 - Clay Unit Pavers",
+  "deliveryDate": "6/11/2021",
+  "validityDate": "4/4/2021",
+  "description": "Disp fx of olecran pro w intartic extn l ulna, 7thR"
+}, {
+  "netWorth": 33632,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "7-500 - Membrane Roofing",
+  "deliveryDate": "6/3/2021",
+  "validityDate": "12/7/2020",
+  "description": "Adverse effect of barbiturates, subsequent encounter"
+}, {
+  "netWorth": 95536,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "6 - Wood and Plastics",
+  "deliveryDate": "1/16/2021",
+  "validityDate": "8/24/2021",
+  "description": "Subluxation of T4/T5 thoracic vertebra, initial encounter"
+}, {
+  "netWorth": 31417,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "13-120 - Pre-Engineered Structures",
+  "deliveryDate": "12/27/2020",
+  "validityDate": "9/17/2021",
+  "description": "Cleft palate"
+}, {
+  "netWorth": 70542,
   "includesTax": false,
   "incoterm": "term2",
-  "paymentCondition": "7-400 - Roofing and Siding Panels",
-  "deliveryDate": "4/26/2021",
-  "validityDate": "4/7/2021",
-  "description": "Aneurysmal bone cyst, right lower leg"
+  "paymentCondition": "10-100 - Visual Display Boards",
+  "deliveryDate": "2/8/2021",
+  "validityDate": "7/13/2021",
+  "description": "Pedestrian injured in traf involving oth mv, sequela"
 }, {
-  "netWorth": 69430,
-  "includesTax": false,
-  "incoterm": "term2",
-  "paymentCondition": "8-500 - Windows",
-  "deliveryDate": "11/14/2021",
-  "validityDate": "12/24/2020",
-  "description": "Oth postproc complications and disorders of nervous sys"
-}, {
-  "netWorth": 81997,
+  "netWorth": 32754,
   "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "2-815 - Fountains",
-  "deliveryDate": "3/2/2021",
-  "validityDate": "11/24/2021",
-  "description": "Poisoning by oth systemic anti-infect/parasit, assault, subs"
+  "paymentCondition": "3-400 - Precast Concrete",
+  "deliveryDate": "4/10/2021",
+  "validityDate": "6/30/2021",
+  "description": "Unsp fx shaft of l rad, subs for opn fx type I/2 w malunion"
 }, {
-  "netWorth": 64025,
+  "netWorth": 13075,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "13-120 - Pre-Engineered Structures",
+  "deliveryDate": "8/2/2021",
+  "validityDate": "12/28/2020",
+  "description": "Poisoning by antimycobacterial drugs, undetermined, init"
+}, {
+  "netWorth": 90283,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "2-782 - Brick Pavers",
+  "deliveryDate": "6/27/2021",
+  "validityDate": "5/27/2021",
+  "description": "Insect bite (nonvenomous), right foot, subsequent encounter"
+}, {
+  "netWorth": 94532,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "2-311 - Final Grading",
+  "deliveryDate": "4/19/2021",
+  "validityDate": "3/2/2021",
+  "description": "Contus/lac cereb, w LOC >24 hr w/o ret consc w surv, init"
+}, {
+  "netWorth": 60081,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "5-600 - Hydraulic Fabrications",
+  "deliveryDate": "1/18/2021",
+  "validityDate": "5/7/2021",
+  "description": "Athscl nonbiol bypass of extrm w intrmt claud, unsp extrm"
+}, {
+  "netWorth": 74443,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "1-540 - Construction Aids",
+  "deliveryDate": "9/29/2021",
+  "validityDate": "8/9/2021",
+  "description": "Terrorism involving nuclear weapons"
+}, {
+  "netWorth": 35512,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "13 - Special Construction",
+  "deliveryDate": "6/18/2021",
+  "validityDate": "8/16/2021",
+  "description": "Unspecified fracture of lower end of right humerus, sequela"
+}, {
+  "netWorth": 41416,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "2-795 - Porous Paving",
+  "deliveryDate": "3/8/2021",
+  "validityDate": "7/7/2021",
+  "description": "Radial collateral ligament sprain"
+}, {
+  "netWorth": 59983,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "2-240 - Dewatering",
+  "deliveryDate": "3/28/2021",
+  "validityDate": "12/18/2020",
+  "description": "Secondary malignant neoplasm of oth parts of nervous system"
+}, {
+  "netWorth": 17267,
   "includesTax": true,
   "incoterm": "term2",
   "paymentCondition": "9-050 - Basic Finish Materials and Methods",
-  "deliveryDate": "1/9/2021",
-  "validityDate": "4/30/2021",
-  "description": "Balloon collision injuring occupant, subsequent encounter"
+  "deliveryDate": "10/26/2021",
+  "validityDate": "7/10/2021",
+  "description": "Other specified disorders of synovium, left ankle and foot"
 }, {
-  "netWorth": 61255,
-  "includesTax": true,
-  "incoterm": "term2",
-  "paymentCondition": "15-200 - Process Piping",
-  "deliveryDate": "11/19/2021",
-  "validityDate": "8/13/2021",
-  "description": "Nondisp fx of lower epiphysis (separation) of r femur, init"
-}, {
-  "netWorth": 74108,
-  "includesTax": true,
-  "incoterm": "term2",
-  "paymentCondition": "10-260 - Wall and Corner Guards",
-  "deliveryDate": "9/22/2021",
-  "validityDate": "1/4/2021",
-  "description": "Nondisp Zone I fracture of sacrum, subs for fx w nonunion"
-}, {
-  "netWorth": 90861,
-  "includesTax": true,
-  "incoterm": "term2",
-  "paymentCondition": "13 - Special Construction",
-  "deliveryDate": "4/7/2021",
-  "validityDate": "2/18/2021",
-  "description": "Unsp injury of peroneal artery, right leg, subs encntr"
-}, {
-  "netWorth": 57203,
+  "netWorth": 31496,
   "includesTax": false,
   "incoterm": "term2",
-  "paymentCondition": "15-800 - Air Distribution",
-  "deliveryDate": "7/13/2021",
-  "validityDate": "7/30/2021",
-  "description": "Poisn by local antifung/infect/inflamm drugs, assault, subs"
+  "paymentCondition": "13-240 - Oxygenation Systems",
+  "deliveryDate": "2/21/2021",
+  "validityDate": "10/3/2021",
+  "description": "Pedl cyc driver inj pick-up truck, pk-up/van in traf, init"
 }, {
-  "netWorth": 4601,
+  "netWorth": 98958,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "12-300 - Manufactured Casework",
+  "deliveryDate": "6/23/2021",
+  "validityDate": "2/14/2021",
+  "description": "Unqualified visual loss, both eyes"
+}, {
+  "netWorth": 2251,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "11-120 - Vending Equipment",
+  "deliveryDate": "8/20/2021",
+  "validityDate": "12/15/2020",
+  "description": "Fracture of angle of right mandible"
+}, {
+  "netWorth": 47217,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "15-400 - Plumbing Fixtures and Equipment",
+  "deliveryDate": "5/7/2021",
+  "validityDate": "10/8/2021",
+  "description": "Furuncle unspecified hand"
+}, {
+  "netWorth": 19834,
   "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "3-330 - Poured Concrete Basement Walls",
-  "deliveryDate": "11/20/2021",
-  "validityDate": "8/28/2021",
-  "description": "Major laceration of kidney"
+  "paymentCondition": "13-220 - Filter Underdrains and Media",
+  "deliveryDate": "8/9/2021",
+  "validityDate": "4/22/2021",
+  "description": "Puncture wound w/o foreign body, right lower leg, subs"
 }, {
-  "netWorth": 22013,
-  "includesTax": false,
+  "netWorth": 49575,
+  "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "3-210 - Cast-In-Place Concrete",
-  "deliveryDate": "10/13/2021",
-  "validityDate": "11/13/2021",
-  "description": "Toxic effects of other corrosive organic compounds"
+  "paymentCondition": "11-470 - Darkroom Equipment",
+  "deliveryDate": "1/31/2021",
+  "validityDate": "10/22/2021",
+  "description": "Unspecified superficial injuries of throat"
 }, {
-  "netWorth": 45516,
-  "includesTax": false,
+  "netWorth": 33104,
+  "includesTax": true,
   "incoterm": "term2",
-  "paymentCondition": "9-680 - Carpet",
-  "deliveryDate": "6/28/2021",
-  "validityDate": "2/16/2021",
-  "description": "Prsn brd/alit mtrcy injured pick-up truck, pk-up/van, init"
+  "paymentCondition": "12-300 - Manufactured Casework",
+  "deliveryDate": "1/1/2021",
+  "validityDate": "6/16/2021",
+  "description": "Poisoning by rifampicins, accidental, sequela"
 }, {
-  "netWorth": 30283,
+  "netWorth": 55213,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "5-900 - Metal Restoration and Cleaning",
+  "deliveryDate": "1/18/2021",
+  "validityDate": "4/29/2021",
+  "description": "Spontaneous rupture of flexor tendons"
+}, {
+  "netWorth": 94199,
   "includesTax": true,
   "incoterm": "term2",
   "paymentCondition": "8-100 - Doors",
-  "deliveryDate": "12/20/2020",
-  "validityDate": "11/21/2021",
-  "description": "Subluxation of distal interphalangeal joint of l idx fngr"
+  "deliveryDate": "9/10/2021",
+  "validityDate": "10/16/2021",
+  "description": "Burn of second degree of head, face, and neck, unsp site"
 }, {
-  "netWorth": 74955,
-  "includesTax": true,
-  "incoterm": "term2",
-  "paymentCondition": "13-230 - Digester Covers and Appurtenances",
-  "deliveryDate": "12/11/2020",
-  "validityDate": "2/20/2021",
-  "description": "Cervical disc disorder with radiculopathy"
-}, {
-  "netWorth": 88926,
+  "netWorth": 78545,
   "includesTax": false,
   "incoterm": "term2",
-  "paymentCondition": "4 - Masonry",
-  "deliveryDate": "4/29/2021",
-  "validityDate": "6/9/2021",
-  "description": "Toxic effect of contact w unsp venomous animal, accidental"
+  "paymentCondition": "9-250 - Gypsum Wallboard",
+  "deliveryDate": "3/13/2021",
+  "validityDate": "4/14/2021",
+  "description": "Insect bite (nonvenomous), unspecified knee, sequela"
+}, {
+  "netWorth": 81564,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "1-640 - Owner Furnished Products",
+  "deliveryDate": "4/15/2021",
+  "validityDate": "3/15/2021",
+  "description": "Stage 3 necrotizing enterocolitis"
+}, {
+  "netWorth": 20290,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "1-517 - Temporary Telephone",
+  "deliveryDate": "9/22/2021",
+  "validityDate": "8/23/2021",
+  "description": "Exposure to smoke in controlled fire in bldg, init"
+}, {
+  "netWorth": 10332,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "12-100 - Art",
+  "deliveryDate": "12/5/2020",
+  "validityDate": "11/21/2021",
+  "description": "Unspecified infection of urinary tract in pregnancy"
+}, {
+  "netWorth": 59355,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "15-400 - Plumbing Fixtures and Equipment",
+  "deliveryDate": "8/25/2021",
+  "validityDate": "2/16/2021",
+  "description": "Capslr glaucoma w/pseudxf lens, left eye, severe stage"
+}, {
+  "netWorth": 12241,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "9-100 - Metal Support Assemblies",
+  "deliveryDate": "8/15/2021",
+  "validityDate": "11/29/2020",
+  "description": "Unsp soft tissue disord related to use/pressure, unsp shldr"
+}, {
+  "netWorth": 60327,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "3-050 - Concrete Subcontractor",
+  "deliveryDate": "5/27/2021",
+  "validityDate": "4/29/2021",
+  "description": "Unsp fracture of unsp acetabulum, subs for fx w routn heal"
+}, {
+  "netWorth": 67994,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "9-700 - Wall Finishes",
+  "deliveryDate": "1/28/2021",
+  "validityDate": "3/9/2021",
+  "description": "Carrier of other infectious diseases"
+}, {
+  "netWorth": 1298,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "9-050 - Basic Finish Materials and Methods",
+  "deliveryDate": "10/25/2021",
+  "validityDate": "7/25/2021",
+  "description": "Other physeal fracture of phalanx of right toe"
+}, {
+  "netWorth": 97874,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "8-500 - Windows",
+  "deliveryDate": "1/3/2021",
+  "validityDate": "8/13/2021",
+  "description": "Stress fracture, left humerus, subs for fx w nonunion"
+}, {
+  "netWorth": 79044,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "4-400 - Stone",
+  "deliveryDate": "10/1/2021",
+  "validityDate": "1/18/2021",
+  "description": "Complete placenta previa NOS or without hemor, second tri"
+}, {
+  "netWorth": 51197,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "2-900 - Landscaping",
+  "deliveryDate": "9/4/2021",
+  "validityDate": "5/12/2021",
+  "description": "Nondisp fx of shaft of l clavicle, subs for fx w delay heal"
+}, {
+  "netWorth": 45400,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "13-600 - Solar and Wind Energy Equipment",
+  "deliveryDate": "12/15/2020",
+  "validityDate": "4/27/2021",
+  "description": "Driver of pk-up/van injured in clsn w oth mv nontraf, subs"
+}, {
+  "netWorth": 14819,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "12 - Furnishings",
+  "deliveryDate": "7/30/2021",
+  "validityDate": "5/3/2021",
+  "description": "Laceration of inferior mesenteric vein, sequela"
+}, {
+  "netWorth": 21167,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "2-500 - Utility Services",
+  "deliveryDate": "8/19/2021",
+  "validityDate": "3/23/2021",
+  "description": "Nondisplaced fracture of unspecified tibial tuberosity"
+}, {
+  "netWorth": 61632,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "10-670 - Storage Shelving",
+  "deliveryDate": "2/14/2021",
+  "validityDate": "1/28/2021",
+  "description": "Cephalospor/oth beta-lactm antibiotics"
+}, {
+  "netWorth": 62671,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "7-400 - Roofing and Siding Panels",
+  "deliveryDate": "4/20/2021",
+  "validityDate": "11/23/2021",
+  "description": "Blister (nonthermal) of unspecified finger, subs encntr"
+}, {
+  "netWorth": 90491,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "12-600 - Multiple Seating",
+  "deliveryDate": "4/23/2021",
+  "validityDate": "4/13/2021",
+  "description": "Acute promyelocytic leukemia, not having achieved remission"
+}, {
+  "netWorth": 22570,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "11-300 - Fluid Waste Treatment and Disposal Equipment",
+  "deliveryDate": "2/22/2021",
+  "validityDate": "1/14/2021",
+  "description": "Sprain of radiocarpal joint of unsp wrist, init encntr"
+}, {
+  "netWorth": 3483,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "10-240 - Grilles and Screens",
+  "deliveryDate": "3/2/2021",
+  "validityDate": "11/5/2021",
+  "description": "Poisn by oth antacids and anti-gstrc-sec drugs, acc, init"
+}, {
+  "netWorth": 8425,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "1-904 - Hazardous Materials Removal and Disposal",
+  "deliveryDate": "3/22/2021",
+  "validityDate": "5/9/2021",
+  "description": "Heat cramp, sequela"
+}, {
+  "netWorth": 93146,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "5-700 - Ornamental Metal",
+  "deliveryDate": "9/16/2021",
+  "validityDate": "8/10/2021",
+  "description": "Pathological fracture in other disease, other site, sequela"
+}, {
+  "netWorth": 14856,
+  "includesTax": false,
+  "incoterm": "term2",
+  "paymentCondition": "3-320 - Slab Foundations",
+  "deliveryDate": "9/6/2021",
+  "validityDate": "3/5/2021",
+  "description": "Other changes of lacrimal passages"
+}, {
+  "netWorth": 59298,
+  "includesTax": true,
+  "incoterm": "term2",
+  "paymentCondition": "2-813 - Lawn Sprinkling and Irrigation",
+  "deliveryDate": "12/5/2020",
+  "validityDate": "5/12/2021",
+  "description": "Laceration of muscle, fascia and tendon of abdomen, sequela"
 }]
