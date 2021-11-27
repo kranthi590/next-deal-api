@@ -102,7 +102,13 @@ const QuotationsResponse = getConnection().define(
       field: 'additional_data',
     },
   },
-  { timestamps: true, tableName: 'quotation_responses' },
+  {
+    timestamps: true,
+    tableName: 'quotation_responses',
+    indexes: [
+      { fields: ['quotation_request_id', 'supplier_id'], unique: true },
+    ],
+  },
 );
 
 module.exports = {

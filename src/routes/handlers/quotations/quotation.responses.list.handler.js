@@ -1,5 +1,5 @@
 const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT } = require('../../../helpers/constants');
-const { QuotationsResponse } = require('../../../helpers/db.models');
+const { QuotationsResponse, Suppliers } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
@@ -20,6 +20,11 @@ const quotationResponsesListHandler = async (req, res) => {
         'deliveryDate', 'validityDate', 'additionalData',
       ],
       order: [['updated_at', 'DESC']],
+      include: [{
+        model: Suppliers,
+        as: 'supplier',
+        attributes: ['id', 'fantasyName'],
+      }],
     });
     quotations.limit = limit;
     quotations.offset = offset;

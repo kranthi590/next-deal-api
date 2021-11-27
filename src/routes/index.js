@@ -32,6 +32,7 @@ const { quotationResponseCreationHandler } = require('./handlers/quotations/quot
 const { quotationResponsesListHandler } = require('./handlers/quotations/quotation.responses.list.handler');
 const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.get.handler');
 const { getQuotationHandler } = require('./handlers/quotations/quotation.requests.get.handler');
+const { getQuotationAssignedForResponseHandler } = require('./handlers/quotations/quotation.response.assigned.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -100,6 +101,13 @@ router.get(
   authMiddleware,
   verifyDomainMiddleware,
   quotationResponsesListHandler,
+);
+
+router.get(
+  '/quotations/:quotationRequestId/assignedForResponse',
+  authMiddleware,
+  verifyDomainMiddleware,
+  getQuotationAssignedForResponseHandler,
 );
 
 module.exports = router;
