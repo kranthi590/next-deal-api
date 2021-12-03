@@ -8,11 +8,23 @@ const { OkResponse } = require('../../../helpers/response.transforms');
 const getQuotationAssignedForResponseHandler = async (req, res) => {
   let response;
   try {
+    const quotationsResponses = await QuotationsResponse.findAndCountAll({
+      where: {
+        quotationRequestId: req.params.quotationRequestId,
+      },
+    });
+    // eslint-disable-next-line max-len
+    const suppliers = quotationsResponses.rows.map((quotationsResponse) => quotationsResponse.dataValues.supplierId);
     const quotations = await QuotationToSupplierMappings.findAll({
       where: {
-        quotation_request_id: req.params.quotationRequestId,
-        [Op.or]: [
-          { '$quotation.supplier_id$': null },
+        [Op.and]: [{
+          quotation_request_id: req.params.quotationRequestId,
+        },
+        {
+          supplier_id: {
+            [Op.notIn]: suppliers,
+          },
+        },
         ],
       },
       include: [

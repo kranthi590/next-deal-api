@@ -11,7 +11,6 @@ const fetchComunasByRegion = require('./handlers/config/config.comunas.handler')
 
 const registerSupplier = require('./handlers/suppliers/supplier.register.handler');
 const { getSupplierHandler } = require('./handlers/suppliers/supplier.get.handler');
-const { uploadSupplierLogoHandler } = require('./handlers/suppliers/supplier.upload.logo.handler');
 
 const { registerBuyerHandler } = require('./handlers/buyers/buyer.register.handler');
 const { getBuyerHandler } = require('./handlers/buyers/buyer.get.handler');
@@ -36,6 +35,7 @@ const { getQuotationAssignedForResponseHandler } = require('./handlers/quotation
 const { awardQuotationHandler } = require('./handlers/quotations/quotation.award.handler');
 const { completeQuotationHandler } = require('./handlers/quotations/quotation.complete.handler');
 const { getQuotationResponseHandler } = require('./handlers/quotations/quotation.response.get.handler');
+const { uploadFileHandler } = require('./handlers/files/file.upload.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -45,7 +45,6 @@ router.get(['/', '/health'], (req, res) => {
 // Supplier routes
 router.post('/suppliers', validateMiddleware, registerSupplier);
 router.get('/suppliers/:supplierId', getSupplierHandler);
-router.post('/suppliers/files', multerUploadMiddleware, uploadSupplierLogoHandler);
 
 // Buyer routes
 router.post('/buyers', validateMiddleware, registerBuyerHandler);
@@ -72,6 +71,7 @@ router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getPr
 
 // Files Routes
 router.get('/files/:fileId/:fileName', getFileHandler);
+router.post('/files', multerUploadMiddleware, uploadFileHandler);
 
 // Quotations routes
 router.post('/projects/:projectId/quotations', validateMiddleware, authMiddleware,
@@ -114,7 +114,7 @@ router.get(
 );
 
 router.get(
-  '/quotations/:quotationRequestId/assignedForResponse',
+  '/quotations/:quotationRequestId/suppliers',
   authMiddleware,
   verifyDomainMiddleware,
   getQuotationAssignedForResponseHandler,
