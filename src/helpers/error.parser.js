@@ -21,6 +21,7 @@ const {
   QUOTATION_ALREADY_COMPLETED,
   QUOTATION_NOT_AWARDED,
   INVALID_FILE_TYPE,
+  ANOTHER_QUOTATION_ALREADY_AWARDED,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -93,6 +94,9 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === QUOTATION_NOT_AWARDED) {
     return ForbiddenResponse(QUOTATION_NOT_AWARDED, traceId);
+  }
+  if (_.get(error, 'message', null) === ANOTHER_QUOTATION_ALREADY_AWARDED) {
+    return ForbiddenResponse(ANOTHER_QUOTATION_ALREADY_AWARDED, traceId);
   }
   if (_.get(error, 'message', null) === INVALID_FILE_TYPE) {
     return ForbiddenResponse(INVALID_FILE_TYPE, traceId);

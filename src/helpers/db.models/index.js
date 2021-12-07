@@ -70,7 +70,11 @@ QuotationsRequest.belongsTo(Projects, { as: 'project', foreignKey: 'project_id',
 Projects.hasMany(QuotationsRequest);
 
 QuotationsResponse.belongsTo(QuotationsRequest, { as: 'quotation', foreignKey: 'quotation_request_id', targetKey: 'id' });
-QuotationsRequest.hasMany(QuotationsResponse);
+QuotationsRequest.hasMany(QuotationsResponse, {
+  as: 'quotationResponse',
+  foreignKey: 'quotation_request_id',
+  targetKey: 'id',
+});
 QuotationsRequest.hasMany(QuotationToSupplierMappings, {
   as: 'suppliersMapping',
   foreignKey: 'quotation_request_id',

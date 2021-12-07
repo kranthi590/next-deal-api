@@ -1,5 +1,9 @@
 const {
-  INVALID_QUOTATION_RESPONSE_ID, INVALID_BUYER_ID, QUOTATION_ALREADY_AWARDED, QUOTATION_STATUS,
+  INVALID_QUOTATION_RESPONSE_ID,
+  INVALID_BUYER_ID,
+  QUOTATION_ALREADY_AWARDED,
+  QUOTATION_STATUS,
+  ANOTHER_QUOTATION_ALREADY_AWARDED,
 } = require('../../../helpers/constants');
 const { QuotationsResponse, QuotationsRequest, Projects } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
@@ -21,6 +25,7 @@ const awardQuotation = async (data) => getConnection().transaction(async (t) => 
     {
       where: { id: quotationRequestId },
       transaction: t,
+      returning: true,
     },
   );
 });
@@ -54,11 +59,21 @@ const awardQuotationHandler = async (req, res) => {
     if (quotation.isAwarded) {
       throw new Error(QUOTATION_ALREADY_AWARDED);
     }
+    const quotationResponse1 = await QuotationsResponse.findOne({
+      where: {
+        quotationRequestId: quotation.quotation.id,
+        isAwarded: true,
+      },
+      attributes: ['id', 'isAwarded'],
+    });
+    if (quotationResponse1) {
+      throw new Error(ANOTHER_QUOTATION_ALREADY_AWARDED);
+    }
     await awardQuotation({
       quotationResponseId: req.params.quotationResponseId,
       quotationRequestId: quotation.quotation.id,
     });
-    response = OkResponse(null, req.traceId);
+    response = OkResponse({}, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId, 'quotation_create');
     logger.error('Error while creating quotation request:', error);

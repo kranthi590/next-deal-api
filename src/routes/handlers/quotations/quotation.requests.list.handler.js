@@ -26,8 +26,8 @@ const quotationsListHandler = async (req, res) => {
         attributes:
           ['name', 'id', 'status', 'startDate', 'actualEndDate',
             'expectedEndDate', 'additionalData',
-            [Sequelize.fn('COUNT', Sequelize.col('quotation_responses.id')), 'quotationsCount'],
-            [Sequelize.fn('COUNT', Sequelize.col('suppliersMapping.id')), 'suppliersCount'],
+            [Sequelize.fn('count', Sequelize.fn('DISTINCT', Sequelize.col('suppliersMapping.id'))), 'suppliersCount'],
+            [Sequelize.fn('count', Sequelize.fn('DISTINCT', Sequelize.col('quotationResponse.id'))), 'quotationsCount'],
           ],
         where,
         limit,
@@ -36,6 +36,7 @@ const quotationsListHandler = async (req, res) => {
         include: [
           {
             model: QuotationsResponse,
+            as: 'quotationResponse',
             attributes: [],
           },
           {

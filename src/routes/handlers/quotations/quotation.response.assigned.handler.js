@@ -12,6 +12,7 @@ const getQuotationAssignedForResponseHandler = async (req, res) => {
       where: {
         quotationRequestId: req.params.quotationRequestId,
       },
+      attributes: ['supplierId'],
     });
     // eslint-disable-next-line max-len
     const suppliers = quotationsResponses.rows.map((quotationsResponse) => quotationsResponse.dataValues.supplierId);
@@ -19,25 +20,22 @@ const getQuotationAssignedForResponseHandler = async (req, res) => {
       where: {
         [Op.and]: [{
           quotation_request_id: req.params.quotationRequestId,
-        },
-        {
+        }, {
           supplier_id: {
             [Op.notIn]: suppliers,
           },
         },
         ],
       },
-      include: [
-        {
-          model: Suppliers,
-          as: 'supplier',
-          attributes: ['id', 'fantasyName', 'legalName'],
-        },
-        {
-          model: QuotationsResponse,
-          as: 'quotation',
-        },
-      ],
+      include: [{
+        model: Suppliers,
+        as: 'supplier',
+        attributes: ['id', 'fantasyName', 'legalName'],
+      },
+      {
+        model: QuotationsResponse,
+        as: 'quotation',
+      }],
       group: ['quotation_request_supplier_mappings.id'],
       subQuery: false,
     });
