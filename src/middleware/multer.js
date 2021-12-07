@@ -1,28 +1,28 @@
 const Multer = require('multer');
-const { INVALID_FILE_TYPE, IMAGES_EXTENSIONS } = require('../helpers/constants');
+const { INVALID_FILE_TYPE } = require('../helpers/constants');
 const logger = require('../helpers/logger');
 const { BadRequestResponse } = require('../helpers/response.transforms');
 
-const getAllowedExtensions = (routePath) => {
-  switch (true) {
-    case routePath === '/api/v1/suppliers':
-      return IMAGES_EXTENSIONS;
-    default:
-      return IMAGES_EXTENSIONS;
-  }
-};
+// const getAllowedExtensions = (routePath) => {
+//   switch (true) {
+//     case routePath === '/api/v1/suppliers':
+//       return IMAGES_EXTENSIONS;
+//     default:
+//       return IMAGES_EXTENSIONS;
+//   }
+// };
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
     fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
   },
-  fileFilter: (req, file, cb) => {
-    if (getAllowedExtensions(req.originalUrl).includes(file.mimetype)) {
-      return cb(null, true);
-    }
-    return cb(new Error(INVALID_FILE_TYPE));
-  },
+  // fileFilter: (req, file, cb) => {
+  //   if (getAllowedExtensions(req.originalUrl).includes(file.mimetype)) {
+  //     return cb(null, true);
+  //   }
+  //   return cb(new Error(INVALID_FILE_TYPE));
+  // },
 });
 
 function makeMulterUploadMiddleware(multerUploadFunction) {

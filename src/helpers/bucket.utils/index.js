@@ -15,7 +15,8 @@ const uploadFile = ({
 }) => new Promise((resolve, reject) => {
   try {
     const extension = path.extname(file.originalname);
-    const fileLocation = `${folder}/logo${extension}`;
+    const fileName = `${new Date().getTime()}${extension}`;
+    const fileLocation = `${folder}/${fileName}`;
     const bucket = storage.bucket(bucketName);
     const blob = bucket.file(fileLocation);
     const writeOptions = {
@@ -30,7 +31,7 @@ const uploadFile = ({
       reject(err);
     });
     blobStream.on('finish', () => {
-      resolve({ fileLocation, fileName: `${file.fieldname}${extension}` });
+      resolve({ file, fileLocation, fileName });
     });
     blobStream.end(file.buffer);
   } catch (error) {

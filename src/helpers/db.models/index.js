@@ -56,6 +56,7 @@ Suppliers.hasMany(SupplierServiceLocationsMappings, {
 });
 
 Suppliers.hasMany(Files, { as: 'logo', foreignKey: 'entity_id', targetKey: 'id' });
+Projects.hasMany(Files, { as: 'files', foreignKey: 'entity_id', targetKey: 'id' });
 
 Users.belongsTo(Addresses, {
   as: 'address',
@@ -86,6 +87,12 @@ QuotationsResponse.hasMany(QuotationToSupplierMappings, { as: 'quotation_mapping
 
 QuotationToSupplierMappings.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationToSupplierMappings.belongsTo(QuotationsResponse, { as: 'quotation', foreignKey: 'supplier_id', targetKey: 'supplier_id' });
+
+Projects.belongsTo(Buyers, {
+  as: 'buyer',
+  foreignKey: 'buyerId',
+  targetKey: 'id',
+});
 
 module.exports = {
   Roles,

@@ -22,6 +22,7 @@ const {
   QUOTATION_NOT_AWARDED,
   INVALID_FILE_TYPE,
   ANOTHER_QUOTATION_ALREADY_AWARDED,
+  INVALID_FILE,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -100,6 +101,12 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === INVALID_FILE_TYPE) {
     return ForbiddenResponse(INVALID_FILE_TYPE, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_SUPPLIER_ID) {
+    return ForbiddenResponse(INVALID_SUPPLIER_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_FILE) {
+    return ForbiddenResponse(INVALID_FILE, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };

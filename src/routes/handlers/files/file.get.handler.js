@@ -21,7 +21,7 @@ const getFileHandler = async (req, res) => {
     const fileStream = getStorage()
       .bucket(file.bucketName)
       .file(file.fileLocation)
-      .createReadStream(); // stream is created
+      .createReadStream();
     fileStream.on('error', (err) => {
       logger.error('Error while getting file:', err);
       const resp = InternalServerErrorResponse('', req.traceId);
