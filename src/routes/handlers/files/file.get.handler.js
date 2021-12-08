@@ -27,7 +27,7 @@ const getFileHandler = async (req, res) => {
       const resp = InternalServerErrorResponse('', req.traceId);
       res.status(resp.status).json(resp);
     });
-    res.setHeader('Content-Length', file.dataValues.size);
+    res.setHeader('Content-Length', file.dataValues.fileSize);
     res.setHeader('Content-Type', file.dataValues.mimeType);
     res.setHeader(`Content-Disposition', 'attachment; filename=${file.dataValues.name}`);
     fileStream.pipe(res);
