@@ -29,7 +29,6 @@ const getFileHandler = async (req, res) => {
     });
     res.setHeader('Content-Length', file.dataValues.fileSize);
     res.setHeader('Content-Type', file.dataValues.mimeType);
-    res.setHeader(`Content-Disposition', 'attachment; filename=${file.dataValues.name}`);
     fileStream.pipe(res);
   } catch (error) {
     logger.error('Error while getting file:', error);
