@@ -4,6 +4,7 @@ const generateFileURL = (files = []) => files.map((file) => {
     : `${process.env.NEXT_DEAL_SERVICE_URL}/files/${file.id}/${file.name}`;
   return {
     fileUrl,
+    ...file,
   };
 });
 
