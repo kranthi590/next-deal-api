@@ -1,10 +1,18 @@
-const generateFileURL = (files = []) => files.map((file) => {
-  const fileUrl = file.isPublic
-    ? `https://storage.googleapis.com/${file.bucketName}/${file.fileLocation}`
-    : `${process.env.NEXT_DEAL_SERVICE_URL}/files/${file.id}/${file.name}`;
+const generateFileURL = (files = []) => files.map(({
+  isPublic,
+  fileLocation,
+  id,
+  name,
+  mimeType,
+  bucketName,
+}) => {
+  const fileUrl = isPublic
+    ? `https://storage.googleapis.com/${bucketName}/${fileLocation}`
+    : `${process.env.NEXT_DEAL_SERVICE_URL}/files/${id}/${name}`;
   return {
     fileUrl,
-    ...file,
+    name,
+    mimeType,
   };
 });
 
