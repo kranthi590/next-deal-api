@@ -1,25 +1,30 @@
 const logger = require('../../../helpers/logger');
 
-const { Suppliers } = require('../../../helpers/db.models');
+const { Suppliers, Files } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse, UnauthorizedResponse } = require('../../../helpers/response.transforms');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
 const { INVALID_SUPPLIER_ID } = require('../../../helpers/constants');
 
 const getSupplier = async (supplierId) => {
   const query = {
-    include: ['businessAddress', 'categories', 'serviceLocations', 'billingAddress', 'contactInfo', 'logo'],
+    include: ['businessAddress', 'categories', 'serviceLocations', 'billingAddress', 'contactInfo'],
     where: {
       id: supplierId,
     },
     exclude: ['in_charge_address_id'],
   };
-  return Suppliers.findOne(query);
+  return Promise.all([
+    Suppliers.findOne(query),
+    Files.findAll({
+      where: { entityId: supplierId },
+    }),
+  ]);
 };
 
 const getSupplierHandler = async (req, res) => {
   let response;
   try {
-    const data = await getSupplier(req.params.supplierId);
+    const [data, filesMeta] = await getSupplier(req.params.supplierId);
     const supplier = JSON.parse(JSON.stringify(data));
     if (!supplier) {
       response = UnauthorizedResponse(INVALID_SUPPLIER_ID, req.traceId);
@@ -27,7 +32,7 @@ const getSupplierHandler = async (req, res) => {
       if (supplier && supplier.logo) {
         supplier.logo = generateFileURL(supplier.logo);
       }
-      response = OkResponse(supplier, req.traceId);
+      response = OkResponse({ ...supplier, logo: generateFileURL(filesMeta) }, req.traceId);
     }
   } catch (error) {
     response = InternalServerErrorResponse('', req.traceId);

@@ -16,7 +16,7 @@ app.use(
     origin: '*',
   }),
 );
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(

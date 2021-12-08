@@ -70,7 +70,7 @@ router.get('/projects', authMiddleware, verifyDomainMiddleware, projectsListHand
 router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getProjectHandler);
 
 // Files Routes
-router.get('/files/:fileId/:fileName', authMiddleware, verifyDomainMiddleware, getFileHandler);
+router.get('/files/:fileId/:fileName', authMiddleware, getFileHandler);
 router.post('/files', multerUploadMiddleware, uploadFileHandler);
 router.post('/secureFiles', authMiddleware, verifyDomainMiddleware,
   multerUploadMiddleware, uploadFileHandler);

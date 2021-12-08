@@ -1,6 +1,5 @@
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 
 const logger = require('../logger');
 
@@ -16,7 +15,7 @@ const uploadFile = ({
 }) => new Promise((resolve, reject) => {
   try {
     const extension = path.extname(file.originalname);
-    const fileName = `${uuidv4()}${extension}`;
+    const fileName = `${new Date().getTime()}${extension}`;
     const fileLocation = `${folder}/${fileName}`;
     const bucket = storage.bucket(bucketName);
     const blob = bucket.file(fileLocation);
