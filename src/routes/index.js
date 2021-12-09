@@ -72,8 +72,7 @@ router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getPr
 // Files Routes
 router.get('/files/:fileId/:fileName', authMiddleware, getFileHandler);
 router.post('/files', multerUploadMiddleware, uploadFileHandler);
-router.post('/secureFiles', authMiddleware, verifyDomainMiddleware,
-  multerUploadMiddleware, uploadFileHandler);
+router.post('/secureFiles', authMiddleware, multerUploadMiddleware, uploadFileHandler);
 
 // Quotations routes
 router.post('/projects/:projectId/quotations', validateMiddleware, authMiddleware,
