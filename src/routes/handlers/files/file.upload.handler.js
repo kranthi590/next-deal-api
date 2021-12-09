@@ -34,12 +34,14 @@ const saveFileAndUpdateMeta = async (req, context) => {
     fileSize: file.size,
     bucketName,
   })));
-  const filesMeta = generateFileURL(saveResponses.map(({ fileLocation, fileName }, index) => ({
+  // eslint-disable-next-line max-len
+  const filesMeta = generateFileURL(saveResponses.map(({ fileLocation, fileName, file }, index) => ({
     isPublic,
     bucketName,
     fileLocation,
     name: fileName,
     id: filesSaveResponses[index].id,
+    mimeType: file.mimetype,
   })));
   return OkResponse(filesMeta, traceId);
 };

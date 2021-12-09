@@ -31,7 +31,9 @@ const uploadFile = ({
       reject(err);
     });
     blobStream.on('finish', () => {
-      resolve({ file, fileLocation, fileName });
+      resolve({
+        file, fileLocation, fileName, mimeType: file.mimetype,
+      });
     });
     blobStream.end(file.buffer);
   } catch (error) {
