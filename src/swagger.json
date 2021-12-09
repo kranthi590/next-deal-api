@@ -29,7 +29,7 @@
     "/v1/buyers/register": {
       "post": {
         "tags": [
-          "Buyer"
+          "Buyers"
         ],
         "summary": "Create a new buyer to system",
         "operationId": "addBuyer",
@@ -99,7 +99,7 @@
     "/v1/buyers/{buyerId}": {
       "get": {
         "tags": [
-          "Buyer"
+          "Buyers"
         ],
         "summary": "Get buyer from the system",
         "operationId": "getBuyer",
@@ -155,7 +155,7 @@
     "/v1/buyers/{buyerId}/projects": {
       "post": {
         "tags": [
-          "Buyer"
+          "Buyers"
         ],
         "summary": "Create a new project for a Buyer.",
         "operationId": "createProject",
@@ -215,7 +215,7 @@
       },
       "get": {
         "tags": [
-          "Buyer"
+          "Buyers"
         ],
         "summary": "Get all projects for a specific Buyer.",
         "operationId": "getAllProjects",
@@ -271,7 +271,7 @@
     "/v1/suppliers/register": {
       "post": {
         "tags": [
-          "Supplier"
+          "Suppliers"
         ],
         "summary": "Add a new supplier to system                 ",
         "description": "",
@@ -355,10 +355,10 @@
         }
       }
     },
-    "/v1/supplier/{supplierId}": {
+    "/v1/suppliers/{supplierId}": {
       "get": {
         "tags": [
-          "Supplier"
+          "Suppliers"
         ],
         "summary": "Get supplier from the system",
         "operationId": "getsupplier",
@@ -411,10 +411,10 @@
         }
       }
     },
-    "/v1/user/register": {
+    "/v1/users/register": {
       "post": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Add a new user to a buyer subdomain",
         "operationId": "addUser",
@@ -481,10 +481,10 @@
         }
       }
     },
-    "/v1/user/login": {
+    "/v1/users/login": {
       "post": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Login user to a specific buyer subdomain",
         "operationId": "loginUser",
@@ -554,10 +554,10 @@
         }
       }
     },
-    "/v1/user/profile": {
+    "/v1/users/profile": {
       "get": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Get a specific user profile based on JWT token",
         "operationId": "getUser",
@@ -604,10 +604,10 @@
         }
       }
     },
-    "/v1/user/profile/{profileId}": {
+    "/v1/users/profile/{profileId}": {
       "get": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Get a specific user profile",
         "operationId": "getUserProfileById",
@@ -789,7 +789,151 @@
             }
           },
           "500": {
-            "description": "Interbal server error",
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/v1/files": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Upload public files",
+        "operationId": "uploadFiles",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The file to be uploaded along with other related data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/FileResponse"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/403"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/500"
+            }
+          }
+        }
+      }
+    },
+    "/v1/secureFiles": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Upload private files securely",
+        "operationId": "uploadSecureFiles",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The files to be uploaded along with other related data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/FileResponse"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/403"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/409"
+            }
+          },
+          "422": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/422"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "schema": {
               "$ref": "#/definitions/500"
             }
@@ -848,6 +992,28 @@
           "type": "integer",
           "format": "int32",
           "example": 400
+        },
+        "message": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        }
+      }
+    },
+    "403": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TraceId"
+        }
+      ],
+      "description": "Forbidden",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 403
         },
         "message": {
           "type": "string"
@@ -1439,6 +1605,43 @@
       ],
       "properties": {
         "status": {
+          "type": "string"
+        }
+      }
+    },
+    "FileRequest": {
+      "type": "object",
+      "description": "File info",
+      "required": [
+        "assets",
+        "assetRelationId",
+        "assetRelationType"
+      ],
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "assetRelationId": {
+          "type": "integer"
+        },
+        "assetRelationType": {
+          "type": "string"
+        }
+      }
+    },
+    "FileResponse": {
+      "type": "object",
+      "properties": {
+        "fileUrl": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "mimeType": {
           "type": "string"
         }
       }
