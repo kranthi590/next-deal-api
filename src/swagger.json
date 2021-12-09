@@ -17,13 +17,36 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "Buyer",
-      "description": "Everything about your buyer"
+      "name": "Buyers",
+      "description": "Everything about your Buyers"
+    },
+    {
+      "name": "Suppliers",
+      "description": "Everything about your Suppliers"
+    },
+    {
+      "name": "Users",
+      "description": "Everything about your Users"
+    },
+    {
+      "name": "Config",
+      "description": "APIs for common configurations"
+    },
+    {
+      "name": "Files",
+      "description": "APIs for private and public files uploads and retreivals"
+    },
+    {
+      "name": "Projects",
+      "description": "APIs for Projects"
+    },
+    {
+      "name": "Quotations",
+      "description": "APIs for Quotations"
     }
   ],
   "schemes": [
-    "https",
-    "http"
+    "https"
   ],
   "paths": {
     "/v1/buyers/register": {
@@ -155,7 +178,7 @@
     "/v1/buyers/{buyerId}/projects": {
       "post": {
         "tags": [
-          "Buyers"
+          "Projects"
         ],
         "summary": "Create a new project for a Buyer.",
         "operationId": "createProject",
@@ -171,7 +194,7 @@
             "name": "buyerId",
             "type": "integer",
             "required": true,
-            "description": "Numeric ID of the Buyer for which a project is being create."
+            "description": "Numeric ID of the Buyer for which a project is being created."
           },
           {
             "in": "body",
@@ -215,7 +238,7 @@
       },
       "get": {
         "tags": [
-          "Buyers"
+          "Projects"
         ],
         "summary": "Get all projects for a specific Buyer.",
         "operationId": "getAllProjects",
@@ -251,6 +274,59 @@
                         },
                         {
                           "$ref": "#/definitions/CommonResponseData"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/404"
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects/{projectId}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get a specific project by ID.",
+        "operationId": "getProject",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the Project."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/200"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/ProjectResponse"
                         }
                       ]
                     }
