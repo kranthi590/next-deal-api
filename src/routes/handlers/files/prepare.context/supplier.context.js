@@ -3,14 +3,10 @@ const generateCode = require('../../../../helpers/generate.code');
 const { getSupplier } = require('../../suppliers/supplier.get.handler');
 
 const prepareSupplierContext = async (req) => {
-  if (!req.body.supplierId) {
-    throw new Error(INVALID_SUPPLIER_ID);
-  }
   const [supplier] = await getSupplier(req.body.supplierId);
   if (!supplier) {
     throw new Error(INVALID_SUPPLIER_ID);
   }
-  console.log(supplier);
   return {
     bucketName: SUPPLIER_BUCKET_FORMAT.replace(
       'bucket',

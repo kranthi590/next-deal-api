@@ -3,6 +3,8 @@ const {
   FILE_TYPE,
   INVALID_FILE_TYPE,
   INVALID_FILE,
+  INVALID_ASSET_RELATION_ID,
+  INVALID_ASSET_RELATION,
 } = require('../../../helpers/constants');
 const { Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
@@ -10,6 +12,7 @@ const { generateFileURL } = require('../../../helpers/generate.file.url');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
 const prepareProjectContext = require('./prepare.context/project.context');
+const prepareQuotationRequestContext = require('./prepare.context/quotation.request.context');
 const prepareSupplierContext = require('./prepare.context/supplier.context');
 
 const saveFileAndUpdateMeta = async (req, context) => {
@@ -50,15 +53,21 @@ const uploadFileHandler = async (req, res) => {
   let response;
   let context;
   try {
-    const { fileType } = req.body;
+    const { assetRelation, assetRelationId } = req.body;
     if (req.files.length === 0) {
       throw INVALID_FILE;
     }
-    if (fileType === FILE_TYPE.SUPPLIER_LOGO) {
+    if (!assetRelation || !assetRelationId) {
+      throw !assetRelation ? INVALID_ASSET_RELATION : INVALID_ASSET_RELATION_ID;
+    }
+    if (assetRelation === FILE_TYPE.SUPPLIER_LOGO) {
       context = await prepareSupplierContext(req);
       response = await saveFileAndUpdateMeta(req, context);
-    } else if (fileType === FILE_TYPE.PROJECT) {
+    } else if (assetRelation === FILE_TYPE.PROJECT) {
       context = await prepareProjectContext(req);
+      response = await saveFileAndUpdateMeta(req, context);
+    } else if (assetRelation === FILE_TYPE.QUOTATION_REQUEST) {
+      context = await prepareQuotationRequestContext(req);
       response = await saveFileAndUpdateMeta(req, context);
     } else {
       throw Error(INVALID_FILE_TYPE);

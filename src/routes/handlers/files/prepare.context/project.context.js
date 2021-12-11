@@ -2,12 +2,9 @@ const { INVALID_PROJECT_ID, BUYER_DOMAIN_BUCKET_FORMAT, FILE_TYPE } = require('.
 const { Projects, Buyers } = require('../../../../helpers/db.models');
 
 const prepareProjectContext = async (req) => {
-  if (!req.body.projectId) {
-    throw new Error(INVALID_PROJECT_ID);
-  }
   const projectResponse = await Projects.findOne({
     where: {
-      id: req.body.projectId,
+      id: req.body.assetRelationId,
       buyerId: req.user.buyerId,
     },
     include: [

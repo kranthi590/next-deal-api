@@ -23,6 +23,8 @@ const {
   INVALID_FILE_TYPE,
   ANOTHER_QUOTATION_ALREADY_AWARDED,
   INVALID_FILE,
+  INVALID_ASSET_RELATION_ID,
+  INVALID_ASSET_RELATION,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -107,6 +109,12 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === INVALID_FILE) {
     return ForbiddenResponse(INVALID_FILE, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_ASSET_RELATION_ID) {
+    return ForbiddenResponse(INVALID_ASSET_RELATION_ID, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_ASSET_RELATION) {
+    return ForbiddenResponse(INVALID_ASSET_RELATION, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };
