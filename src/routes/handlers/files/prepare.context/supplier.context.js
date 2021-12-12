@@ -3,7 +3,7 @@ const generateCode = require('../../../../helpers/generate.code');
 const { getSupplier } = require('../../suppliers/supplier.get.handler');
 
 const prepareSupplierContext = async (req) => {
-  const [supplier] = await getSupplier(req.body.supplierId);
+  const [supplier] = await getSupplier(req.body.assetRelationId);
   if (!supplier) {
     throw new Error(INVALID_SUPPLIER_ID);
   }
