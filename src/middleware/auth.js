@@ -6,6 +6,8 @@ const logger = require('../helpers/logger');
 
 const verifyToken = (req, res, next) => {
   try {
+    console.log(`authorization: ${req.headers.authorization}` );
+    console.log(`token: ${req.query.token}` );
     const decoded = jwt.verify(
       req.headers.authorization || req.query.token,
       process.env.JWT_SECRET_KEY,
