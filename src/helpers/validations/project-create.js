@@ -9,7 +9,9 @@ const projectCreationSchema = Joi.object()
     expectedEndDate: Joi.date().required(),
     costCenter: Joi.string().required(),
     estimatedBudget: Joi.number().required(),
-    currency: Joi.string().valid(CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF).required(),
+    currency: Joi.string().valid(
+      CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF, CURRENCY_TYPE.USD,
+    ).required(),
     description: Joi.string(),
   })
   .unknown();

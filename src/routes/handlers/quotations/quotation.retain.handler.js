@@ -1,9 +1,8 @@
 const {
   INVALID_QUOTATION_RESPONSE_ID,
   INVALID_BUYER_ID,
-  QUOTATION_ALREADY_AWARDED,
   QUOTATION_STATUS,
-  ANOTHER_QUOTATION_ALREADY_AWARDED,
+  QUOTATION_NOT_AWARDED,
   ACTIVITIES_TYPES,
 } = require('../../../helpers/constants');
 const {
@@ -14,19 +13,17 @@ const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
 const { OkResponse } = require('../../../helpers/response.transforms');
 
-const awardQuotation = async (data) => getConnection().transaction(async (t) => {
-  const {
-    quotationResponseId, quotationRequestId, projectId, buyerId, userId,
-  } = data;
+const retainQuotation = async (data) => getConnection().transaction(async (t) => {
+  const { quotationResponseId, quotationRequestId } = data;
   await QuotationsResponse.update(
-    { isAwarded: true },
+    { isAwarded: false },
     {
       where: { id: quotationResponseId },
       transaction: t,
     },
   );
   await QuotationsRequest.update(
-    { status: QUOTATION_STATUS.AWARDED },
+    { status: QUOTATION_STATUS.IN_PROGRESS },
     {
       where: { id: quotationRequestId },
       transaction: t,
@@ -34,17 +31,17 @@ const awardQuotation = async (data) => getConnection().transaction(async (t) => 
     },
   );
   await Activities.create({
-    projectId,
+    projectId: data.projectId,
     quotationRequestId,
-    userId,
-    buyerId,
-    activityType: ACTIVITIES_TYPES.QUOTATION_AWARDED,
+    userId: data.userId,
+    buyerId: data.buyerId,
+    activityType: ACTIVITIES_TYPES.QUOTATION_RETAINED,
   }, {
     transaction: t,
   });
 });
 
-const awardQuotationHandler = async (req, res) => {
+const retainQuotationHandler = async (req, res) => {
   let response;
   try {
     const quotationResponse = await QuotationsResponse.findOne({
@@ -67,39 +64,27 @@ const awardQuotationHandler = async (req, res) => {
       throw new Error(INVALID_QUOTATION_RESPONSE_ID);
     }
     const quotation = quotationResponse.toJSON();
-    console.log(req.user.buyerId);
-    console.log(quotation.quotation);
     if (req.user.buyerId !== quotation.quotation.project.buyerId) {
       throw new Error(INVALID_BUYER_ID);
     }
-    if (quotation.isAwarded) {
-      throw new Error(QUOTATION_ALREADY_AWARDED);
+    if (!quotation.isAwarded) {
+      throw new Error(QUOTATION_NOT_AWARDED);
     }
-    const quotationResponse1 = await QuotationsResponse.findOne({
-      where: {
-        quotationRequestId: quotation.quotation.id,
-        isAwarded: true,
-      },
-      attributes: ['id', 'isAwarded'],
-    });
-    if (quotationResponse1) {
-      throw new Error(ANOTHER_QUOTATION_ALREADY_AWARDED);
-    }
-    await awardQuotation({
+    await retainQuotation({
       quotationResponseId: req.params.quotationResponseId,
       quotationRequestId: quotation.quotation.id,
-      projectId: quotation.quotation.projectId,
-      buyerId: req.user.buyerId,
+      projectId: quotation.quotation.project.id,
+      buyerId: quotation.quotation.project.buyerId,
       userId: req.user.userId,
     });
     response = OkResponse({}, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId, 'quotation_create');
-    logger.error('Error while creating quotation request:', error);
+    logger.error('Error while retain quotation:', error);
   }
   res.status(response.status).json(response);
 };
 
 module.exports = {
-  awardQuotationHandler,
+  retainQuotationHandler,
 };

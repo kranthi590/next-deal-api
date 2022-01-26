@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
-const { QUOTATION_STATUS, INVALID_SUPPLIER_ID } = require('../../../helpers/constants');
-const { QuotationsRequest, Suppliers } = require('../../../helpers/db.models');
+const { QUOTATION_STATUS, INVALID_SUPPLIER_ID, ACTIVITIES_TYPES } = require('../../../helpers/constants');
+const { QuotationsRequest, Suppliers, Activities } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
 const logger = require('../../../helpers/logger');
@@ -11,6 +11,15 @@ const saveQuotationWithMappings = async (data) => getConnection().transaction(as
   const quotation = await QuotationsRequest.create(data, {
     transaction: t,
     include: ['suppliersMapping'],
+  });
+  await Activities.create({
+    projectId: data.projectId,
+    quotationRequestId: quotation.dataValues.id,
+    userId: data.createdBy,
+    buyerId: data.buyerId,
+    activityType: ACTIVITIES_TYPES.QUOTATION_CREATED,
+  }, {
+    transaction: t,
   });
   return quotation.dataValues;
 });
@@ -61,6 +70,7 @@ const quotationCreationHandler = async (req, res) => {
         suppliersMapping: buyersSuppliers.map((buyersSupplier) => ({
           supplier_id: buyersSupplier.id,
         })),
+        buyerId: req.user.buyerId,
       });
       response = OkResponse(quotation, req.traceId);
     }

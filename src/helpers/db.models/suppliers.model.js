@@ -54,6 +54,7 @@ const Suppliers = getConnection().define(
       isEmail: true,
       allowNull: false,
       field: 'email_id',
+      unique: true,
     },
     inchargeFullName: {
       type: Sequelize.STRING,

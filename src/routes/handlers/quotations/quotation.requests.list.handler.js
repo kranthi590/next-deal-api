@@ -16,7 +16,7 @@ const quotationsListHandler = async (req, res) => {
         errorCode: INVALID_QUOTATION_STATUS,
       }, req.traceId, 'Validation errors');
     } else {
-      const where = { projectId: req.params.projectId };
+      const where = { projectId: req.params.projectId, isDeleted: false };
       if (req.query.status) {
         where.status = req.query.status;
       }

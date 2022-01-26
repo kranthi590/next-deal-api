@@ -11,7 +11,7 @@ const getProjectHandler = async (req, res) => {
   try {
     const [project, filesMeta] = await Promise.all([
       Projects.findOne({
-        where: { id: req.params.projectId },
+        where: { id: req.params.projectId, isDeleted: false },
         attributes: [
           ...Object.keys(Projects.rawAttributes),
           [Sequelize.fn('COUNT', Sequelize.fn('DISTINCT', Sequelize.col('quotation_requests.id'))), 'quotationsCount'],

@@ -10,7 +10,7 @@ const getQuotationHandler = async (req, res) => {
   try {
     const [quotation, filesMeta] = await Promise.all([
       await QuotationsRequest.findOne({
-        where: { id: req.params.quotationRequestId },
+        where: { id: req.params.quotationRequestId, isDeleted: false },
       }),
       Files.findAll({
         where: { entityId: req.params.quotationRequestId },

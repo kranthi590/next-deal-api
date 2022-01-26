@@ -13,6 +13,7 @@ const { Files } = require('./files.model');
 const { QuotationsRequest } = require('./quotations.request.model');
 const { QuotationsResponse } = require('./quotations.response.model');
 const { QuotationToSupplierMappings } = require('./quotation.supplier.mappings.model');
+const { Activities } = require('./activities.model');
 
 Regions.hasMany(Comunas, { foreignKey: 'region_id', targetKey: 'id' });
 Regions.belongsTo(Countries);
@@ -94,6 +95,12 @@ Projects.belongsTo(Buyers, {
   targetKey: 'id',
 });
 
+SupplierCategoryMappings.belongsTo(Categories, { as: 'category', foreignKey: 'category_id', targetKey: 'id' });
+SupplierServiceLocationsMappings.belongsTo(Regions, { as: 'region', foreignKey: 'region_id', targetKey: 'id' });
+Addresses.belongsTo(Regions, { as: 'region', foreignKey: 'region_id', targetKey: 'id' });
+Addresses.belongsTo(Countries, { as: 'country', foreignKey: 'country_id', targetKey: 'id' });
+Addresses.belongsTo(Comunas, { as: 'comuna', foreignKey: 'commune_id', targetKey: 'id' });
+
 module.exports = {
   Roles,
   Countries,
@@ -111,4 +118,5 @@ module.exports = {
   QuotationsRequest,
   QuotationsResponse,
   UsersRolesMappings,
+  Activities,
 };

@@ -101,6 +101,11 @@ const QuotationsResponse = getConnection().define(
       allowNull: true,
       field: 'additional_data',
     },
+    isDeleted: {
+      type: Sequelize.BOOLEAN,
+      field: 'is_deleted',
+      default: false,
+    },
   },
   {
     timestamps: true,

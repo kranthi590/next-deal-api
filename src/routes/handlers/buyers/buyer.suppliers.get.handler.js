@@ -14,7 +14,7 @@ const getBuyersSupplierHandler = async (req, res) => {
         where: {
           buyerId: req.user.buyerId,
         },
-        attributes: ['id', 'legalName', 'fantasyName'],
+        attributes: ['id', 'legalName', 'fantasyName', 'emailId', 'isShared'],
       };
       const suppliers = await Suppliers.findAll(query);
       response = OkResponse(suppliers, req.traceId);

@@ -25,6 +25,8 @@ const {
   INVALID_FILE,
   INVALID_ASSET_RELATION_ID,
   INVALID_ASSET_RELATION,
+  ACCOUNT_LICENSE_EXPIRED,
+  PURCHASE_ORDER_NUMBER_NOT_FOUND,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -115,6 +117,15 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === INVALID_ASSET_RELATION) {
     return ForbiddenResponse(INVALID_ASSET_RELATION, traceId);
+  }
+  if (_.get(error, 'message', null) === ACCOUNT_LICENSE_EXPIRED) {
+    return ForbiddenResponse(ACCOUNT_LICENSE_EXPIRED, traceId);
+  }
+  if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.projects_buyer_id_code', false)) {
+    return ConflictResponse(ER_DUP_ENTRY_PROJECT_CODE, traceId);
+  }
+  if (_.get(error, 'message', null) === PURCHASE_ORDER_NUMBER_NOT_FOUND) {
+    return ForbiddenResponse(PURCHASE_ORDER_NUMBER_NOT_FOUND, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };

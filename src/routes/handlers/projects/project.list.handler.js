@@ -15,7 +15,7 @@ const projectsListHandler = async (req, res) => {
         [Sequelize.fn('COUNT', Sequelize.col('quotation_requests.id')), 'quotationsCount'],
       ],
       subQuery: false,
-      where: { buyerId: req.user.buyerId },
+      where: { buyerId: req.user.buyerId, isDeleted: false },
       limit,
       offset,
       order: [['updated_at', 'DESC']],

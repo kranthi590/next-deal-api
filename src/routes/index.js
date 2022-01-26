@@ -11,6 +11,7 @@ const fetchComunasByRegion = require('./handlers/config/config.comunas.handler')
 
 const registerSupplier = require('./handlers/suppliers/supplier.register.handler');
 const { getSupplierHandler } = require('./handlers/suppliers/supplier.get.handler');
+const { getSuppliersHandler } = require('./handlers/suppliers/suppliers.list.handler');
 
 const { registerBuyerHandler } = require('./handlers/buyers/buyer.register.handler');
 const { getBuyerHandler } = require('./handlers/buyers/buyer.get.handler');
@@ -36,6 +37,10 @@ const { awardQuotationHandler } = require('./handlers/quotations/quotation.award
 const { completeQuotationHandler } = require('./handlers/quotations/quotation.complete.handler');
 const { getQuotationResponseHandler } = require('./handlers/quotations/quotation.response.get.handler');
 const { uploadFileHandler } = require('./handlers/files/file.upload.handler');
+const { retainQuotationHandler } = require('./handlers/quotations/quotation.retain.handler');
+const { downloadBuyersSuppliersHandler } = require('./handlers/buyers/buyer.suppliers.download.handler');
+const downloadExcel = require('../middleware/download.excel');
+const { abortQuotationHandler } = require('./handlers/quotations/quotation.abort.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -45,12 +50,14 @@ router.get(['/', '/health'], (req, res) => {
 // Supplier routes
 router.post('/suppliers', validateMiddleware, registerSupplier);
 router.get('/suppliers/:supplierId', getSupplierHandler);
+router.get('/suppliers', authMiddleware, getSuppliersHandler);
 
 // Buyer routes
 router.post('/buyers', validateMiddleware, registerBuyerHandler);
 router.get('/buyers/:buyerId', getBuyerHandler);
 router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandler);
 router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
+router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler, downloadExcel);
 
 // User routes
 router.post('/users', validateMiddleware, registerUserHandler);
@@ -129,10 +136,25 @@ router.post(
 );
 
 router.post(
+  '/quotations/:quotationResponseId/retain',
+  authMiddleware,
+  verifyDomainMiddleware,
+  retainQuotationHandler,
+);
+
+router.post(
   '/quotations/:quotationResponseId/complete',
   validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
   completeQuotationHandler,
 );
+
+router.post(
+  '/quotations/:quotationRequestId/abort',
+  authMiddleware,
+  verifyDomainMiddleware,
+  abortQuotationHandler,
+);
+
 module.exports = router;

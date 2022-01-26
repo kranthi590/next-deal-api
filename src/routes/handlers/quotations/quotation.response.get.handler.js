@@ -8,7 +8,7 @@ const getQuotationResponseHandler = async (req, res) => {
   let response;
   try {
     const quotation = await QuotationsResponse.findOne({
-      where: { id: req.params.quotationResponseId },
+      where: { id: req.params.quotationResponseId, isDeleted: false },
     });
     if (!quotation) {
       throw new Error(INVALID_QUOTATION_RESPONSE_ID);
