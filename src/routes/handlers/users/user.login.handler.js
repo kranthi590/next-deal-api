@@ -46,7 +46,7 @@ const userLoginHandler = async (req, res) => {
       delete user.password;
       response = OkResponse({ user, token }, req.traceId);
     } else {
-      response = UnauthorizedResponse(INVALID_USER_ACCOUNT, req.traceId);
+      throw new Error(INVALID_USER_ACCOUNT);
     }
   } catch (error) {
     response = parseError(error, req.traceId);
