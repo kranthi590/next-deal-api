@@ -15,6 +15,8 @@ const { getSuppliersHandler } = require('./handlers/suppliers/suppliers.list.han
 
 const { registerBuyerHandler } = require('./handlers/buyers/buyer.register.handler');
 const { getBuyerHandler } = require('./handlers/buyers/buyer.get.handler');
+const { downloadBuyersSuppliersHandler } = require('./handlers/buyers/buyer.suppliers.download.handler');
+const { uploadBuyerSuppliersHandler } = require('./handlers/buyers/buyer.upload.suppliers.handler');
 
 const { registerUserHandler } = require('./handlers/users/user.register.handler');
 const { getUserHandler } = require('./handlers/users/user.get.handler');
@@ -38,9 +40,9 @@ const { completeQuotationHandler } = require('./handlers/quotations/quotation.co
 const { getQuotationResponseHandler } = require('./handlers/quotations/quotation.response.get.handler');
 const { uploadFileHandler } = require('./handlers/files/file.upload.handler');
 const { retainQuotationHandler } = require('./handlers/quotations/quotation.retain.handler');
-const { downloadBuyersSuppliersHandler } = require('./handlers/buyers/buyer.suppliers.download.handler');
 const downloadExcel = require('../middleware/download.excel');
 const { abortQuotationHandler } = require('./handlers/quotations/quotation.abort.handler');
+const { activitiesListHandler } = require('./handlers/activities/activities.list.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -58,6 +60,7 @@ router.get('/buyers/:buyerId', getBuyerHandler);
 router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandler);
 router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
 router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler, downloadExcel);
+router.post('/buyers/:buyerId/uploadSuppliers', multerUploadMiddleware, uploadBuyerSuppliersHandler);
 
 // User routes
 router.post('/users', validateMiddleware, registerUserHandler);
@@ -155,6 +158,14 @@ router.post(
   authMiddleware,
   verifyDomainMiddleware,
   abortQuotationHandler,
+);
+
+// Activities routes
+router.get(
+  '/activities/:quotationRequestId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  activitiesListHandler,
 );
 
 module.exports = router;

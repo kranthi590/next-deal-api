@@ -6,7 +6,6 @@ const logger = require('../../../helpers/logger');
 const { Users } = require('../../../helpers/db.models');
 const {
   OkResponse,
-  UnauthorizedResponse,
 } = require('../../../helpers/response.transforms');
 const { INVALID_USER_ACCOUNT, ACCOUNT_LICENSE_EXPIRED } = require('../../../helpers/constants');
 const { parseError } = require('../../../helpers/error.parser');
@@ -28,7 +27,7 @@ const userLoginHandler = async (req, res) => {
     const user = await getUser(emailId);
     if (user && user.status && bcrypt.compareSync(password, user.password)) {
       const date = moment(user.buyer.licensedUntil);
-      if (moment().diff(user.buyer.licensedUntil) > 0) {
+      if (moment(date).diff(moment(), 'days') <= 0) {
         throw new Error(ACCOUNT_LICENSE_EXPIRED);
       }
       const token = jwt.sign(
@@ -40,7 +39,7 @@ const userLoginHandler = async (req, res) => {
         },
         process.env.JWT_SECRET_KEY,
         {
-          expiresIn: `${date.diff(moment.utc(), 'days')}d`,
+          expiresIn: `${moment(date).diff(moment(), 'days')}d`,
         },
       );
       delete user.password;
