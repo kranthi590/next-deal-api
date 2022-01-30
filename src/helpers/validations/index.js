@@ -6,6 +6,7 @@ const { projectCreationSchema } = require('./project-create');
 const { createQuotationRequestSchema } = require('./quotation-request-create');
 const { createQuotationResponseSchema } = require('./quotation-response-create');
 const { confirmReceptionQuotationSchema } = require('./confirm-reception');
+const { createCustomActivitySchema } = require('./create-custom-activity');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -19,6 +20,8 @@ const getValidationSchema = (routePath) => {
       return loginUserSchema;
     case routePath === '/api/v1/projects':
       return projectCreationSchema;
+    case routePath === '/api/v1/activities':
+      return createCustomActivitySchema;
     case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
       return createQuotationRequestSchema;
     case /^\/api\/v1\/quotations\/\d+\/responses$/.test(routePath):

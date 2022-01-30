@@ -43,6 +43,7 @@ const { retainQuotationHandler } = require('./handlers/quotations/quotation.reta
 const downloadExcel = require('../middleware/download.excel');
 const { abortQuotationHandler } = require('./handlers/quotations/quotation.abort.handler');
 const { activitiesListHandler } = require('./handlers/activities/activities.list.handler');
+const { createCustomActivityHandler } = require('./handlers/activities/activity.create.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -166,6 +167,14 @@ router.get(
   authMiddleware,
   verifyDomainMiddleware,
   activitiesListHandler,
+);
+
+router.post(
+  '/activities',
+  validateMiddleware,
+  authMiddleware,
+  verifyDomainMiddleware,
+  createCustomActivityHandler,
 );
 
 module.exports = router;
