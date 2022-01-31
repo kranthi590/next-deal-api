@@ -8,7 +8,8 @@ const validate = async (req, res, next) => {
   try {
     const schema = getValidationSchema(url.parse(req.originalUrl).pathname, req.method);
     schema.unknown();
-    await schema.validateAsync(req.body, { abortEarly: false });
+    console.log(req.query);
+    await schema.validateAsync({ ...req.body, ...req.query }, { abortEarly: false });
     next();
   } catch (error) {
     logger.error('Error while validating request', error);

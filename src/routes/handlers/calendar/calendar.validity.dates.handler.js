@@ -9,7 +9,7 @@ const validityDatesHandler = async (req, res) => {
     const {
       startDate,
       endDate,
-    } = req.body;
+    } = req.query;
     const quotations = await fetchQuotationsByDatesAndBuyer({
       buyerId: req.user.buyerId,
       dataField: 'validityDate',
