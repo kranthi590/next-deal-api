@@ -44,6 +44,8 @@ const downloadExcel = require('../middleware/download.excel');
 const { abortQuotationHandler } = require('./handlers/quotations/quotation.abort.handler');
 const { activitiesListHandler } = require('./handlers/activities/activities.list.handler');
 const { createCustomActivityHandler } = require('./handlers/activities/activity.create.handler');
+const { deliveryDatesHandler } = require('./handlers/calendar/calendar.delivery.dates.handler');
+const { validityDatesHandler } = require('./handlers/calendar/calendar.validity.dates.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -177,4 +179,18 @@ router.post(
   createCustomActivityHandler,
 );
 
+// Calendar
+router.get(
+  '/calender/delivery_dates',
+  authMiddleware,
+  verifyDomainMiddleware,
+  deliveryDatesHandler,
+);
+
+router.get(
+  '/calender/validity_dates',
+  authMiddleware,
+  verifyDomainMiddleware,
+  validityDatesHandler,
+);
 module.exports = router;
