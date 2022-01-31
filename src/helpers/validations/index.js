@@ -7,6 +7,7 @@ const { createQuotationRequestSchema } = require('./quotation-request-create');
 const { createQuotationResponseSchema } = require('./quotation-response-create');
 const { confirmReceptionQuotationSchema } = require('./confirm-reception');
 const { createCustomActivitySchema } = require('./create-custom-activity');
+const { calendarDataSchema } = require('./fetch-calendar-data');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -22,6 +23,10 @@ const getValidationSchema = (routePath) => {
       return projectCreationSchema;
     case routePath === '/api/v1/activities':
       return createCustomActivitySchema;
+    case routePath === '/api/v1/calender/validity_dates':
+      return calendarDataSchema;
+    case routePath === '/api/v1/calender/delivery_dates':
+      return calendarDataSchema;
     case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
       return createQuotationRequestSchema;
     case /^\/api\/v1\/quotations\/\d+\/responses$/.test(routePath):

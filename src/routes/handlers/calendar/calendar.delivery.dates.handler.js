@@ -6,11 +6,15 @@ const { fetchQuotationsByDatesAndBuyer } = require('./common.calendar.dates');
 const deliveryDatesHandler = async (req, res) => {
   let response;
   try {
+    const {
+      startDate,
+      endDate,
+    } = req.body;
     const quotations = await fetchQuotationsByDatesAndBuyer({
       buyerId: req.user.buyerId,
       dataField: 'deliveryDate',
-      startDate: '2022-01-01',
-      endDate: '2022-01-31',
+      startDate,
+      endDate,
     });
     response = OkResponse(quotations, req.traceId);
   } catch (error) {
