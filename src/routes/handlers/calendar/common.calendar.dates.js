@@ -9,7 +9,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
   startDate,
   endDate,
 }) => QuotationsResponse.findAll({
-  attributes: ['id', dataField, 'comments', 'supplierId'],
+  attributes: ['id', dataField, 'comments', 'supplierId', 'isAwarded'],
   where: {
     [dataField]: {
       [Op.and]: {
@@ -28,7 +28,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
         {
           model: Projects,
           as: 'project',
-          attributes: ['name'],
+          attributes: ['name', 'id'],
           where: { buyerId },
           required: true,
           //  include: ['buyer'],
