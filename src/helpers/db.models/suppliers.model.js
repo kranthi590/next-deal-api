@@ -47,7 +47,7 @@ const Suppliers = getConnection().define(
     type: {
       type: Sequelize.STRING,
       allowNull: false,
-      isIn: [['Emprendedor', 'Pyme']],
+      isIn: ['Emprendedor', 'Pyme'],
     },
     emailId: {
       type: Sequelize.UUID,

@@ -181,7 +181,7 @@ router.post(
 
 // Calendar
 router.get(
-  '/calender/delivery_dates',
+  '/calender/deliveryDates',
   validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
@@ -189,7 +189,7 @@ router.get(
 );
 
 router.get(
-  '/calender/validity_dates',
+  '/calender/validityDates',
   validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,

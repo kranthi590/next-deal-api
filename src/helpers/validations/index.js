@@ -23,9 +23,9 @@ const getValidationSchema = (routePath) => {
       return projectCreationSchema;
     case routePath === '/api/v1/activities':
       return createCustomActivitySchema;
-    case routePath === '/api/v1/calender/validity_dates':
+    case routePath === '/api/v1/calender/validityDates':
       return calendarDataSchema;
-    case routePath === '/api/v1/calender/delivery_dates':
+    case routePath === '/api/v1/calender/deliveryDates':
       return calendarDataSchema;
     case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
       return createQuotationRequestSchema;
