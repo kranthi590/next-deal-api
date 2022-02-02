@@ -8,6 +8,7 @@ const { createQuotationResponseSchema } = require('./quotation-response-create')
 const { confirmReceptionQuotationSchema } = require('./confirm-reception');
 const { createCustomActivitySchema } = require('./create-custom-activity');
 const { calendarDataSchema } = require('./fetch-calendar-data');
+const { extendBuyerRegistrationSchema } = require('./extend-buyer-registration');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -27,6 +28,8 @@ const getValidationSchema = (routePath) => {
       return calendarDataSchema;
     case routePath === '/api/v1/calender/deliveryDates':
       return calendarDataSchema;
+    case routePath === '/api/v1/buyers/extendRegistration':
+      return extendBuyerRegistrationSchema;
     case /^\/api\/v1\/projects\/\d+\/quotations$/.test(routePath):
       return createQuotationRequestSchema;
     case /^\/api\/v1\/quotations\/\d+\/responses$/.test(routePath):

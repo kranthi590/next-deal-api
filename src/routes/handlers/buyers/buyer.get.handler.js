@@ -4,9 +4,9 @@ const { Buyers } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse, UnauthorizedResponse } = require('../../../helpers/response.transforms');
 const { INVALID_BUYER_ID } = require('../../../helpers/constants');
 
-const getBuyer = async (buyerId) => {
+const getBuyer = async (buyerId, include = []) => {
   const query = {
-    include: ['businessAddress'],
+    include,
     where: {
       id: buyerId,
     },
@@ -17,7 +17,7 @@ const getBuyer = async (buyerId) => {
 const getBuyerHandler = async (req, res) => {
   let response;
   try {
-    const buyer = await getBuyer(req.params.buyerId);
+    const buyer = await getBuyer(req.params.buyerId, ['businessAddress']);
     if (!buyer) {
       response = UnauthorizedResponse(INVALID_BUYER_ID, req.traceId);
     } else {
@@ -32,4 +32,5 @@ const getBuyerHandler = async (req, res) => {
 
 module.exports = {
   getBuyerHandler,
+  getBuyer,
 };

@@ -29,6 +29,7 @@ const {
   PURCHASE_ORDER_NUMBER_NOT_FOUND,
   INVALID_USER_ACCOUNT,
   QUOTATION_NOT_FOUND,
+  INVALID_DATE,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -134,6 +135,9 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === QUOTATION_NOT_FOUND) {
     return ForbiddenResponse(QUOTATION_NOT_FOUND, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_DATE) {
+    return ForbiddenResponse(INVALID_DATE, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };

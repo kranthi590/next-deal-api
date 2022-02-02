@@ -3,6 +3,7 @@ const validateBuyer = require('./validate.buyer');
 const auth = require('./auth');
 const verifyDomain = require('./validate.domain');
 const multerUploadMiddleware = require('./multer');
+const verifyApiKey = require('./auth.internal');
 
 module.exports = {
   validateMiddleware: validate,
@@ -10,4 +11,5 @@ module.exports = {
   authMiddleware: auth,
   verifyDomainMiddleware: verifyDomain,
   multerUploadMiddleware,
+  verifyApiKey,
 };

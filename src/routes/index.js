@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { OkResponse } = require('../helpers/response.transforms');
 const {
-  validateMiddleware, authMiddleware, verifyDomainMiddleware, multerUploadMiddleware,
+  validateMiddleware, authMiddleware, verifyDomainMiddleware, multerUploadMiddleware, verifyApiKey,
 } = require('../middleware');
 const fetchRegionsByCountryCode = require('./handlers/config/config.regions.handler');
 const fetchComunasByRegion = require('./handlers/config/config.comunas.handler');
@@ -46,6 +46,7 @@ const { activitiesListHandler } = require('./handlers/activities/activities.list
 const { createCustomActivityHandler } = require('./handlers/activities/activity.create.handler');
 const { deliveryDatesHandler } = require('./handlers/calendar/calendar.delivery.dates.handler');
 const { validityDatesHandler } = require('./handlers/calendar/calendar.validity.dates.handler');
+const { extendRegistrationBuyerHandler } = require('./handlers/buyers/buyer.extend.registration.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -195,4 +196,8 @@ router.get(
   verifyDomainMiddleware,
   validityDatesHandler,
 );
+
+// Internal Routes
+router.post('/buyers/extendRegistration', verifyApiKey, validateMiddleware, extendRegistrationBuyerHandler);
+
 module.exports = router;
