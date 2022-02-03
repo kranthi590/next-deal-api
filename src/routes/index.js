@@ -47,6 +47,8 @@ const { createCustomActivityHandler } = require('./handlers/activities/activity.
 const { deliveryDatesHandler } = require('./handlers/calendar/calendar.delivery.dates.handler');
 const { validityDatesHandler } = require('./handlers/calendar/calendar.validity.dates.handler');
 const { extendRegistrationBuyerHandler } = require('./handlers/buyers/buyer.extend.registration.handler');
+const { deleteProjectHandler } = require('./handlers/projects/project.delete.handler');
+const { deleteQuotationHandler } = require('./handlers/quotations/quotation.request.delete.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -78,10 +80,9 @@ router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComu
 // Projects routes
 router.post('/projects', validateMiddleware, authMiddleware,
   verifyDomainMiddleware, projectCreationHandler);
-
 router.get('/projects', authMiddleware, verifyDomainMiddleware, projectsListHandler);
-
 router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getProjectHandler);
+router.delete('/projects/:projectId', authMiddleware, verifyDomainMiddleware, deleteProjectHandler);
 
 // Files Routes
 router.get('/files/:fileId/:fileName', authMiddleware, getFileHandler);
@@ -164,6 +165,13 @@ router.post(
   abortQuotationHandler,
 );
 
+router.delete(
+  '/quotations/:quotationRequestId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  deleteQuotationHandler,
+);
+
 // Activities routes
 router.get(
   '/activities/:quotationRequestId',
@@ -198,6 +206,6 @@ router.get(
 );
 
 // Internal Routes
-router.post('/buyers/extendRegistration', verifyApiKey, validateMiddleware, extendRegistrationBuyerHandler);
+router.patch('/buyers/extendRegistration', verifyApiKey, validateMiddleware, extendRegistrationBuyerHandler);
 
 module.exports = router;

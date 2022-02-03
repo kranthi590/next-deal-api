@@ -7,7 +7,7 @@ const { Users } = require('../../../helpers/db.models');
 const {
   OkResponse,
 } = require('../../../helpers/response.transforms');
-const { INVALID_USER_ACCOUNT, ACCOUNT_LICENSE_EXPIRED } = require('../../../helpers/constants');
+const { INVALID_ACCOUNT_CREDENTIALS, ACCOUNT_LICENSE_EXPIRED } = require('../../../helpers/constants');
 const { parseError } = require('../../../helpers/error.parser');
 
 const getUser = async (emailId) => {
@@ -45,7 +45,7 @@ const userLoginHandler = async (req, res) => {
       delete user.password;
       response = OkResponse({ user, token }, req.traceId);
     } else {
-      throw new Error(INVALID_USER_ACCOUNT);
+      throw new Error(INVALID_ACCOUNT_CREDENTIALS);
     }
   } catch (error) {
     response = parseError(error, req.traceId);

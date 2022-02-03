@@ -27,9 +27,12 @@ const {
   INVALID_ASSET_RELATION,
   ACCOUNT_LICENSE_EXPIRED,
   PURCHASE_ORDER_NUMBER_NOT_FOUND,
-  INVALID_USER_ACCOUNT,
+  INVALID_ACCOUNT_CREDENTIALS,
   QUOTATION_NOT_FOUND,
   INVALID_DATE,
+  QUOTATION_NOT_MAPPED_TO_THIS_BUYER,
+  QUOTATION_ALREADY_DELETED,
+  PROJECT_ALREADY_DELETED,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -124,8 +127,8 @@ const parseError = (error, traceId, context) => {
   if (_.get(error, 'message', null) === ACCOUNT_LICENSE_EXPIRED) {
     return ForbiddenResponse(ACCOUNT_LICENSE_EXPIRED, traceId);
   }
-  if (_.get(error, 'message', null) === INVALID_USER_ACCOUNT) {
-    return ForbiddenResponse(INVALID_USER_ACCOUNT, traceId);
+  if (_.get(error, 'message', null) === INVALID_ACCOUNT_CREDENTIALS) {
+    return ForbiddenResponse(INVALID_ACCOUNT_CREDENTIALS, traceId);
   }
   if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.projects_buyer_id_code', false)) {
     return ConflictResponse(ER_DUP_ENTRY_PROJECT_CODE, traceId);
@@ -138,6 +141,15 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === INVALID_DATE) {
     return ForbiddenResponse(INVALID_DATE, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_NOT_MAPPED_TO_THIS_BUYER) {
+    return ForbiddenResponse(QUOTATION_NOT_MAPPED_TO_THIS_BUYER, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_ALREADY_DELETED) {
+    return ForbiddenResponse(QUOTATION_ALREADY_DELETED, traceId);
+  }
+  if (_.get(error, 'message', null) === PROJECT_ALREADY_DELETED) {
+    return ForbiddenResponse(PROJECT_ALREADY_DELETED, traceId);
   }
   return InternalServerErrorResponse(error, traceId);
 };
