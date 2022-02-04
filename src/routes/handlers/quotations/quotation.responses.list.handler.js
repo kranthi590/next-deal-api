@@ -1,3 +1,4 @@
+const { Sequelize } = require('sequelize');
 const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT } = require('../../../helpers/constants');
 const { QuotationsResponse, Suppliers, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
@@ -21,7 +22,9 @@ const quotationResponsesListHandler = async (req, res) => {
         'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm',
         'deliveryDate', 'validityDate', 'additionalData', 'isAwarded', 'comments',
       ],
-      //  order: [['updated_at', 'DESC']],
+      order: [
+        [Sequelize.literal('updated_at'), 'desc'],
+      ],
       include: [{
         model: Suppliers,
         as: 'supplier',
@@ -29,6 +32,14 @@ const quotationResponsesListHandler = async (req, res) => {
       }, {
         model: Files,
         as: 'files',
+        attributes: [
+          'isPublic',
+          'fileLocation',
+          'id',
+          'name',
+          'mimeType',
+          'bucketName',
+        ],
       }],
     });
     quotations.limit = limit;
