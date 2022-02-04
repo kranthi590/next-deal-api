@@ -1,6 +1,7 @@
 const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT } = require('../../../helpers/constants');
-const { QuotationsResponse, Suppliers } = require('../../../helpers/db.models');
+const { QuotationsResponse, Suppliers, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
+const { generateFileURL } = require('../../../helpers/generate.file.url');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
 
@@ -20,15 +21,23 @@ const quotationResponsesListHandler = async (req, res) => {
         'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm',
         'deliveryDate', 'validityDate', 'additionalData', 'isAwarded', 'comments',
       ],
-      order: [['updated_at', 'DESC']],
+      //  order: [['updated_at', 'DESC']],
       include: [{
         model: Suppliers,
         as: 'supplier',
         attributes: ['id', 'fantasyName'],
+      }, {
+        model: Files,
+        as: 'files',
       }],
     });
     quotations.limit = limit;
     quotations.offset = offset;
+    const quotationsData = quotations.rows.map(({ dataValues: { files, ...rest } }) => ({
+      ...rest,
+      files: generateFileURL(files),
+    }));
+    quotations.rows = quotationsData;
     response = OkResponse(quotations, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId);

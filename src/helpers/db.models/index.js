@@ -85,6 +85,7 @@ QuotationsRequest.hasMany(QuotationToSupplierMappings, {
 
 QuotationsResponse.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationsResponse.hasMany(QuotationToSupplierMappings, { as: 'quotation_mapping', foreignKey: 'quotation_request_id', targetKey: 'quotation_request_id' });
+QuotationsResponse.hasMany(Files, { as: 'files', foreignKey: 'entityId', targetKey: 'id' });
 
 QuotationToSupplierMappings.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationToSupplierMappings.belongsTo(QuotationsResponse, { as: 'quotation', foreignKey: 'supplier_id', targetKey: 'supplier_id' });
