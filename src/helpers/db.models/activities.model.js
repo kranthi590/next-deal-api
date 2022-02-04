@@ -62,6 +62,9 @@ const Activities = getConnection().define(
       type: Sequelize.DATE,
       field: 'created_at',
       defaultValue: Sequelize.NOW,
+      // get() {
+      //   return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
+      // },
     },
     updatedAt: {
       type: Sequelize.DATE,

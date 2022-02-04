@@ -10,7 +10,12 @@ const activitiesListHandler = async (req, res) => {
       where: {
         quotationRequestId: req.params.quotationRequestId,
       },
-      attributes: ['activityType', 'activityText', 'id'],
+      attributes: [
+        'activityType',
+        'activityText',
+        'id',
+        'createdAt',
+      ],
     });
     response = OkResponse(activities, req.traceId);
   } catch (error) {

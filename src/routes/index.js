@@ -49,6 +49,7 @@ const { validityDatesHandler } = require('./handlers/calendar/calendar.validity.
 const { extendRegistrationBuyerHandler } = require('./handlers/buyers/buyer.extend.registration.handler');
 const { deleteProjectHandler } = require('./handlers/projects/project.delete.handler');
 const { deleteQuotationHandler } = require('./handlers/quotations/quotation.request.delete.handler');
+const { deleteQuotationResponseHandler } = require('./handlers/quotations/quotation.response.delete.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -170,6 +171,13 @@ router.delete(
   authMiddleware,
   verifyDomainMiddleware,
   deleteQuotationHandler,
+);
+
+router.delete(
+  '/quotations/response/:quotationResponseId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  deleteQuotationResponseHandler,
 );
 
 // Activities routes
