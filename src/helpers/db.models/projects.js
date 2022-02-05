@@ -45,7 +45,7 @@ const Projects = getConnection().define(
     },
     expectedEndDate: {
       type: Sequelize.DATE,
-      allowNull: false,
+      allowNull: true,
       field: 'expected_end_date',
     },
     actualEndDate: {
@@ -60,7 +60,7 @@ const Projects = getConnection().define(
     },
     currency: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       field: 'currency',
       isIn: Object.values(CURRENCY_TYPE),
     },
