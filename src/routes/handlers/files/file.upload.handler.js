@@ -13,6 +13,7 @@ const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
 const prepareProjectContext = require('./prepare.context/project.context');
 const prepareQuotationRequestContext = require('./prepare.context/quotation.request.context');
+const prepareQuotationResponseContext = require('./prepare.context/quotation.response.context');
 const prepareSupplierContext = require('./prepare.context/supplier.context');
 
 const saveFileAndUpdateMeta = async (req, context) => {
@@ -68,6 +69,9 @@ const uploadFileHandler = async (req, res) => {
       response = await saveFileAndUpdateMeta(req, context);
     } else if (assetRelation === FILE_TYPE.QUOTATION_REQUEST) {
       context = await prepareQuotationRequestContext(req);
+      response = await saveFileAndUpdateMeta(req, context);
+    } else if (assetRelation === FILE_TYPE.QUOTATION_RESPONSE) {
+      context = await prepareQuotationResponseContext(req);
       response = await saveFileAndUpdateMeta(req, context);
     } else {
       throw Error(INVALID_FILE_TYPE);
