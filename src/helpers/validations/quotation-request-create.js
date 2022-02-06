@@ -7,7 +7,9 @@ const createQuotationRequestSchema = Joi.object()
     startDate: Joi.date().required(),
     expectedEndDate: Joi.date().required(),
     estimatedBudget: Joi.number(),
-    currency: Joi.string().valid(CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF).required(),
+    currency: Joi.string().valid(
+      CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF, CURRENCY_TYPE.USD,
+    ),
     description: Joi.string(),
     comments: Joi.string(),
     suppliers: Joi.array().items(Joi.number().required()).required(),
