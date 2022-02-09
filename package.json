@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "nodemon src/server.js",
-    "start": "NODE_ENV=prod node src/server.js"
+    "start": "NODE_ENV=prod node src/server.js",
+    "eslint": "eslint ./src/** --fix"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.15.3",

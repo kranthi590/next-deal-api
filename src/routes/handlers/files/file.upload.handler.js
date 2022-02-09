@@ -17,7 +17,7 @@ const prepareQuotationResponseContext = require('./prepare.context/quotation.res
 const prepareSupplierContext = require('./prepare.context/supplier.context');
 
 const saveFileAndUpdateMeta = async (req, context) => {
-  const { files, traceId } = req;
+  const { files, traceId, user } = req;
   const {
     bucketName, isPublic, folder, entityId, entityType,
   } = context;
@@ -37,6 +37,7 @@ const saveFileAndUpdateMeta = async (req, context) => {
     isPublic,
     fileSize: file.size,
     bucketName,
+    uploadedBy: user.userId,
   })));
   // eslint-disable-next-line max-len
   const filesMeta = generateFileURL(saveResponses.map(({ fileLocation, fileName, file }, index) => ({

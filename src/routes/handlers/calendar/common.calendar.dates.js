@@ -1,7 +1,16 @@
 const { Op } = require('sequelize');
+const { QUOTATION_STATUS } = require('../../../helpers/constants');
 const {
-  QuotationsResponse, QuotationsRequest, Projects, Suppliers,
+  QuotationsResponse,
+  QuotationsRequest,
+  Projects,
+  Suppliers,
 } = require('../../../helpers/db.models');
+
+const DATE_FIELD_TYPES = {
+  VALIDITY_DATE_TYPE: 'validityDate',
+  DELIVERY_DATE_TYPE: 'deliveryDate',
+};
 
 const fetchQuotationsByDatesAndBuyer = async ({
   buyerId,
@@ -24,6 +33,12 @@ const fetchQuotationsByDatesAndBuyer = async ({
       as: 'quotation',
       attributes: ['name', 'description'],
       required: true,
+      where: {
+        status:
+            dataField === DATE_FIELD_TYPES.VALIDITY_DATE_TYPE
+              ? QUOTATION_STATUS.IN_PROGRESS
+              : QUOTATION_STATUS.AWARDED,
+      },
       include: [
         {
           model: Projects,
@@ -45,4 +60,5 @@ const fetchQuotationsByDatesAndBuyer = async ({
 
 module.exports = {
   fetchQuotationsByDatesAndBuyer,
+  DATE_FIELD_TYPES,
 };

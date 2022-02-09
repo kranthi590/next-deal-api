@@ -1,7 +1,7 @@
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
-const { fetchQuotationsByDatesAndBuyer } = require('./common.calendar.dates');
+const { fetchQuotationsByDatesAndBuyer, DATE_FIELD_TYPES } = require('./common.calendar.dates');
 
 const deliveryDatesHandler = async (req, res) => {
   let response;
@@ -12,7 +12,7 @@ const deliveryDatesHandler = async (req, res) => {
     } = req.query;
     const quotations = await fetchQuotationsByDatesAndBuyer({
       buyerId: req.user.buyerId,
-      dataField: 'deliveryDate',
+      dataField: DATE_FIELD_TYPES.DELIVERY_DATE_TYPE,
       startDate,
       endDate,
     });

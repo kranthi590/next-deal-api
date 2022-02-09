@@ -2,9 +2,6 @@ const ExcelJS = require('exceljs');
 
 const logger = require('../../../helpers/logger');
 
-const {
-  Categories, Regions, Countries, Comunas,
-} = require('../../../helpers/db.models');
 const { columns } = require('./buyer.suppliers.download.handler');
 
 const columnsObject = {};
@@ -14,12 +11,12 @@ columns.forEach(({
   columnsObject[index] = key;
 });
 
-const getSupportingData = async () => Promise.all([
-  Categories.findAll(),
-  Regions.findAll(),
-  Countries.findAll(),
-  Comunas.findAll(),
-]);
+// const getSupportingData = async () => Promise.all([
+//   Categories.findAll(),
+//   Regions.findAll(),
+//   Countries.findAll(),
+//   Comunas.findAll(),
+// ]);
 
 const uploadBuyerSuppliersHandler = async (req, res) => {
   const response = {};

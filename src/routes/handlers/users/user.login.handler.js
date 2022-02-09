@@ -1,13 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const moment = require('moment');
 const logger = require('../../../helpers/logger');
 const { Users } = require('../../../helpers/db.models');
-const {
-  OkResponse,
-} = require('../../../helpers/response.transforms');
-const { INVALID_ACCOUNT_CREDENTIALS, ACCOUNT_LICENSE_EXPIRED } = require('../../../helpers/constants');
+const { OkResponse } = require('../../../helpers/response.transforms');
+const { INVALID_ACCOUNT_CREDENTIALS } = require('../../../helpers/constants');
 const { parseError } = require('../../../helpers/error.parser');
 
 const getUser = async (emailId) => {
@@ -26,10 +23,10 @@ const userLoginHandler = async (req, res) => {
     const { emailId, password } = req.body;
     const user = await getUser(emailId);
     if (user && user.status && bcrypt.compareSync(password, user.password)) {
-      const date = moment(user.buyer.licensedUntil);
-      if (moment(date).diff(moment(), 'days') <= 0) {
-        throw new Error(ACCOUNT_LICENSE_EXPIRED);
-      }
+      //  const date = moment(user.buyer.licensedUntil);
+      // if (moment(date).diff(moment(), 'days') <= 0) {
+      //   throw new Error(ACCOUNT_LICENSE_EXPIRED);
+      // }
       const token = jwt.sign(
         {
           emailId: user.emailId,
@@ -39,7 +36,8 @@ const userLoginHandler = async (req, res) => {
         },
         process.env.JWT_SECRET_KEY,
         {
-          expiresIn: `${moment(date).diff(moment(), 'days')}d`,
+          //  expiresIn: `${moment(date).diff(moment(), 'days')}d`,
+          expiresIn: '30d',
         },
       );
       delete user.password;
