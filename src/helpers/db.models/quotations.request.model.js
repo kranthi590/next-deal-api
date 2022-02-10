@@ -40,7 +40,7 @@ const QuotationsRequest = getConnection().define(
     },
     expectedEndDate: {
       type: Sequelize.DATE,
-      allowNull: false,
+      allowNull: true,
       field: 'expected_end_date',
     },
     actualEndDate: {
