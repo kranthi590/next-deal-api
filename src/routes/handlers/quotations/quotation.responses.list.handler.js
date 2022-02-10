@@ -19,7 +19,7 @@ const quotationResponsesListHandler = async (req, res) => {
       limit,
       offset,
       attributes: [
-        'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm',
+        'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm', 'currency',
         'deliveryDate', 'validityDate', 'additionalData', 'isAwarded', 'comments',
       ],
       order: [
