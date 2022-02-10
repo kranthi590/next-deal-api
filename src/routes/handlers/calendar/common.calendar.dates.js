@@ -14,13 +14,13 @@ const DATE_FIELD_TYPES = {
 
 const fetchQuotationsByDatesAndBuyer = async ({
   buyerId,
-  dataField,
+  dateField,
   startDate,
   endDate,
 }) => QuotationsResponse.findAll({
-  attributes: ['id', dataField, 'comments', 'supplierId', 'isAwarded'],
+  attributes: ['id', dateField, 'comments', 'supplierId', 'isAwarded'],
   where: {
-    [dataField]: {
+    [dateField]: {
       [Op.and]: {
         [Op.gte]: startDate,
         [Op.lte]: endDate,
@@ -34,10 +34,9 @@ const fetchQuotationsByDatesAndBuyer = async ({
       attributes: ['name', 'description'],
       required: true,
       where: {
-        status:
-            dataField === DATE_FIELD_TYPES.VALIDITY_DATE_TYPE
-              ? QUOTATION_STATUS.IN_PROGRESS
-              : QUOTATION_STATUS.AWARDED,
+        status: dateField === DATE_FIELD_TYPES.VALIDITY_DATE_TYPE ? {
+          [Op.or]: [QUOTATION_STATUS.IN_PROGRESS, QUOTATION_STATUS.CREATED],
+        } : QUOTATION_STATUS.AWARDED,
       },
       include: [
         {
@@ -46,7 +45,6 @@ const fetchQuotationsByDatesAndBuyer = async ({
           attributes: ['name', 'id'],
           where: { buyerId },
           required: true,
-          //  include: ['buyer'],
         },
       ],
     },

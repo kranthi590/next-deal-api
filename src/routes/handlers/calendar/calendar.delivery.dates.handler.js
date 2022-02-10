@@ -12,7 +12,7 @@ const deliveryDatesHandler = async (req, res) => {
     } = req.query;
     const quotations = await fetchQuotationsByDatesAndBuyer({
       buyerId: req.user.buyerId,
-      dataField: DATE_FIELD_TYPES.DELIVERY_DATE_TYPE,
+      dateField: DATE_FIELD_TYPES.DELIVERY_DATE_TYPE,
       startDate,
       endDate,
     });
