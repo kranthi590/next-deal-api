@@ -1,4 +1,4 @@
-const { INVALID_QUOTATION_ID } = require('../../../helpers/constants');
+const { INVALID_QUOTATION_ID, FILE_TYPE } = require('../../../helpers/constants');
 const { QuotationsRequest, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
@@ -13,7 +13,10 @@ const getQuotationHandler = async (req, res) => {
         where: { id: req.params.quotationRequestId, isDeleted: false },
       }),
       Files.findAll({
-        where: { entityId: req.params.quotationRequestId },
+        where: {
+          entityId: req.params.quotationRequestId,
+          entityType: FILE_TYPE.QUOTATION_REQUEST,
+        },
       }),
     ]);
     if (!quotation) {

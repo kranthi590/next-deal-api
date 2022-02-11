@@ -3,7 +3,7 @@ const logger = require('../../../helpers/logger');
 const { Suppliers, Files } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse, UnauthorizedResponse } = require('../../../helpers/response.transforms');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
-const { INVALID_SUPPLIER_ID } = require('../../../helpers/constants');
+const { INVALID_SUPPLIER_ID, FILE_TYPE } = require('../../../helpers/constants');
 
 const getSupplier = async (supplierId) => {
   const query = {
@@ -16,7 +16,10 @@ const getSupplier = async (supplierId) => {
   return Promise.all([
     Suppliers.findOne(query),
     Files.findAll({
-      where: { entityId: supplierId },
+      where: {
+        entityId: supplierId,
+        entityType: FILE_TYPE.SUPPLIER_LOGO,
+      },
     }),
   ]);
 };

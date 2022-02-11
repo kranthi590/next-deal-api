@@ -16,9 +16,11 @@ const init = async () => {
     await connection.authenticate();
     setConnection(connection);
     require('./db.models');
-    await connection.sync({ force: false });
-    const { checkAndInsertData } = require('./master.data');
-    await checkAndInsertData();
+    if (process.env.NODE_ENV !== 'develop') {
+      await connection.sync({ force: false });
+      const { checkAndInsertData } = require('./master.data');
+      await checkAndInsertData();
+    }
     logger.info('Connection has been established successfully.');
     return true;
   } catch (error) {

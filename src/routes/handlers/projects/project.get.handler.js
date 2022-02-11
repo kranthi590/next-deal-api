@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { INVALID_PROJECT_ID } = require('../../../helpers/constants');
+const { INVALID_PROJECT_ID, FILE_TYPE } = require('../../../helpers/constants');
 const { Projects, QuotationsRequest, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
@@ -24,7 +24,10 @@ const getProjectHandler = async (req, res) => {
         ],
       }),
       Files.findAll({
-        where: { entityId: req.params.projectId },
+        where: {
+          entityId: req.params.projectId,
+          entityType: FILE_TYPE.PROJECT,
+        },
       }),
     ]);
     if (!project) {

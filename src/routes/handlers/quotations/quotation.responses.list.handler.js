@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT } = require('../../../helpers/constants');
+const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT, FILE_TYPE } = require('../../../helpers/constants');
 const { QuotationsResponse, Suppliers, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
@@ -32,6 +32,10 @@ const quotationResponsesListHandler = async (req, res) => {
       }, {
         model: Files,
         as: 'files',
+        required: false,
+        where: {
+          entityType: FILE_TYPE.QUOTATION_REQUEST,
+        },
         attributes: [
           'isPublic',
           'fileLocation',
