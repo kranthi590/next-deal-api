@@ -1,5 +1,5 @@
 const { INVALID_QUOTATION_ID, FILE_TYPE } = require('../../../helpers/constants');
-const { QuotationsRequest, Files } = require('../../../helpers/db.models');
+const { QuotationsRequest, Files, Projects } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const { generateFileURL } = require('../../../helpers/generate.file.url');
 const logger = require('../../../helpers/logger');
@@ -11,6 +11,17 @@ const getQuotationHandler = async (req, res) => {
     const [quotation, filesMeta] = await Promise.all([
       await QuotationsRequest.findOne({
         where: { id: req.params.quotationRequestId, isDeleted: false },
+        include: [
+          {
+            model: Projects,
+            as: 'project',
+            attributes: [],
+            where: {
+              buyerId: req.user.buyerId,
+              isDeleted: false,
+            },
+          },
+        ],
       }),
       Files.findAll({
         where: {

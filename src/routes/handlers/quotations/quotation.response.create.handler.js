@@ -1,6 +1,8 @@
 const { Sequelize } = require('sequelize');
 const { ACTIVITIES_TYPES, QUOTATION_STATUS, INVALID_QUOTATION_ID } = require('../../../helpers/constants');
-const { QuotationsResponse, Activities, QuotationsRequest } = require('../../../helpers/db.models');
+const {
+  QuotationsResponse, Activities, QuotationsRequest, Projects,
+} = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
@@ -66,6 +68,13 @@ const quotationResponseCreationHandler = async (req, res) => {
         model: QuotationsResponse,
         as: 'quotationResponse',
         attributes: [],
+      }, {
+        model: Projects,
+        as: 'project',
+        where: {
+          buyerId: req.user.buyerId,
+          isDeleted: false,
+        },
       }],
       group: ['quotation_requests.id'],
     });

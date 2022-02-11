@@ -3,11 +3,12 @@ const { Users } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse, UnauthorizedResponse } = require('../../../helpers/response.transforms');
 const { INVALID_USER_ACCOUNT } = require('../../../helpers/constants');
 
-const getUser = async (userId) => {
+const getUser = async (userId, buyerId) => {
   const query = {
     include: ['address', 'buyer'],
     where: {
       id: userId,
+      buyerId,
     },
     attributes: {},
     nest: true,
@@ -21,7 +22,7 @@ const getUserHandler = async (req, res) => {
     if (req.user.userId.toString() !== req.params.userId) {
       response = UnauthorizedResponse(INVALID_USER_ACCOUNT, req.traceId);
     } else {
-      const user = await getUser(req.user.userId);
+      const user = await getUser(req.user.userId, req.user.buyerId);
       response = OkResponse(user, req.traceId);
     }
   } catch (error) {

@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const {
   DB_FETCH_SIZE, DB_OFFSET_DEFAULT, QUOTATION_STATUS, INVALID_QUOTATION_STATUS,
 } = require('../../../helpers/constants');
-const { QuotationsRequest, QuotationsResponse } = require('../../../helpers/db.models');
+const { QuotationsRequest, QuotationsResponse, Projects } = require('../../../helpers/db.models');
 const { QuotationToSupplierMappings } = require('../../../helpers/db.models/quotation.supplier.mappings.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
@@ -43,6 +43,15 @@ const quotationsListHandler = async (req, res) => {
             model: QuotationToSupplierMappings,
             as: 'suppliersMapping',
             attributes: [],
+          },
+          {
+            model: Projects,
+            as: 'project',
+            attributes: [],
+            where: {
+              buyerId: req.user.buyerId,
+              isDeleted: false,
+            },
           },
         ],
         group: ['quotation_requests.id'],

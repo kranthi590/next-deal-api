@@ -9,6 +9,7 @@ const activitiesListHandler = async (req, res) => {
     const activities = await Activities.findAll({
       where: {
         quotationRequestId: req.params.quotationRequestId,
+        buyerId: req.user.buyerId,
       },
       attributes: [
         'activityType',
