@@ -24,7 +24,7 @@ const prepareProjectContext = async (req) => {
     isPublic: false,
     entityId: project.id,
     folder: `project-${project.code}`,
-    entityType: FILE_TYPE.SUPPLIER_LOGO,
+    entityType: FILE_TYPE.PROJECT,
   };
 };
 
