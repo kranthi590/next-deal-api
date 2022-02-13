@@ -55,7 +55,7 @@ const QuotationsRequest = getConnection().define(
     },
     currency: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       field: 'currency',
       isIn: Object.values(CURRENCY_TYPE),
     },
