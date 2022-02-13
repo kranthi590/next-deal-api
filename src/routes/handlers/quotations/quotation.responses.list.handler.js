@@ -34,7 +34,7 @@ const quotationResponsesListHandler = async (req, res) => {
         as: 'files',
         required: false,
         where: {
-          entityType: FILE_TYPE.QUOTATION_REQUEST,
+          entityType: FILE_TYPE.QUOTATION_RESPONSE,
         },
         attributes: [
           'isPublic',
