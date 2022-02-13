@@ -40,6 +40,9 @@ const parseError = (error, traceId, context) => {
     return ConflictResponse(context === 'quotation_create'
       ? ER_DUP_ENTRY_QUOTATION_CODE : ER_DUP_ENTRY_PROJECT_CODE, traceId);
   }
+  if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.quotation_requests_project_id_code', false)) {
+    return ConflictResponse(ER_DUP_ENTRY_QUOTATION_CODE, traceId);
+  }
   if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.rut', false)) {
     return ConflictResponse(ER_DUP_ENTRY_RUT, traceId);
   }
