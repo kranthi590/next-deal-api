@@ -27,7 +27,7 @@ const projectCreationHandler = async (req, res) => {
       costCenter,
       estimatedBudget,
       currency,
-      additionalData: description,
+      description,
       buyerId: req.user.buyerId,
       createdBy: req.user.userId,
       status: PROJECT_STATUS.CREATED,
