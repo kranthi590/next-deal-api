@@ -31,7 +31,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
     {
       model: QuotationsRequest,
       as: 'quotation',
-      attributes: ['name', 'description'],
+      attributes: ['name', 'comments'],
       required: true,
       where: {
         status: dateField === DATE_FIELD_TYPES.VALIDITY_DATE_TYPE ? {
