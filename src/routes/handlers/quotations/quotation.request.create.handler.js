@@ -33,7 +33,6 @@ const quotationCreationHandler = async (req, res) => {
       expectedEndDate,
       estimatedBudget,
       currency,
-      description,
       comments,
       suppliers,
     } = req.body;
@@ -64,7 +63,6 @@ const quotationCreationHandler = async (req, res) => {
         expectedEndDate,
         estimatedBudget,
         currency,
-        description,
         createdBy: req.user.userId,
         status: QUOTATION_STATUS.CREATED,
         suppliersMapping: buyersSuppliers.map((buyersSupplier) => ({

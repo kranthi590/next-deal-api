@@ -25,7 +25,7 @@ const quotationsListHandler = async (req, res) => {
       const quotations = await QuotationsRequest.findAndCountAll({
         attributes:
           ['name', 'id', 'status', 'startDate', 'actualEndDate',
-            'expectedEndDate', 'additionalData',
+            'expectedEndDate', 'additionalData', 'comments',
             [Sequelize.fn('count', Sequelize.fn('DISTINCT', Sequelize.col('suppliersMapping.id'))), 'suppliersCount'],
             [Sequelize.fn('count', Sequelize.fn('DISTINCT', Sequelize.col('quotationResponse.id'))), 'quotationsCount'],
           ],

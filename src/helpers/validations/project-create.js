@@ -7,12 +7,12 @@ const projectCreationSchema = Joi.object()
     managerName: Joi.string().required(),
     startDate: Joi.date().required(),
     expectedEndDate: Joi.date(),
-    costCenter: Joi.string().required(),
+    costCenter: Joi.string(),
     estimatedBudget: Joi.number().required(),
     currency: Joi.string().valid(
       CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF, CURRENCY_TYPE.USD,
-    ),
-    description: Joi.string(),
+    ).required(),
+    description: Joi.string().required(),
   })
   .unknown();
 

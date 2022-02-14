@@ -6,12 +6,11 @@ const createQuotationRequestSchema = Joi.object()
     name: Joi.string().required(),
     startDate: Joi.date().required(),
     expectedEndDate: Joi.date(),
-    estimatedBudget: Joi.number(),
+    estimatedBudget: Joi.number().required(),
     currency: Joi.string().valid(
       CURRENCY_TYPE.CLP, CURRENCY_TYPE.CL_UF, CURRENCY_TYPE.USD,
-    ),
-    description: Joi.string(),
-    comments: Joi.string(),
+    ).required(),
+    comments: Joi.string().required(),
     suppliers: Joi.array().items(Joi.number().required()).required(),
   })
   .unknown();

@@ -60,7 +60,7 @@ const Projects = getConnection().define(
     },
     currency: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
       field: 'currency',
       isIn: Object.values(CURRENCY_TYPE),
     },
@@ -92,6 +92,11 @@ const Projects = getConnection().define(
       type: Sequelize.BOOLEAN,
       field: 'is_deleted',
       default: false,
+    },
+    description: {
+      type: Sequelize.TEXT('long'),
+      allowNull: false,
+      field: 'description',
     },
   },
   {

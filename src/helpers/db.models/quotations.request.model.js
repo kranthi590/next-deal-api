@@ -50,12 +50,12 @@ const QuotationsRequest = getConnection().define(
     },
     estimatedBudget: {
       type: Sequelize.INTEGER,
-      allowNull: true,
+      allowNull: false,
       field: 'estimated_budget',
     },
     currency: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
       field: 'currency',
       isIn: Object.values(CURRENCY_TYPE),
     },
@@ -63,14 +63,9 @@ const QuotationsRequest = getConnection().define(
       type: Sequelize.DATE,
       field: 'created_at',
     },
-    description: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      field: 'description',
-    },
     comments: {
-      type: Sequelize.STRING,
-      allowNull: true,
+      type: Sequelize.TEXT('long'),
+      allowNull: false,
       field: 'comments',
     },
     status: {
@@ -84,7 +79,7 @@ const QuotationsRequest = getConnection().define(
       field: 'updated_at',
     },
     additionalData: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT('long'),
       allowNull: true,
       field: 'additional_data',
     },
