@@ -37,7 +37,7 @@ const saveFileAndUpdateMeta = async (req, context) => {
     isPublic,
     fileSize: file.size,
     bucketName,
-    uploadedBy: user.userId,
+    uploadedBy: user ? user.userId : null,
   })));
   // eslint-disable-next-line max-len
   const filesMeta = generateFileURL(saveResponses.map(({ fileLocation, fileName, file }, index) => ({
