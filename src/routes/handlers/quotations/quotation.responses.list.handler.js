@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+//  const { Sequelize } = require('sequelize');
 const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT, FILE_TYPE } = require('../../../helpers/constants');
 const { QuotationsResponse, Suppliers, Files } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
@@ -22,9 +22,9 @@ const quotationResponsesListHandler = async (req, res) => {
         'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm', 'currency',
         'deliveryDate', 'validityDate', 'additionalData', 'isAwarded', 'comments',
       ],
-      order: [
-        [Sequelize.literal('updated_at'), 'desc'],
-      ],
+      // order: [
+      //   [Sequelize.literal('updated_at'), 'desc'],
+      // ],
       include: [{
         model: Suppliers,
         as: 'supplier',
