@@ -31,6 +31,7 @@ const projectCreationHandler = async (req, res) => {
       buyerId: req.user.buyerId,
       createdBy: req.user.userId,
       status: PROJECT_STATUS.CREATED,
+      isDeleted: false,
     });
     response = OkResponse(project, req.traceId);
   } catch (error) {

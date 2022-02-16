@@ -69,6 +69,7 @@ const quotationCreationHandler = async (req, res) => {
           supplier_id: buyersSupplier.id,
         })),
         buyerId: req.user.buyerId,
+        isDeleted: false,
       });
       response = OkResponse(quotation, req.traceId);
     }

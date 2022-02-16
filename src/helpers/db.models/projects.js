@@ -92,6 +92,7 @@ const Projects = getConnection().define(
       type: Sequelize.BOOLEAN,
       field: 'is_deleted',
       default: false,
+      allowNull: false,
     },
     description: {
       type: Sequelize.TEXT('long'),

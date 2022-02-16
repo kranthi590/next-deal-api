@@ -86,6 +86,7 @@ const QuotationsRequest = getConnection().define(
     isDeleted: {
       type: Sequelize.BOOLEAN,
       field: 'is_deleted',
+      allowNull: false,
       default: false,
     },
   },
