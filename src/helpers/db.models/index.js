@@ -59,12 +59,6 @@ Suppliers.hasMany(SupplierServiceLocationsMappings, {
 //  Suppliers.hasMany(Files, { as: 'logo', foreignKey: 'entity_id', targetKey: 'id' });
 //  Projects.hasMany(Files, { as: 'files', foreignKey: 'entity_id', targetKey: 'id' });
 
-Users.belongsTo(Addresses, {
-  as: 'address',
-  foreignKey: 'contact_info_id',
-  targetKey: 'id',
-});
-
 Users.hasMany(UsersRolesMappings, { as: 'roleMap', foreignKey: 'user_id', targetKey: 'id' });
 Users.belongsTo(Buyers, { as: 'buyer', foreignKey: 'buyer_id', targetKey: 'id' });
 Buyers.hasMany(Users);
