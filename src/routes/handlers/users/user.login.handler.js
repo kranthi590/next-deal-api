@@ -12,7 +12,7 @@ const getUser = async (emailId) => {
     where: {
       emailId,
     },
-    include: ['buyer', 'address'],
+    include: ['buyer'],
   };
   return Users.findOne(query);
 };
