@@ -35,7 +35,7 @@ const Suppliers = getConnection().define(
     },
     logoUrl: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       field: 'logo_url',
     },
     isShared: {
@@ -92,6 +92,11 @@ const Suppliers = getConnection().define(
     updatedAt: {
       type: Sequelize.DATE,
       field: 'updated_at',
+    },
+    comments: {
+      type: Sequelize.TEXT('long'),
+      allowNull: false,
+      field: 'comments',
     },
   },
   {

@@ -5,7 +5,7 @@ const { INVALID_USER_ACCOUNT } = require('../../../helpers/constants');
 
 const getUser = async (userId, buyerId) => {
   const query = {
-    include: ['address', 'buyer'],
+    include: ['buyer'],
     where: {
       id: userId,
       buyerId,

@@ -41,16 +41,6 @@ const Users = getConnection().define(
       type: Sequelize.STRING,
       field: 'additional_data',
     },
-    contactInfoId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      field: 'contact_info_id',
-      foreignKey: true,
-      references: {
-        model: 'business_addresses',
-        key: 'id',
-      },
-    },
     lastLoginDate: {
       type: Sequelize.DATE,
       field: 'last_login_date',

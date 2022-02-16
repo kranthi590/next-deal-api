@@ -29,7 +29,6 @@ const supplierSchema = Joi.object().keys({
   rut: Joi.string().required(),
   webSiteUrl: Joi.string(),
   emailId: Joi.string().email().required(),
-  logoUrl: Joi.string(),
   isShared: Joi.bool().required(),
   inchargeFullName: Joi.string(),
   inchargeRole: Joi.string(),
@@ -39,6 +38,7 @@ const supplierSchema = Joi.object().keys({
   billingAddress: BillingAddress,
   businessAddress: BusinessAddress,
   type: Joi.string().required(),
+  comments: Joi.string().required(),
 }).unknown();
 
 module.exports = {

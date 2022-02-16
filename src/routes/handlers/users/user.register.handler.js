@@ -33,14 +33,13 @@ const getBuyer = async (subDomainName) => {
 
 const saveUserWithMappings = async (
   {
-    firstName, lastName, emailId, additionalData, password, type, contactInfo,
+    firstName, lastName, emailId, additionalData, password, type,
   },
   buyer,
 ) => {
   const hash = bcrypt.hashSync(password, 10);
   return getConnection().transaction(async (t) => Users.create(
     {
-      address: { ...contactInfo },
       roleMap: [{ roleId: 1 }],
       firstName,
       lastName,
@@ -51,7 +50,7 @@ const saveUserWithMappings = async (
       buyerId: buyer.id,
       status: 1,
     },
-    { include: ['address', 'roleMap'], transaction: t },
+    { include: ['roleMap'], transaction: t },
   ));
 };
 

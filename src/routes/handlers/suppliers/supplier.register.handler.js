@@ -15,7 +15,6 @@ const saveSupplierWithMappings = async ({
   rut,
   webSiteUrl,
   emailId,
-  logoUrl,
   isShared,
   inchargeFullName,
   inchargeRole,
@@ -25,6 +24,7 @@ const saveSupplierWithMappings = async ({
   categories,
   serviceLocations,
   type,
+  comments,
 }, user) => getConnection().transaction(async (t) => {
   const data = {
     legalName,
@@ -32,7 +32,6 @@ const saveSupplierWithMappings = async ({
     rut,
     webSiteUrl,
     emailId,
-    logoUrl,
     isShared,
     inchargeFullName,
     inchargeRole,
@@ -44,6 +43,7 @@ const saveSupplierWithMappings = async ({
     serviceLocations: serviceLocations.map((regionId) => ({
       region_id: regionId,
     })),
+    comments,
   };
   const query = {
     transaction: t,
