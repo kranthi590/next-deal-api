@@ -23,6 +23,7 @@ const projectsListHandler = async (req, res) => {
         {
           model: QuotationsRequest,
           attributes: [],
+          where: { isDeleted: false },
         },
       ],
       group: ['projects.id'],

@@ -16,10 +16,14 @@ const { OkResponse } = require('../../../helpers/response.transforms');
 
 const completeQuotation = async (data) => getConnection().transaction(async (t) => {
   const {
-    quotationRequestId, projectId, user, purchaseOrderNumber, quotationResponseId,
+    quotationRequestId, projectId, user, purchaseOrderNumber, quotationResponseId, comments,
   } = data;
+  const updateQuotationResponse = { purchaseOrderNumber };
+  if (comments) {
+    updateQuotationResponse.comments = comments;
+  }
   await QuotationsResponse.update(
-    { purchaseOrderNumber },
+    updateQuotationResponse,
     {
       where: { id: quotationResponseId },
       transaction: t,
@@ -46,6 +50,7 @@ const completeQuotation = async (data) => getConnection().transaction(async (t) 
 const completeQuotationHandler = async (req, res) => {
   let response;
   try {
+    const { comments } = req.body;
     const quotationResponse = await QuotationsResponse.findOne({
       where: {
         id: req.params.quotationResponseId,
@@ -66,7 +71,6 @@ const completeQuotationHandler = async (req, res) => {
       throw new Error(INVALID_QUOTATION_RESPONSE_ID);
     }
     const quotation = quotationResponse.toJSON();
-    console.log(quotation);
     if (req.user.buyerId !== quotation.quotation.project.buyerId) {
       throw new Error(INVALID_BUYER_ID);
     }
@@ -82,6 +86,7 @@ const completeQuotationHandler = async (req, res) => {
       projectId: quotationResponse.quotation.projectId,
       user: req.user,
       quotationResponseId: req.params.quotationResponseId,
+      comments,
     });
     response = OkResponse(null, req.traceId);
   } catch (error) {

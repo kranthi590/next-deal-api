@@ -14,9 +14,13 @@ const { getConnection } = require('../../../helpers/mysql');
 const { OkResponse } = require('../../../helpers/response.transforms');
 
 const retainQuotation = async (data) => getConnection().transaction(async (t) => {
-  const { quotationResponseId, quotationRequestId } = data;
+  const { quotationResponseId, quotationRequestId, comments } = data;
+  const updateQuotationResponse = { isAwarded: false };
+  if (comments) {
+    updateQuotationResponse.comments = comments;
+  }
   await QuotationsResponse.update(
-    { isAwarded: false },
+    updateQuotationResponse,
     {
       where: { id: quotationResponseId },
       transaction: t,
@@ -44,6 +48,7 @@ const retainQuotation = async (data) => getConnection().transaction(async (t) =>
 const retainQuotationHandler = async (req, res) => {
   let response;
   try {
+    const { comments } = req.body;
     const quotationResponse = await QuotationsResponse.findOne({
       where: {
         id: req.params.quotationResponseId,
@@ -76,6 +81,7 @@ const retainQuotationHandler = async (req, res) => {
       projectId: quotation.quotation.project.id,
       buyerId: quotation.quotation.project.buyerId,
       userId: req.user.userId,
+      comments,
     });
     response = OkResponse({}, req.traceId);
   } catch (error) {

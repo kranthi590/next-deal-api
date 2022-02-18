@@ -139,6 +139,7 @@ router.get(
 
 router.post(
   '/quotations/:quotationResponseId/award',
+  validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
   awardQuotationHandler,
@@ -146,6 +147,7 @@ router.post(
 
 router.post(
   '/quotations/:quotationResponseId/retain',
+  validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
   retainQuotationHandler,
@@ -161,6 +163,7 @@ router.post(
 
 router.post(
   '/quotations/:quotationRequestId/abort',
+  validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
   abortQuotationHandler,

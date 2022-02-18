@@ -32,7 +32,6 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
         rowValues.forEach((rowValue, index) => {
           supplier[columnsObject[index]] = rowValue;
         });
-        console.log(supplier);
       }
     });
   } catch (error) {

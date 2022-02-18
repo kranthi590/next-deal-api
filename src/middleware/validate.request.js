@@ -8,7 +8,6 @@ const validate = async (req, res, next) => {
   try {
     const schema = getValidationSchema(url.parse(req.originalUrl).pathname, req.method);
     schema.unknown();
-    console.log(req.query);
     await schema.validateAsync({ ...req.body, ...req.query }, { abortEarly: false });
     next();
   } catch (error) {

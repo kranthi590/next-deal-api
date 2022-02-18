@@ -9,6 +9,7 @@ const { confirmReceptionQuotationSchema } = require('./confirm-reception');
 const { createCustomActivitySchema } = require('./create-custom-activity');
 const { calendarDataSchema } = require('./fetch-calendar-data');
 const { extendBuyerRegistrationSchema } = require('./extend-buyer-registration');
+const { commonQuotationUpdateSchema } = require('./quotation-update-common');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
@@ -38,6 +39,9 @@ const getValidationSchema = (routePath) => {
       return supplierSchema;
     case /^\/api\/v1\/quotations\/\d+\/complete$/.test(routePath):
       return confirmReceptionQuotationSchema;
+    case /^\/api\/v1\/quotations\/\d+\/retain$/.test(routePath):
+    case /^\/api\/v1\/quotations\/\d+\/award$/.test(routePath):
+      return commonQuotationUpdateSchema;
     default:
       throw new Error('NO_SCHEMA');
   }
