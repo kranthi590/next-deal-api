@@ -39,6 +39,7 @@ const quotationsListHandler = async (req, res) => {
             as: 'quotationResponse',
             attributes: [],
             where: { isDeleted: false },
+            required: false,
           },
           {
             model: QuotationToSupplierMappings,
@@ -53,7 +54,6 @@ const quotationsListHandler = async (req, res) => {
               buyerId: req.user.buyerId,
               isDeleted: false,
             },
-            required: true,
           },
         ],
         group: ['quotation_requests.id'],
