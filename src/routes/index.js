@@ -163,7 +163,6 @@ router.post(
 
 router.post(
   '/quotations/:quotationRequestId/abort',
-  validateMiddleware,
   authMiddleware,
   verifyDomainMiddleware,
   abortQuotationHandler,
