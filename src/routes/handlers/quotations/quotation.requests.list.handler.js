@@ -53,6 +53,7 @@ const quotationsListHandler = async (req, res) => {
               buyerId: req.user.buyerId,
               isDeleted: false,
             },
+            required: true,
           },
         ],
         group: ['quotation_requests.id'],

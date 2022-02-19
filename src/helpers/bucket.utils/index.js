@@ -1,5 +1,4 @@
 const { Storage } = require('@google-cloud/storage');
-const path = require('path');
 
 const logger = require('../logger');
 
@@ -14,9 +13,7 @@ const uploadFile = ({
   file, isPublic, folder, bucketName,
 }) => new Promise((resolve, reject) => {
   try {
-    const extension = path.extname(file.originalname);
-    const fileName = `${new Date().getTime()}${extension}`;
-    const fileLocation = `${folder}/${fileName}`;
+    const fileLocation = `${folder}/${file.originalname}`;
     const bucket = storage.bucket(bucketName);
     const blob = bucket.file(fileLocation);
     const writeOptions = {
@@ -32,7 +29,7 @@ const uploadFile = ({
     });
     blobStream.on('finish', () => {
       resolve({
-        file, fileLocation, fileName, mimeType: file.mimetype,
+        file, fileLocation, fileName: file.originalname, mimeType: file.mimetype,
       });
     });
     blobStream.end(file.buffer);

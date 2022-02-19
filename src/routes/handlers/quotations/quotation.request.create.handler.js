@@ -1,13 +1,13 @@
-const { Sequelize } = require('sequelize');
-const { QUOTATION_STATUS, INVALID_SUPPLIER_ID, ACTIVITIES_TYPES } = require('../../../helpers/constants');
-const { QuotationsRequest, Suppliers, Activities } = require('../../../helpers/db.models');
+const { QUOTATION_STATUS, ACTIVITIES_TYPES } = require('../../../helpers/constants');
+const { QuotationsRequest, Activities } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
 const logger = require('../../../helpers/logger');
 const { getConnection } = require('../../../helpers/mysql');
-const { OkResponse, ForbiddenResponse } = require('../../../helpers/response.transforms');
+const { OkResponse } = require('../../../helpers/response.transforms');
 
 const saveQuotationWithMappings = async (data) => getConnection().transaction(async (t) => {
+  console.log(data);
   const quotation = await QuotationsRequest.create(data, {
     transaction: t,
     include: ['suppliersMapping'],
@@ -39,40 +39,24 @@ const quotationCreationHandler = async (req, res) => {
     const {
       projectId,
     } = req.params;
-    const sortedSuppliers = suppliers.sort((a, b) => a - b);
-    const buyersSuppliers = await Suppliers.findAll({
-      where: Sequelize.and(
-        { buyerId: req.user.buyerId },
-        Sequelize.or(
-          { id: suppliers.sort((a, b) => a - b) },
-        ),
-      ),
-      attributes: ['id'],
+    const quotation = await saveQuotationWithMappings({
+      projectId,
+      comments,
+      name,
+      code: generateCode(name),
+      startDate,
+      expectedEndDate,
+      estimatedBudget,
+      currency,
+      createdBy: req.user.userId,
+      status: QUOTATION_STATUS.CREATED,
+      suppliersMapping: suppliers.map((supplier) => ({
+        supplier_id: supplier,
+      })),
+      buyerId: req.user.buyerId,
+      isDeleted: false,
     });
-    const sortedSuppliers1 = buyersSuppliers.map((buyersSupplier) => buyersSupplier.id)
-      .sort((a, b) => a - b);
-    if (sortedSuppliers.join() !== sortedSuppliers1.join()) {
-      response = ForbiddenResponse(INVALID_SUPPLIER_ID, req.traceId);
-    } else {
-      const quotation = await saveQuotationWithMappings({
-        projectId,
-        comments,
-        name,
-        code: generateCode(name),
-        startDate,
-        expectedEndDate,
-        estimatedBudget,
-        currency,
-        createdBy: req.user.userId,
-        status: QUOTATION_STATUS.CREATED,
-        suppliersMapping: buyersSuppliers.map((buyersSupplier) => ({
-          supplier_id: buyersSupplier.id,
-        })),
-        buyerId: req.user.buyerId,
-        isDeleted: false,
-      });
-      response = OkResponse(quotation, req.traceId);
-    }
+    response = OkResponse(quotation, req.traceId);
   } catch (error) {
     console.error(error);
     response = parseError(error, req.traceId, 'quotation_create');

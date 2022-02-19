@@ -21,6 +21,7 @@ const quotationResponsesListHandler = async (req, res) => {
       attributes: [
         'id', 'netWorth', 'paymentCondition', 'includesTax', 'incoterm', 'currency',
         'deliveryDate', 'validityDate', 'additionalData', 'isAwarded', 'comments',
+        'purchaseOrderNumber',
       ],
       // order: [
       //   [Sequelize.literal('updated_at'), 'desc'],

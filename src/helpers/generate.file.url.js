@@ -10,7 +10,7 @@ const generateFileURL = (files = []) => files.map(({
     ? `https://storage.googleapis.com/${bucketName}/${fileLocation}`
     : `${process.env.NEXT_DEAL_SERVICE_URL}/files/${id}/${name}`;
   return {
-    fileUrl,
+    fileUrl: encodeURI(fileUrl),
     name,
     mimeType,
   };
