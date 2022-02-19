@@ -50,7 +50,7 @@ const completeQuotation = async (data) => getConnection().transaction(async (t) 
 const completeQuotationHandler = async (req, res) => {
   let response;
   try {
-    const { comments } = req.body;
+    const { comments = '' } = req.body;
     const quotationResponse = await QuotationsResponse.findOne({
       where: {
         id: req.params.quotationResponseId,
