@@ -95,7 +95,7 @@ const Suppliers = getConnection().define(
     },
     comments: {
       type: Sequelize.TEXT('long'),
-      allowNull: false,
+      allowNull: true,
       field: 'comments',
     },
   },

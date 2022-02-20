@@ -38,7 +38,7 @@ const supplierSchema = Joi.object().keys({
   billingAddress: BillingAddress,
   businessAddress: BusinessAddress,
   type: Joi.string().required(),
-  comments: Joi.string().required(),
+  comments: Joi.string().allow('').allow(null),
 }).unknown();
 
 module.exports = {
