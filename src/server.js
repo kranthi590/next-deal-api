@@ -27,6 +27,7 @@ app.use(
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', (req, res, next) => {
   req.traceId = req.headers.trace_id || v4();
+  logger.info(`Invoked service: ${req.originalUrl} with arguments: ${JSON.stringify(req.method === 'GET' ? req.query : req.body)}`);
   next();
 });
 
