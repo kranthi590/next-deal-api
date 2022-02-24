@@ -37,13 +37,14 @@ const fetchQuotationsByDatesAndBuyer = async ({
         status: dateField === DATE_FIELD_TYPES.VALIDITY_DATE_TYPE ? {
           [Op.or]: [QUOTATION_STATUS.IN_PROGRESS, QUOTATION_STATUS.CREATED],
         } : QUOTATION_STATUS.AWARDED,
+        isDeleted: false,
       },
       include: [
         {
           model: Projects,
           as: 'project',
           attributes: ['name', 'id'],
-          where: { buyerId },
+          where: { buyerId, isDeleted: false },
           required: true,
         },
       ],

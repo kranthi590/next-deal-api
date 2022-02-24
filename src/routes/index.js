@@ -9,7 +9,7 @@ const {
 const fetchRegionsByCountryCode = require('./handlers/config/config.regions.handler');
 const fetchComunasByRegion = require('./handlers/config/config.comunas.handler');
 
-const registerSupplier = require('./handlers/suppliers/supplier.register.handler');
+const { registerSupplier } = require('./handlers/suppliers/supplier.register.handler');
 const { getSupplierHandler } = require('./handlers/suppliers/supplier.get.handler');
 const { getSuppliersHandler } = require('./handlers/suppliers/suppliers.list.handler');
 

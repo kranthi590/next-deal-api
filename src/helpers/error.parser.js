@@ -33,6 +33,8 @@ const {
   QUOTATION_NOT_MAPPED_TO_THIS_BUYER,
   QUOTATION_ALREADY_DELETED,
   PROJECT_ALREADY_DELETED,
+  INVALID_SHEET_NAME,
+  SUPPLIERS_EXCEL_SHEET_NAME,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
@@ -153,6 +155,9 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === PROJECT_ALREADY_DELETED) {
     return ForbiddenResponse(PROJECT_ALREADY_DELETED, traceId);
+  }
+  if (_.get(error, 'message', null) === INVALID_SHEET_NAME) {
+    return ForbiddenResponse(INVALID_SHEET_NAME, traceId, `Sheet '${SUPPLIERS_EXCEL_SHEET_NAME}' does not exists`);
   }
   return InternalServerErrorResponse(error, traceId);
 };

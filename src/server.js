@@ -36,7 +36,7 @@ const init = async () => {
   const [isConnectedToMysql, isConnectedToGCPStorage] = await Promise.all(promises);
   if (isConnectedToMysql && isConnectedToGCPStorage) {
     const v1Routes = require('./routes');
-    app.get(['/', '/health'], (req, res) => {
+    app.get(['/', '/health', '/api/v1', '/api/v1/health'], (req, res) => {
       const response = OkResponse(null, req.traceId, 'OK Response');
       res.status(response.status).json(response);
     });

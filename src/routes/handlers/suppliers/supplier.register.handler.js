@@ -83,4 +83,7 @@ const registerSupplier = async (req, res) => {
   res.status(response.status).json(response);
 };
 
-module.exports = registerSupplier;
+module.exports = {
+  registerSupplier,
+  saveSupplierWithMappings,
+};
