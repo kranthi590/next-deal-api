@@ -27,6 +27,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
       },
     },
     isDeleted: false,
+    isAwarded: true,
   },
   include: [
     {
