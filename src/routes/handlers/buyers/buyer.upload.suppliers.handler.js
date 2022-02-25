@@ -142,7 +142,7 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     });
     res.status(200);
     res.setHeader('Content-Type', 'application/vnd.ms-excel.sheet.macroenabled.12');
-    res.setHeader('Content-Disposition', 'attachment; filename=teststream.xlsx');
+    res.setHeader('Content-Disposition', 'attachment; filename=Proveedores.xlsx');
     workbook.xlsx.write(res)
       .then(() => {
         res.end();

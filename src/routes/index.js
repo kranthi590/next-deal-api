@@ -40,7 +40,6 @@ const { completeQuotationHandler } = require('./handlers/quotations/quotation.co
 const { getQuotationResponseHandler } = require('./handlers/quotations/quotation.response.get.handler');
 const { uploadFileHandler } = require('./handlers/files/file.upload.handler');
 const { retainQuotationHandler } = require('./handlers/quotations/quotation.retain.handler');
-const downloadExcel = require('../middleware/download.excel');
 const { abortQuotationHandler } = require('./handlers/quotations/quotation.abort.handler');
 const { activitiesListHandler } = require('./handlers/activities/activities.list.handler');
 const { createCustomActivityHandler } = require('./handlers/activities/activity.create.handler');
@@ -66,7 +65,7 @@ router.post('/buyers', validateMiddleware, registerBuyerHandler);
 router.get('/buyers/:buyerId', getBuyerHandler);
 router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandler);
 router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
-router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler, downloadExcel);
+router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler);
 router.post('/buyers/:buyerId/uploadSuppliers', multerUploadMiddleware, uploadBuyerSuppliersHandler);
 
 // User routes

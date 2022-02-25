@@ -26,6 +26,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
         [Op.lte]: endDate,
       },
     },
+    isDeleted: false,
   },
   include: [
     {
