@@ -55,7 +55,7 @@ const transformRow = ({
   rut: row.getCell(1).value,
   legalName: row.getCell(2).value,
   fantasyName: row.getCell(3).value,
-  emailId: row.getCell(8).value.text,
+  emailId: row.getCell(8).value,
   categories: getCategories(categories, row.getCell(5).value),
   serviceLocations: getServiceLocations(regions, row.getCell(4)),
   isShared: row.getCell(6).value.toLowerCase() === 'si',
@@ -68,7 +68,7 @@ const transformRow = ({
     countryId: getCountry(countries),
     phoneNumber1: row.getCell(13).value,
     phoneNumber2: row.getCell(14).value,
-    emailId: row.getCell(8).value.text,
+    emailId: row.getCell(8).value,
     status: row.getCell(15).value,
     error: row.getCell(16).value,
   },
@@ -85,9 +85,11 @@ const insertAndCaptureResponse = async (supplier, req) => {
     };
   } catch (error) {
     const errorMessage = parseError(error, req.traceId);
+    console.log(`errorMessage: ${JSON.stringify(errorMessage)}`);
     return {
       status: 'NOT_OK',
-      error: errorMessage.errors[0] ? errorMessage.errors[0].errorCode : errorMessage.errors,
+      error: errorMessage.errors && errorMessage.errors[0]
+        ? errorMessage.errors[0].errorCode : errorMessage.errors,
       rowNumber: supplier.rowNumber,
     };
   }
@@ -117,7 +119,6 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     });
     const suppliers = [];
     rows.forEach((row) => {
-      console.log(row.cellCount);
       suppliers.push(transformRow({
         row,
         regions,
@@ -127,7 +128,6 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
         rowNumber: row.number,
       }));
     });
-    console.log(rows);
     // eslint-disable-next-line max-len
     const responses = await Promise.all(suppliers.map((supplier) => insertAndCaptureResponse(supplier, req)));
     responses.forEach(({
@@ -142,7 +142,8 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     });
     res.status(200);
     res.setHeader('Content-Type', 'application/vnd.ms-excel.sheet.macroenabled.12');
-    res.setHeader('Content-Disposition', 'attachment; filename=Proveedores.xlsx');
+    // eslint-disable-next-line prefer-template
+    res.setHeader('Content-Disposition', 'attachment; filename=Proveedores_' + new Date().getTime() + '.xlsx');
     workbook.xlsx.write(res)
       .then(() => {
         res.end();
