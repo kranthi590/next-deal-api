@@ -49,6 +49,7 @@ const { extendRegistrationBuyerHandler } = require('./handlers/buyers/buyer.exte
 const { deleteProjectHandler } = require('./handlers/projects/project.delete.handler');
 const { deleteQuotationHandler } = require('./handlers/quotations/quotation.request.delete.handler');
 const { deleteQuotationResponseHandler } = require('./handlers/quotations/quotation.response.delete.handler');
+const fetchAllCategories = require('./handlers/config/config.categories.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -76,6 +77,7 @@ router.post('/users/login', validateMiddleware, userLoginHandler);
 // Register config routes
 router.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
 router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
+router.get('/config/categories', fetchAllCategories);
 
 // Projects routes
 router.post('/projects', validateMiddleware, authMiddleware,
