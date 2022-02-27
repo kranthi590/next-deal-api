@@ -7,7 +7,6 @@ const { getConnection } = require('../../../helpers/mysql');
 const { OkResponse } = require('../../../helpers/response.transforms');
 
 const saveQuotationWithMappings = async (data) => getConnection().transaction(async (t) => {
-  console.log(data);
   const quotation = await QuotationsRequest.create(data, {
     transaction: t,
     include: ['suppliersMapping'],

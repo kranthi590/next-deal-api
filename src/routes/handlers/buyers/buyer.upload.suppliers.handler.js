@@ -55,7 +55,7 @@ const transformRow = ({
   rut: row.getCell(1).value,
   legalName: row.getCell(2).value,
   fantasyName: row.getCell(3).value,
-  emailId: row.getCell(8).value,
+  emailId: typeof row.getCell(8).value === 'object' ? row.getCell(8).value.text : row.getCell(8).value,
   categories: getCategories(categories, row.getCell(5).value),
   serviceLocations: getServiceLocations(regions, row.getCell(4)),
   isShared: row.getCell(6).value.toLowerCase() === 'si',
@@ -68,7 +68,7 @@ const transformRow = ({
     countryId: getCountry(countries),
     phoneNumber1: row.getCell(13).value,
     phoneNumber2: row.getCell(14).value,
-    emailId: row.getCell(8).value,
+    emailId: typeof row.getCell(8).value === 'object' ? row.getCell(8).value.text : row.getCell(8).value,
     status: row.getCell(15).value,
     error: row.getCell(16).value,
   },
@@ -85,7 +85,6 @@ const insertAndCaptureResponse = async (supplier, req) => {
     };
   } catch (error) {
     const errorMessage = parseError(error, req.traceId);
-    console.log(`errorMessage: ${JSON.stringify(errorMessage)}`);
     return {
       status: 'NOT_OK',
       error: errorMessage.errors && errorMessage.errors[0]
@@ -112,8 +111,7 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     ] = await getSupportingData();
     const rows = [];
     worksheet.eachRow({ includeEmpty: false }, (row) => {
-      if (row.number !== 1 && row.number !== 2 && (row.cellCount === 14 || row.cellCount === 16
-        || row.cellCount === 15)) {
+      if (row.number !== 1 && row.number !== 2 && row.number !== 3) {
         rows.push(row);
       }
     });

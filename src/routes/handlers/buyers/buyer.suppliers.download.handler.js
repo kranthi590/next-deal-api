@@ -48,7 +48,7 @@ const transformToExcel = (data, worksheet) => {
 const downloadBuyersSuppliersHandler = async (req, res) => {
   let response;
   try {
-    const dataFile = path.join(__dirname, '../../../Proveedores.xlsm');
+    const dataFile = path.join(__dirname, '../../../Suppliers.xlsm');
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(dataFile);
     const worksheet = workbook.getWorksheet(SUPPLIERS_EXCEL_SHEET_NAME);
