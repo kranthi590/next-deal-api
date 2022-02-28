@@ -14,6 +14,9 @@ const fetchAllCategories = async (req, res) => {
         active: true,
       },
       attributes: ['name', 'id'],
+      order: [
+        ['name', 'ASC'],
+      ],
     };
     const dbResponse = await Categories.findAll(query);
     response = OkResponse(dbResponse, req.traceId);
