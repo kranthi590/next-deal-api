@@ -78,7 +78,7 @@ const transformRow = ({
 
 const insertAndCaptureResponse = async (supplier, req) => {
   try {
-    await saveSupplierWithMappings(supplier);
+    await saveSupplierWithMappings(supplier, req.user);
     return {
       status: 'OK',
       rowNumber: supplier.rowNumber,
