@@ -67,7 +67,7 @@ router.get('/buyers/:buyerId', getBuyerHandler);
 router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandler);
 router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
 router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler);
-router.post('/buyers/:buyerId/uploadSuppliers', multerUploadMiddleware, uploadBuyerSuppliersHandler);
+router.post('/buyers/:buyerId/uploadSuppliers', multerUploadMiddleware, authMiddleware, uploadBuyerSuppliersHandler);
 
 // User routes
 router.post('/users', validateMiddleware, registerUserHandler);
