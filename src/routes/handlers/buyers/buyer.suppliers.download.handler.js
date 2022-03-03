@@ -84,7 +84,7 @@ const downloadBuyersSuppliersHandler = async (req, res) => {
     res.status(200);
     res.setHeader('Content-Type', 'application/vnd.ms-excel.sheet.macroenabled.12');
     // eslint-disable-next-line prefer-template
-    res.setHeader('Content-Disposition', 'attachment; filename=Suppliers_' + new Date().getTime() + '.xlsx');
+    res.setHeader('Content-Disposition', 'attachment; filename=Suppliers_' + new Date().getTime() + '.xlsm');
     workbook.xlsx.write(res)
       .then(() => {
         res.end();
