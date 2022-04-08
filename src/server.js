@@ -35,12 +35,14 @@ const init = async () => {
   const promises = [initMysql(), initStorage()];
   const [isConnectedToMysql, isConnectedToGCPStorage] = await Promise.all(promises);
   if (isConnectedToMysql && isConnectedToGCPStorage) {
-    const v1Routes = require('./routes');
+    const v1Routes = require('./routes/v1');
+    const v2Routes = require('./routes/v2');
     app.get(['/', '/health', '/api/v1', '/api/v1/health'], (req, res) => {
       const response = OkResponse(null, req.traceId, 'OK Response');
       res.status(response.status).json(response);
     });
     app.use('/api/v1', v1Routes);
+    app.use('/api/v2', v2Routes);
     app.listen(port, () => logger.info(`Started server on port ${port}`));
   } else {
     process.exit(1);

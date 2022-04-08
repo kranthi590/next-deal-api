@@ -1,4 +1,4 @@
-const { supplierSchema } = require('./register-supplier');
+const { supplierSchema, externalSupplierSchemaV2, userSupplierSchemaV2 } = require('./register-supplier');
 const { buyerSchema } = require('./register-buyer');
 const { userSchema } = require('./register-user');
 const { loginUserSchema } = require('./login-user');
@@ -13,6 +13,10 @@ const { commonQuotationUpdateSchema } = require('./quotation-update-common');
 
 const getValidationSchema = (routePath) => {
   switch (true) {
+    case routePath === '/api/v2/suppliers':
+      return externalSupplierSchemaV2;
+    case /^\/api\/v2\/buyers\/\d+\/suppliers$/.test(routePath):
+      return userSupplierSchemaV2;
     case routePath === '/api/v1/suppliers':
       return supplierSchema;
     case routePath === '/api/v1/buyers':

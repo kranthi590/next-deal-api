@@ -1,6 +1,6 @@
 const { createBucket } = require('../../../helpers/bucket.utils');
 const { SUPPLIER_BUCKET_FORMAT } = require('../../../helpers/constants');
-const { Suppliers } = require('../../../helpers/db.models');
+const { Suppliers, SuppliersV2 } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
 
@@ -25,7 +25,7 @@ const saveSupplierWithMappings = async ({
   serviceLocations,
   type,
   comments,
-}, user) => getConnection().transaction(async (t) => {
+}, req) => getConnection().transaction(async (t) => {
   const data = {
     legalName,
     fantasyName,
@@ -36,19 +36,25 @@ const saveSupplierWithMappings = async ({
     inchargeFullName,
     inchargeRole,
     type,
-    businessAddress,
     categories: categories.map((categoryId) => ({
       category_id: categoryId,
-    })),
-    serviceLocations: serviceLocations.map((regionId) => ({
-      region_id: regionId,
     })),
     comments,
   };
   const query = {
     transaction: t,
-    include: ['businessAddress', 'categories', 'serviceLocations'],
+    include: ['categories'],
   };
+  if (businessAddress) {
+    data.businessAddress = businessAddress;
+    query.include.push('businessAddress');
+  }
+  if (serviceLocations) {
+    data.serviceLocations = serviceLocations.map((regionId) => ({
+      region_id: regionId,
+    }));
+    query.include.push('serviceLocations');
+  }
   if (billingAddress) {
     data.billingAddress = billingAddress;
     query.include.push('billingAddress');
@@ -57,10 +63,11 @@ const saveSupplierWithMappings = async ({
     data.contactInfo = contactInfo;
     query.include.push('contactInfo');
   }
-  if (user && user.buyerId) {
-    data.buyerId = user.buyerId;
+  if (req.user && req.user.buyerId) {
+    data.buyerId = req.user.buyerId;
   }
-  const supplier = await Suppliers.create(data, query);
+  const SupplierModel = req.originalUrl.includes('v1') ? Suppliers : SuppliersV2;
+  const supplier = await SupplierModel.create(data, query);
   const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
   try {
     await createBucket(supplierBucketName);
@@ -74,10 +81,10 @@ const saveSupplierWithMappings = async ({
 const registerSupplier = async (req, res) => {
   let response;
   try {
-    const result = await saveSupplierWithMappings(req.body, req.user);
+    const result = await saveSupplierWithMappings(req.body, req);
     response = ResourceCreatedResponse(result, req.traceId);
   } catch (error) {
-    response = parseError(error, req.traceId);
+    response = parseError(error, req.traceId, 'supplier');
     logger.error('Error while registering supplier', error);
   }
   res.status(response.status).json(response);

@@ -1,19 +1,10 @@
 const Sequelize = require('sequelize');
 const { getConnection } = require('../mysql');
 
-const Suppliers = getConnection().define(
+const SuppliersV2 = getConnection().define(
   'suppliers',
   {
-    buyerId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      field: 'buyer_id',
-      foreignKey: true,
-      references: {
-        model: 'buyers',
-        key: 'id',
-      },
-    },
+    // Required Fields
     rut: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -24,74 +15,85 @@ const Suppliers = getConnection().define(
       allowNull: false,
       field: 'legal_name',
     },
-    fantasyName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      field: 'fantasy_name',
-    },
-    webSiteUrl: {
-      type: Sequelize.STRING,
-      field: 'web_site_url',
-    },
-    logoUrl: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      field: 'logo_url',
-    },
     isShared: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: true,
       field: 'is_shared',
     },
-    type: {
+
+    // Optional
+    buyerId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      field: 'buyer_id',
+      foreignKey: true,
+      references: {
+        model: 'buyers',
+        key: 'id',
+      },
+    },
+    webSiteUrl: {
       type: Sequelize.STRING,
-      allowNull: false,
-      isIn: ['Emprendedor', 'Pyme'],
+      field: 'web_site_url',
+      allowNull: true,
+    },
+    logoUrl: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      field: 'logo_url',
     },
     emailId: {
       type: Sequelize.UUID,
       isEmail: true,
-      allowNull: false,
+      allowNull: true,
       field: 'email_id',
       unique: true,
     },
     inchargeFullName: {
       type: Sequelize.STRING,
       field: 'in_charge_fullname',
+      allowNull: true,
     },
     inchargeRole: {
       type: Sequelize.STRING,
       field: 'in_charge_role',
+      allowNull: true,
     },
     createdBy: {
       type: Sequelize.INTEGER,
       field: 'created_by',
+      allowNull: true,
     },
     additionalData: {
       type: Sequelize.STRING,
       field: 'additional_data',
+      allowNull: true,
     },
     businessAddressId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       field: 'business_address_id',
     },
     inChargeAddressId: {
       type: Sequelize.INTEGER,
       field: 'in_charge_address_id',
+      allowNull: true,
     },
     billingAddressId: {
       type: Sequelize.INTEGER,
       field: 'billing_address_id',
+      allowNull: true,
     },
     createdAt: {
       type: Sequelize.DATE,
       field: 'created_at',
+      allowNull: true,
     },
     updatedAt: {
       type: Sequelize.DATE,
       field: 'updated_at',
+      allowNull: true,
     },
     comments: {
       type: Sequelize.TEXT('long'),
@@ -106,5 +108,5 @@ const Suppliers = getConnection().define(
 );
 
 module.exports = {
-  Suppliers,
+  SuppliersV2,
 };

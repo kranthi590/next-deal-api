@@ -1,6 +1,8 @@
 const { Roles } = require('./roles.model');
 const { Countries, Regions, Comunas } = require('./countries.model');
 const { Suppliers } = require('./suppliers.model');
+const { SuppliersV2 } = require('./suppliers.v2.model');
+
 const { Addresses } = require('./addresses.model');
 const { SupplierCategoryMappings } = require('./supplier.category.mappings.model');
 const { SupplierServiceLocationsMappings } = require('./supplier.service.locations.mappings.model');
@@ -56,6 +58,36 @@ Suppliers.hasMany(SupplierServiceLocationsMappings, {
   targetKey: 'id',
 });
 
+SuppliersV2.belongsTo(Addresses, {
+  as: 'businessAddress',
+  foreignKey: 'business_address_id',
+  targetKey: 'id',
+});
+
+SuppliersV2.belongsTo(Addresses, {
+  as: 'contactInfo',
+  foreignKey: 'in_charge_address_id',
+  targetKey: 'id',
+});
+
+SuppliersV2.belongsTo(Addresses, {
+  as: 'billingAddress',
+  foreignKey: 'billing_address_id',
+  targetKey: 'id',
+});
+
+SuppliersV2.hasMany(SupplierCategoryMappings, {
+  as: 'categories',
+  foreignKey: 'supplier_id',
+  targetKey: 'id',
+});
+
+SuppliersV2.hasMany(SupplierServiceLocationsMappings, {
+  as: 'serviceLocations',
+  foreignKey: 'supplier_id',
+  targetKey: 'id',
+});
+
 //  Suppliers.hasMany(Files, { as: 'logo', foreignKey: 'entity_id', targetKey: 'id' });
 //  Projects.hasMany(Files, { as: 'files', foreignKey: 'entity_id', targetKey: 'id' });
 
@@ -77,10 +109,12 @@ QuotationsRequest.hasMany(QuotationToSupplierMappings, {
   targetKey: 'id',
 });
 
+QuotationsResponse.belongsTo(SuppliersV2, { as: 'supplierV2', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationsResponse.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationsResponse.hasMany(QuotationToSupplierMappings, { as: 'quotation_mapping', foreignKey: 'quotation_request_id', targetKey: 'quotation_request_id' });
 QuotationsResponse.hasMany(Files, { as: 'files', foreignKey: 'entityId', targetKey: 'id' });
 
+QuotationToSupplierMappings.belongsTo(SuppliersV2, { as: 'supplierV2', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationToSupplierMappings.belongsTo(Suppliers, { as: 'supplier', foreignKey: 'supplier_id', targetKey: 'id' });
 QuotationToSupplierMappings.belongsTo(QuotationsResponse, { as: 'quotation', foreignKey: 'supplier_id', targetKey: 'supplier_id' });
 
@@ -114,4 +148,5 @@ module.exports = {
   QuotationsResponse,
   UsersRolesMappings,
   Activities,
+  SuppliersV2,
 };
