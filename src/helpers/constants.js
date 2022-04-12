@@ -20,6 +20,11 @@ module.exports = {
     IN_ACTIVE: 'inactive',
     SUSPENDED: 'suspended',
   },
+  SUPPLIER_STATUS: {
+    ACTIVE: 'active',
+    IN_ACTIVE: 'inactive',
+    SUSPENDED: 'suspended',
+  },
   CURRENCY_TYPE: {
     CLP: 'clp',
     CL_UF: 'uf',

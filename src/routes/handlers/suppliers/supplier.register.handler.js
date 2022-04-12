@@ -1,5 +1,5 @@
 const { createBucket } = require('../../../helpers/bucket.utils');
-const { SUPPLIER_BUCKET_FORMAT, ER_DUP_ENTRY_RUT } = require('../../../helpers/constants');
+const { SUPPLIER_BUCKET_FORMAT, ER_DUP_ENTRY_RUT, SUPPLIER_STATUS } = require('../../../helpers/constants');
 const { Suppliers, SuppliersV2 } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
@@ -40,6 +40,7 @@ const saveSupplierWithMappings = async ({
       category_id: categoryId,
     })),
     comments,
+    status: SUPPLIER_STATUS.ACTIVE,
   };
   const query = {
     transaction: t,
@@ -71,7 +72,6 @@ const saveSupplierWithMappings = async ({
     data.createdBy = req.user.id;
 >>>>>>> 5559da8 (add createdby if user object exists)
   }
-  console.log(` req.user:: ${JSON.stringify(req.user)}`);
   const SupplierModel = req.originalUrl.includes('v1') ? Suppliers : SuppliersV2;
   const supplier = await SupplierModel.create(data, query);
   const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);

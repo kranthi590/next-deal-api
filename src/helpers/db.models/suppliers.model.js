@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { SUPPLIER_STATUS } = require('../constants');
 const { getConnection } = require('../mysql');
 
 const Suppliers = getConnection().define(
@@ -13,6 +14,12 @@ const Suppliers = getConnection().define(
         model: 'buyers',
         key: 'id',
       },
+    },
+    status: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: SUPPLIER_STATUS.ACTIVE,
+      field: 'status',
     },
     rut: {
       type: Sequelize.STRING,

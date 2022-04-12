@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { SUPPLIER_STATUS } = require('../constants');
 const { getConnection } = require('../mysql');
 
 const SuppliersV2 = getConnection().define(
@@ -20,6 +21,12 @@ const SuppliersV2 = getConnection().define(
       allowNull: false,
       defaultValue: true,
       field: 'is_shared',
+    },
+    status: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: SUPPLIER_STATUS.ACTIVE,
+      field: 'status',
     },
 
     // Optional
