@@ -1,5 +1,5 @@
 const { createBucket } = require('../../../helpers/bucket.utils');
-const { SUPPLIER_BUCKET_FORMAT } = require('../../../helpers/constants');
+const { SUPPLIER_BUCKET_FORMAT, ER_DUP_ENTRY_RUT } = require('../../../helpers/constants');
 const { Suppliers, SuppliersV2 } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
@@ -81,6 +81,18 @@ const saveSupplierWithMappings = async ({
 const registerSupplier = async (req, res) => {
   let response;
   try {
+    if (!req.user || !req.user.buyerId) {
+      // Check if RUT exists in DB with buyerId as NULL
+      const supplier = await Suppliers.findOne({
+        where: {
+          rut: req.body.rut,
+          buyerId: null,
+        },
+      });
+      if (supplier) {
+        throw new Error(ER_DUP_ENTRY_RUT);
+      }
+    }
     const result = await saveSupplierWithMappings(req.body, req);
     response = ResourceCreatedResponse(result, req.traceId);
   } catch (error) {

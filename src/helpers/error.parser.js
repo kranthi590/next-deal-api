@@ -166,6 +166,9 @@ const parseError = (error, traceId, context) => {
   if (_.get(error, 'message', null) === INVALID_SHEET_NAME) {
     return ForbiddenResponse(INVALID_SHEET_NAME, traceId, `Sheet '${SUPPLIERS_EXCEL_SHEET_NAME}' does not exists`);
   }
+  if (_.get(error, 'message', null) === ER_DUP_ENTRY_RUT) {
+    return ForbiddenResponse(ER_DUP_ENTRY_RUT, traceId);
+  }
   return InternalServerErrorResponse(error, traceId);
 };
 
