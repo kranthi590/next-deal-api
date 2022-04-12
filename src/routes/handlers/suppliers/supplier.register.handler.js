@@ -65,7 +65,13 @@ const saveSupplierWithMappings = async ({
   }
   if (req.user && req.user.buyerId) {
     data.buyerId = req.user.buyerId;
+<<<<<<< HEAD
+    data.createdBy = req.user.userId;
+=======
+    data.createdBy = req.user.id;
+>>>>>>> 5559da8 (add createdby if user object exists)
   }
+  console.log(` req.user:: ${JSON.stringify(req.user)}`);
   const SupplierModel = req.originalUrl.includes('v1') ? Suppliers : SuppliersV2;
   const supplier = await SupplierModel.create(data, query);
   const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
