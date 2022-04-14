@@ -37,6 +37,7 @@ const transformRow = ({
     phoneNumber1: row.getCell(5).value,
   },
   rowNumber: row.number,
+  isShared: false,
 });
 
 const insertAndCaptureResponse = async (supplier, req) => {
