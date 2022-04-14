@@ -31,11 +31,6 @@ const Suppliers = getConnection().define(
       allowNull: false,
       field: 'legal_name',
     },
-    fantasyName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      field: 'fantasy_name',
-    },
     webSiteUrl: {
       type: Sequelize.STRING,
       field: 'web_site_url',
@@ -50,11 +45,6 @@ const Suppliers = getConnection().define(
       allowNull: false,
       defaultValue: true,
       field: 'is_shared',
-    },
-    type: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      isIn: ['Emprendedor', 'Pyme'],
     },
     emailId: {
       type: Sequelize.UUID,

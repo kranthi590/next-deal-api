@@ -29,7 +29,7 @@ const quotationResponsesListHandler = async (req, res) => {
       include: [{
         model: Suppliers,
         as: 'supplier',
-        attributes: ['id', 'fantasyName'],
+        attributes: ['id', 'legalName'],
       }, {
         model: Files,
         as: 'files',

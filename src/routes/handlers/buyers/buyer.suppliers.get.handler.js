@@ -16,7 +16,7 @@ const getBuyersSupplierHandler = async (req, res) => {
         where: {
           buyerId: req.user.buyerId,
         },
-        attributes: ['id', 'legalName', 'fantasyName', 'emailId', 'isShared'],
+        attributes: ['id', 'legalName', 'emailId', 'isShared'],
         limit,
         offset,
       };

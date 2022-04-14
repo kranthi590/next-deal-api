@@ -13,7 +13,7 @@ const getSuppliersHandler = async (req, res) => {
       where: {
         isShared: true,
       },
-      attributes: ['id', 'legalName', 'fantasyName', 'emailId', 'isShared'],
+      attributes: ['id', 'legalName', 'emailId', 'isShared'],
       limit,
       offset,
     };

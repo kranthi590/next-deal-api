@@ -7,7 +7,7 @@ const { INVALID_SUPPLIER_ID, FILE_TYPE } = require('../../../helpers/constants')
 
 const getSupplier = async (supplierId) => {
   const query = {
-    include: ['businessAddress', 'categories', 'serviceLocations', 'billingAddress', 'contactInfo'],
+    include: ['businessAddress', 'categories', 'billingAddress', 'contactInfo'],
     where: {
       id: supplierId,
     },

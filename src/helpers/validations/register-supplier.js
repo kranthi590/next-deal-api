@@ -35,7 +35,6 @@ const BusinessAddressV2 = Joi.object().keys({
 }).required().unknown();
 
 const supplierSchema = Joi.object().keys({
-  fantasyName: Joi.string().required(),
   legalName: Joi.string().required(),
   rut: Joi.string().required(),
   webSiteUrl: Joi.string(),
@@ -44,11 +43,9 @@ const supplierSchema = Joi.object().keys({
   inchargeFullName: Joi.string(),
   inchargeRole: Joi.string(),
   categories: Joi.array().items(Joi.number().required()).required(),
-  serviceLocations: Joi.array().items(Joi.number().required()),
   inchargeContactInfo: BillingAddress,
   billingAddress: BillingAddress,
   businessAddress: BusinessAddress,
-  type: Joi.string().required(),
   comments: Joi.string().allow('').allow(null),
 }).unknown();
 

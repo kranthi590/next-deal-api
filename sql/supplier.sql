@@ -11,3 +11,6 @@ ALTER TABLE suppliers ADD UNIQUE `unique_index`(`rut`, `buyer_id`);
 ALTER TABLE suppliers MODIFY  `buyer_id` int(11) NULL DEFAULT NULL,
 ALTER TABLE suppliers ADD status varchar(20) NOT NULL;
 UPDATE suppliers SET status = 'active';
+ALTER TABLE suppliers DROP COLUMN `type`;
+ALTER TABLE suppliers DROP COLUMN `fantasy_name`;
+DROP TABLE supplier_service_locations_mappings;

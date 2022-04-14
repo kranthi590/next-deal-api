@@ -11,7 +11,6 @@ const { ResourceCreatedResponse } = require('../../../helpers/response.transform
 
 const saveSupplierWithMappings = async ({
   legalName,
-  fantasyName,
   rut,
   webSiteUrl,
   emailId,
@@ -22,20 +21,16 @@ const saveSupplierWithMappings = async ({
   billingAddress,
   contactInfo,
   categories,
-  serviceLocations,
-  type,
   comments,
 }, req) => getConnection().transaction(async (t) => {
   const data = {
     legalName,
-    fantasyName,
     rut,
     webSiteUrl,
     emailId,
     isShared,
     inchargeFullName,
     inchargeRole,
-    type,
     categories: categories.map((categoryId) => ({
       category_id: categoryId,
     })),
@@ -49,12 +44,6 @@ const saveSupplierWithMappings = async ({
   if (businessAddress) {
     data.businessAddress = businessAddress;
     query.include.push('businessAddress');
-  }
-  if (serviceLocations) {
-    data.serviceLocations = serviceLocations.map((regionId) => ({
-      region_id: regionId,
-    }));
-    query.include.push('serviceLocations');
   }
   if (billingAddress) {
     data.billingAddress = billingAddress;

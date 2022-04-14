@@ -54,7 +54,7 @@ const fetchQuotationsByDatesAndBuyer = async ({
     {
       model: Suppliers,
       as: 'supplier',
-      attributes: ['fantasyName'],
+      attributes: ['legalName'],
     },
   ],
 });

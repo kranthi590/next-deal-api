@@ -5,7 +5,7 @@ const _ = require('lodash');
 const logger = require('../../../helpers/logger');
 
 const {
-  Suppliers, SupplierCategoryMappings, SupplierServiceLocationsMappings, Addresses,
+  Suppliers, SupplierCategoryMappings, Addresses,
 } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, ForbiddenResponse } = require('../../../helpers/response.transforms');
 const { INVALID_BUYER_ID, SUPPLIERS_EXCEL_SHEET_NAME } = require('../../../helpers/constants');
@@ -59,17 +59,12 @@ const downloadBuyersSuppliersHandler = async (req, res) => {
         where: {
           buyerId: req.user.buyerId,
         },
-        attributes: ['rut', 'legalName', 'fantasyName', 'isShared', 'type', 'emailId'],
+        attributes: ['rut', 'legalName', 'isShared', 'emailId'],
         include: [
           {
             model: Addresses,
             as: 'businessAddress',
             include: ['region', 'comuna', 'country'],
-          },
-          {
-            model: SupplierServiceLocationsMappings,
-            as: 'serviceLocations',
-            include: ['region'],
           },
           {
             model: SupplierCategoryMappings,

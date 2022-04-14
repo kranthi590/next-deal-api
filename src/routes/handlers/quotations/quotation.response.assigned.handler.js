@@ -30,7 +30,7 @@ const getQuotationAssignedForResponseHandler = async (req, res) => {
       include: [{
         model: Suppliers,
         as: 'supplier',
-        attributes: ['id', 'fantasyName', 'legalName'],
+        attributes: ['id', 'legalName'],
       },
       {
         model: QuotationsResponse,
