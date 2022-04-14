@@ -14,33 +14,18 @@ const transformToExcel = (data, worksheet) => {
   data.forEach(({
     rut,
     legalName,
-    fantasyName,
-    isShared,
-    type,
     emailId,
-    businessAddress,
-    serviceLocations,
     categories,
+    businessAddress,
   }, index) => {
-    // eslint-disable-next-line max-len
-    const serviceLocationsArray = serviceLocations.map(({ region: { description } }) => description);
     const categoriesArray = categories.map(({ category: { name } }) => name);
     const rowNumber = index + 4;
     const row = worksheet.getRow(rowNumber);
     row.getCell(1).value = rut;
     row.getCell(2).value = legalName;
-    row.getCell(3).value = fantasyName;
-    row.getCell(4).value = serviceLocationsArray.join(',');
-    row.getCell(5).value = categoriesArray.join(',');
-    row.getCell(6).value = isShared ? 'Si' : 'No';
-    row.getCell(7).value = type;
-    row.getCell(8).value = emailId;
-    row.getCell(9).value = _.get(businessAddress, 'addressLine2', '');
-    row.getCell(10).value = _.get(businessAddress, 'addressLine1', '');
-    row.getCell(11).value = _.get(businessAddress, 'comuna.name', '');
-    row.getCell(12).value = _.get(businessAddress, 'region.name', '');
-    row.getCell(13).value = _.get(businessAddress, 'phoneNumber1', '');
-    row.getCell(14).value = _.get(businessAddress, 'phoneNumber2', '');
+    row.getCell(3).value = categoriesArray.join(',');
+    row.getCell(4).value = emailId;
+    row.getCell(5).value = _.get(businessAddress, 'phoneNumber1', '');
     row.commit();
   });
 };
@@ -59,12 +44,11 @@ const downloadBuyersSuppliersHandler = async (req, res) => {
         where: {
           buyerId: req.user.buyerId,
         },
-        attributes: ['rut', 'legalName', 'isShared', 'emailId'],
+        attributes: ['rut', 'legalName', 'emailId'],
         include: [
           {
             model: Addresses,
             as: 'businessAddress',
-            include: ['region', 'comuna', 'country'],
           },
           {
             model: SupplierCategoryMappings,

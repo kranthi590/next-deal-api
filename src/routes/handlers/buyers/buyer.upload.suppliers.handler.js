@@ -1,7 +1,10 @@
 const ExcelJS = require('exceljs');
-const { INVALID_SHEET_NAME, SUPPLIERS_EXCEL_SHEET_NAME } = require('../../../helpers/constants');
+
 const {
-  Categories, Regions, Countries, Comunas,
+  INVALID_SHEET_NAME, SUPPLIERS_EXCEL_SHEET_NAME,
+} = require('../../../helpers/constants');
+const {
+  Categories,
 } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 
@@ -10,21 +13,7 @@ const { saveSupplierWithMappings } = require('../suppliers/supplier.register.han
 
 const getSupportingData = async () => Promise.all([
   Categories.findAll(),
-  Regions.findAll(),
-  Countries.findAll(),
-  Comunas.findAll(),
 ]);
-
-const getServiceLocations = (regions, serviceLocationsString) => {
-  const serviceLocations = [];
-  serviceLocationsString.value.split(';').forEach((serviceLocation) => {
-    const region = regions.find(({ name }) => name === serviceLocation.trim());
-    if (region) {
-      serviceLocations.push(region.id);
-    }
-  });
-  return serviceLocations;
-};
 
 const getCategories = (categories, categoriesString) => {
   const categoriesIds = [];
@@ -37,48 +26,22 @@ const getCategories = (categories, categoriesString) => {
   return categoriesIds;
 };
 
-const getComuna = (comunaName, comunas) => {
-  const comunaFound = comunas.find((comuna) => comuna.name === comunaName);
-  return comunaFound ? comunaFound.id : null;
-};
-
-const getRegion = (regionName, regions) => {
-  const regionFound = regions.find((region) => region.name === regionName);
-  return regionFound ? regionFound.id : null;
-};
-
-const getCountry = (countries) => countries.find((country) => country.code === 'CL').id;
-
 const transformRow = ({
-  row, regions, comunas, categories, countries,
+  row, categories,
 }) => ({
   rut: row.getCell(1).value,
   legalName: row.getCell(2).value,
-  fantasyName: row.getCell(3).value,
-  emailId: typeof row.getCell(8).value === 'object' ? row.getCell(8).value.text : row.getCell(8).value,
-  categories: getCategories(categories, row.getCell(5).value),
-  serviceLocations: getServiceLocations(regions, row.getCell(4)),
-  isShared: row.getCell(6).value.toLowerCase() === 'si',
-  type: row.getCell(7).value,
+  emailId: typeof row.getCell(4).value === 'object' ? row.getCell(4).value.text : row.getCell(4).value,
+  categories: getCategories(categories, row.getCell(3).value),
   businessAddress: {
-    addressLine1: row.getCell(9).value,
-    addressLine2: row.getCell(10).value,
-    communeId: getComuna(row.getCell(11).value, comunas),
-    regionId: getRegion(row.getCell(12).value, regions),
-    countryId: getCountry(countries),
-    phoneNumber1: row.getCell(13).value,
-    phoneNumber2: row.getCell(14).value,
-    emailId: typeof row.getCell(8).value === 'object' ? row.getCell(8).value.text : row.getCell(8).value,
-    status: row.getCell(15).value,
-    error: row.getCell(16).value,
+    phoneNumber1: row.getCell(5).value,
   },
-  comments: ' ',
   rowNumber: row.number,
 });
 
 const insertAndCaptureResponse = async (supplier, req) => {
   try {
-    await saveSupplierWithMappings(supplier, req.user);
+    await saveSupplierWithMappings(supplier, req);
     return {
       status: 'OK',
       rowNumber: supplier.rowNumber,
@@ -105,9 +68,6 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     }
     const [
       categories,
-      regions,
-      countries,
-      comunas,
     ] = await getSupportingData();
     const rows = [];
     worksheet.eachRow({ includeEmpty: false }, (row) => {
@@ -119,9 +79,6 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     rows.forEach((row) => {
       suppliers.push(transformRow({
         row,
-        regions,
-        comunas,
-        countries,
         categories,
         rowNumber: row.number,
       }));
@@ -134,8 +91,8 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
       error,
     }) => {
       const row = worksheet.getRow(rowNumber);
-      row.getCell(15).value = status;
-      row.getCell(16).value = error;
+      row.getCell(6).value = status;
+      row.getCell(7).value = error;
       row.commit();
     });
     res.status(200);
