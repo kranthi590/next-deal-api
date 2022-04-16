@@ -50,6 +50,8 @@ const { deleteProjectHandler } = require('./handlers/projects/project.delete.han
 const { deleteQuotationHandler } = require('./handlers/quotations/quotation.request.delete.handler');
 const { deleteQuotationResponseHandler } = require('./handlers/quotations/quotation.response.delete.handler');
 const fetchAllCategories = require('./handlers/config/config.categories.handler');
+const { deleteFileHandler } = require('./handlers/files/file.delete.handler');
+const { projectUpdateHandler } = require('./handlers/projects/project.update.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -80,16 +82,17 @@ router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComu
 router.get('/config/categories', fetchAllCategories);
 
 // Projects routes
-router.post('/projects', validateMiddleware, authMiddleware,
-  verifyDomainMiddleware, projectCreationHandler);
+router.post('/projects', validateMiddleware, authMiddleware, verifyDomainMiddleware, projectCreationHandler);
 router.get('/projects', authMiddleware, verifyDomainMiddleware, projectsListHandler);
 router.get('/projects/:projectId', authMiddleware, verifyDomainMiddleware, getProjectHandler);
 router.delete('/projects/:projectId', authMiddleware, verifyDomainMiddleware, deleteProjectHandler);
+router.patch('/projects', validateMiddleware, authMiddleware, verifyDomainMiddleware, projectUpdateHandler);
 
 // Files Routes
 router.get('/files/:fileId/:fileName', authMiddleware, getFileHandler);
 router.post('/files', multerUploadMiddleware, uploadFileHandler);
 router.post('/secureFiles', authMiddleware, multerUploadMiddleware, uploadFileHandler);
+router.delete('/files/:fileId', authMiddleware, deleteFileHandler);
 
 // Quotations routes
 router.post('/projects/:projectId/quotations', validateMiddleware, authMiddleware,

@@ -66,7 +66,7 @@ const Projects = getConnection().define(
     },
     estimatedBudget: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       field: 'estimated_budget',
     },
     createdAt: {
@@ -96,7 +96,7 @@ const Projects = getConnection().define(
     },
     description: {
       type: Sequelize.TEXT('long'),
-      allowNull: false,
+      allowNull: true,
       field: 'description',
     },
   },

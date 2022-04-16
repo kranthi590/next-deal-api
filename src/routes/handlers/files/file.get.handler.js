@@ -39,4 +39,5 @@ const getFileHandler = async (req, res) => {
 
 module.exports = {
   getFileHandler,
+  getFileById,
 };

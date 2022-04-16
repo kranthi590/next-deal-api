@@ -10,8 +10,9 @@ const { createCustomActivitySchema } = require('./create-custom-activity');
 const { calendarDataSchema } = require('./fetch-calendar-data');
 const { extendBuyerRegistrationSchema } = require('./extend-buyer-registration');
 const { commonQuotationUpdateSchema } = require('./quotation-update-common');
+const { projectUpdateSchema } = require('./project-update');
 
-const getValidationSchema = (routePath) => {
+const getValidationSchema = (routePath, method) => {
   switch (true) {
     case routePath === '/api/v2/suppliers':
       return externalSupplierSchemaV2;
@@ -25,8 +26,10 @@ const getValidationSchema = (routePath) => {
       return userSchema;
     case routePath === '/api/v1/users/login':
       return loginUserSchema;
-    case routePath === '/api/v1/projects':
+    case (routePath === '/api/v1/projects' && method.toLowerCase() === 'post'):
       return projectCreationSchema;
+    case (routePath === '/api/v1/projects' && method.toLowerCase() === 'patch'):
+      return projectUpdateSchema;
     case routePath === '/api/v1/activities':
       return createCustomActivitySchema;
     case routePath === '/api/v1/calender/validityDates':

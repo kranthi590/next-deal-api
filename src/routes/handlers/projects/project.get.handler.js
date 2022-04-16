@@ -8,6 +8,7 @@ const { OkResponse } = require('../../../helpers/response.transforms');
 
 const getProjectHandler = async (req, res) => {
   let response;
+  console.log(`req.method: ${req.method}`);
   try {
     const [project, filesMeta] = await Promise.all([
       Projects.findOne({
