@@ -103,9 +103,6 @@ const Projects = getConnection().define(
   {
     timestamps: true,
     tableName: 'projects',
-    indexes: [
-      { fields: ['buyer_id', 'code'], unique: true },
-    ],
   },
 );
 
