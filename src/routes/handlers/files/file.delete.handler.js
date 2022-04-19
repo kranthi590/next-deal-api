@@ -34,7 +34,7 @@ const deleteFileHandler = async (req, res) => {
     await deleteFile(file);
     response = OkResponse({}, req.traceId);
   } catch (error) {
-    logger.error('Error while getting file:', error);
+    logger.error('Error while deleting file:', error);
     response = InternalServerErrorResponse('', req.traceId);
   }
   res.status(response.status).json(response);
