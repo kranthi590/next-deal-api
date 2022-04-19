@@ -23,7 +23,7 @@ const prepareProjectContext = async (req) => {
     bucketName: BUYER_DOMAIN_BUCKET_FORMAT.replace('subdomain', `${project.buyer.subDomainName}-${project.buyer.id}`),
     isPublic: false,
     entityId: project.id,
-    folder: `project-${project.id}`,
+    folder: `project-${project.code}-${project.id}`,
     entityType: FILE_TYPE.PROJECT,
   };
 };
