@@ -32,7 +32,7 @@ const { quotationCreationHandler } = require('./handlers/quotations/quotation.re
 const { quotationsListHandler } = require('./handlers/quotations/quotation.requests.list.handler');
 const { quotationResponseCreationHandler } = require('./handlers/quotations/quotation.response.create.handler');
 const { quotationResponsesListHandler } = require('./handlers/quotations/quotation.responses.list.handler');
-const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.get.handler');
+const { getBuyersSupplierHandler } = require('./handlers/buyers/buyer.suppliers.list.handler');
 const { getQuotationHandler } = require('./handlers/quotations/quotation.requests.get.handler');
 const { getQuotationAssignedForResponseHandler } = require('./handlers/quotations/quotation.response.assigned.handler');
 const { awardQuotationHandler } = require('./handlers/quotations/quotation.award.handler');
@@ -52,6 +52,7 @@ const { deleteQuotationResponseHandler } = require('./handlers/quotations/quotat
 const fetchAllCategories = require('./handlers/config/config.categories.handler');
 const { deleteFileHandler } = require('./handlers/files/file.delete.handler');
 const { projectUpdateHandler } = require('./handlers/projects/project.update.handler');
+const { getBuyerCategorySuppliersHandler } = require('./handlers/buyers/buyer.category.suppliers.list.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -70,6 +71,7 @@ router.get('/buyers/:buyerId/suppliers', authMiddleware, getBuyersSupplierHandle
 router.post('/buyers/:buyerId/suppliers', validateMiddleware, authMiddleware, registerSupplier);
 router.get('/buyers/:buyerId/downloadSuppliers', authMiddleware, downloadBuyersSuppliersHandler);
 router.post('/buyers/:buyerId/uploadSuppliers', multerUploadMiddleware, authMiddleware, uploadBuyerSuppliersHandler);
+router.get('/buyers/suppliersByCategory/:categoryId', authMiddleware, getBuyerCategorySuppliersHandler);
 
 // User routes
 router.post('/users', validateMiddleware, registerUserHandler);

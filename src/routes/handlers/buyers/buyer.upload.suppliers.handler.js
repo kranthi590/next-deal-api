@@ -72,7 +72,7 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     ] = await getSupportingData();
     const rows = [];
     worksheet.eachRow({ includeEmpty: false }, (row) => {
-      if (row.number !== 1 && row.number !== 2 && row.number !== 3) {
+      if (row.number > 5) {
         rows.push(row);
       }
     });
