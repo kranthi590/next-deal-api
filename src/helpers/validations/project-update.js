@@ -7,7 +7,7 @@ const projectUpdateSchema = Joi.object()
     name: Joi.string(),
     expectedEndDate: Joi.date(),
     costCenter: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow('').allow(null),
   })
   .unknown();
 
