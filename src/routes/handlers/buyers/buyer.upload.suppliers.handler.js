@@ -32,7 +32,8 @@ const transformRow = ({
 }) => ({
   rut: row.getCell(1).value,
   legalName: row.getCell(2).value,
-  emailId: typeof row.getCell(4).value === 'object' ? row.getCell(4).value.text : row.getCell(4).value,
+  emailId: row.getCell(4).value && typeof row.getCell(4).value === 'object'
+    ? row.getCell(4).value.text : row.getCell(4).value,
   categories: getCategories(categories, row.getCell(3).value),
   businessAddress: {
     phoneNumber1: row.getCell(5).value,

@@ -1,3 +1,4 @@
+const cleanObject = require('../../../helpers/clean.object');
 const { INVALID_PROJECT_ID } = require('../../../helpers/constants');
 const { Projects } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
@@ -29,7 +30,7 @@ const projectUpdateHandler = async (req, res) => {
       throw new Error(INVALID_PROJECT_ID);
     }
     const updatedProject = await Projects.update(
-      updateProjectObject,
+      cleanObject(updateProjectObject),
       { where: { id: project.id } },
     );
     response = OkResponse(updatedProject, req.traceId);

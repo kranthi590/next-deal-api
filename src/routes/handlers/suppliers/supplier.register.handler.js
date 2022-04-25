@@ -1,6 +1,6 @@
 const { createBucket } = require('../../../helpers/bucket.utils');
 const { SUPPLIER_BUCKET_FORMAT, ER_DUP_ENTRY_RUT, SUPPLIER_STATUS } = require('../../../helpers/constants');
-const { Suppliers, SuppliersV2 } = require('../../../helpers/db.models');
+const { SuppliersV2 } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const generateCode = require('../../../helpers/generate.code');
 
@@ -61,8 +61,7 @@ const saveSupplierWithMappings = async ({
     data.createdBy = req.user.id;
 >>>>>>> 5559da8 (add createdby if user object exists)
   }
-  const SupplierModel = req.originalUrl.includes('v1') ? Suppliers : SuppliersV2;
-  const supplier = await SupplierModel.create(data, query);
+  const supplier = await SuppliersV2.create(data, query);
   const supplierBucketName = SUPPLIER_BUCKET_FORMAT.replace('bucket', `${generateCode(supplier.legalName)}-${supplier.id}`);
   try {
     await createBucket(supplierBucketName);
@@ -78,7 +77,7 @@ const registerSupplier = async (req, res) => {
   try {
     if (!req.user || !req.user.buyerId) {
       // Check if RUT exists in DB with buyerId as NULL
-      const supplier = await Suppliers.findOne({
+      const supplier = await SuppliersV2.findOne({
         where: {
           rut: req.body.rut,
           buyerId: null,
