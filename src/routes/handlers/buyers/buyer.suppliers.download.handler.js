@@ -19,7 +19,7 @@ const transformToExcel = (data, worksheet) => {
     businessAddress,
   }, index) => {
     const categoriesArray = categories.map(({ category: { name } }) => name);
-    const rowNumber = index + 4;
+    const rowNumber = index + 6;
     const row = worksheet.getRow(rowNumber);
     row.getCell(1).value = rut;
     row.getCell(2).value = legalName;

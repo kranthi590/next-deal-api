@@ -1,4 +1,5 @@
 const ExcelJS = require('exceljs');
+const _ = require('lodash');
 
 const {
   INVALID_SHEET_NAME, SUPPLIERS_EXCEL_SHEET_NAME,
@@ -49,10 +50,10 @@ const insertAndCaptureResponse = async (supplier, req) => {
     };
   } catch (error) {
     const errorMessage = parseError(error, req.traceId);
+    const displayErrorText = _.get(errorMessage, 'data.original.sqlMessage', null);
     return {
       status: 'NOT_OK',
-      error: errorMessage.errors && errorMessage.errors[0]
-        ? errorMessage.errors[0].errorCode : errorMessage.errors,
+      error: displayErrorText || error.message,
       rowNumber: supplier.rowNumber,
     };
   }
@@ -92,8 +93,7 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
       error,
     }) => {
       const row = worksheet.getRow(rowNumber);
-      row.getCell(6).value = status;
-      row.getCell(7).value = error;
+      row.getCell(6).value = `${status}(${error})`;
       row.commit();
     });
     res.status(200);
