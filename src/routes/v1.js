@@ -12,6 +12,7 @@ const fetchComunasByRegion = require('./handlers/config/config.comunas.handler')
 const { registerSupplier } = require('./handlers/suppliers/supplier.register.handler');
 const { getSupplierHandler } = require('./handlers/suppliers/supplier.get.handler');
 const { getSuppliersHandler } = require('./handlers/suppliers/suppliers.list.handler');
+const { fetchAllCategoriesWithSuppliersCount } = require('./handlers/suppliers/config.categories.with.suppliers.count.handler');
 
 const { registerBuyerHandler } = require('./handlers/buyers/buyer.register.handler');
 const { getBuyerHandler } = require('./handlers/buyers/buyer.get.handler');
@@ -82,6 +83,7 @@ router.post('/users/login', validateMiddleware, userLoginHandler);
 router.get('/config/countries/:countryCode/regions', fetchRegionsByCountryCode);
 router.get('/config/countries/:countryCode/regions/:regionId/comunas', fetchComunasByRegion);
 router.get('/config/categories', fetchAllCategories);
+router.get('/config/suppliersCountByCategories', authMiddleware, fetchAllCategoriesWithSuppliersCount);
 
 // Projects routes
 router.post('/projects', validateMiddleware, authMiddleware, verifyDomainMiddleware, projectCreationHandler);

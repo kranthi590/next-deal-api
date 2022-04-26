@@ -75,6 +75,12 @@ SuppliersV2.hasMany(SupplierCategoryMappings, {
   targetKey: 'id',
 });
 
+SupplierCategoryMappings.belongsTo(Suppliers, {
+  as: 'suppliers',
+  foreignKey: 'supplier_id',
+  targetKey: 'id',
+});
+
 //  Suppliers.hasMany(Files, { as: 'logo', foreignKey: 'entity_id', targetKey: 'id' });
 //  Projects.hasMany(Files, { as: 'files', foreignKey: 'entity_id', targetKey: 'id' });
 
@@ -111,6 +117,7 @@ Projects.belongsTo(Buyers, {
   targetKey: 'id',
 });
 
+Categories.belongsTo(SupplierCategoryMappings, { as: 'category_mappings', foreignKey: 'id', targetKey: 'category_id' });
 SupplierCategoryMappings.belongsTo(Categories, { as: 'category', foreignKey: 'category_id', targetKey: 'id' });
 Addresses.belongsTo(Regions, { as: 'region', foreignKey: 'region_id', targetKey: 'id' });
 Addresses.belongsTo(Countries, { as: 'country', foreignKey: 'country_id', targetKey: 'id' });
