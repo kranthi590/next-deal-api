@@ -117,7 +117,7 @@ Projects.belongsTo(Buyers, {
   targetKey: 'id',
 });
 
-Categories.hasMany(SupplierCategoryMappings, { as: 'category_mappings', foreignKey: 'id', targetKey: 'category_id' });
+Categories.hasMany(SupplierCategoryMappings, { as: 'category_mappings', foreignKey: 'category_id', targetKey: 'id' });
 SupplierCategoryMappings.belongsTo(Categories, { as: 'category', foreignKey: 'category_id', targetKey: 'id' });
 Addresses.belongsTo(Regions, { as: 'region', foreignKey: 'region_id', targetKey: 'id' });
 Addresses.belongsTo(Countries, { as: 'country', foreignKey: 'country_id', targetKey: 'id' });
