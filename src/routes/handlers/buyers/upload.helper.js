@@ -6,17 +6,15 @@ const { supplierSchemaV2 } = require('../../../helpers/validations/register-supp
 const getCategories = (categories, categoriesString = '') => {
   const categoriesIds = [];
   categoriesString.split(',').forEach((category) => {
-    const categoryFound = categories.find(({ name }) => name === category.trim());
+    // eslint-disable-next-line max-len
+    const categoryFound = categories.find(({ name }) => name.toLowerCase() === category.trim().toLowerCase());
     if (categoryFound) {
       categoriesIds.push(categoryFound.id);
     }
   });
+  console.log(categoriesIds);
   return categoriesIds;
 };
-
-const getSupportingData = async () => Promise.all([
-  Categories.findAll(),
-]);
 
 const transformRow = ({
   row, categories,
@@ -34,9 +32,16 @@ const transformRow = ({
 });
 
 const getSuppliers = async (worksheet) => {
-  const [
-    categories,
-  ] = await getSupportingData();
+  const query = {
+    where: {
+      active: true,
+    },
+    attributes: ['name', 'id'],
+    order: [
+      ['name', 'ASC'],
+    ],
+  };
+  const categories = await Categories.findAll(query);
   const rows = [];
   worksheet.eachRow({ includeEmpty: false }, (row) => {
     if (row.number > 5) {
@@ -64,7 +69,6 @@ const getSuppliers = async (worksheet) => {
 };
 
 module.exports = {
-  getSupportingData,
   transformRow,
   getSuppliers,
 };
