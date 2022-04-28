@@ -88,4 +88,5 @@ module.exports = {
   Address: BusinessAddress,
   externalSupplierSchemaV2,
   userSupplierSchemaV2,
+  supplierSchemaV2,
 };

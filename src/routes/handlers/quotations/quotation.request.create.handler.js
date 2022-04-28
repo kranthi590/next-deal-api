@@ -57,7 +57,6 @@ const quotationCreationHandler = async (req, res) => {
     });
     response = OkResponse(quotation, req.traceId);
   } catch (error) {
-    console.error(error);
     response = parseError(error, req.traceId, 'quotation_create');
     logger.error('Error while creating quotation request:', error);
   }

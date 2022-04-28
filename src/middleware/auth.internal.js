@@ -9,7 +9,6 @@ const verifyApiKey = (req, res, next) => {
     }
     return next();
   } catch (err) {
-    console.error(err);
     logger.error('Error while validating internal token: ', err);
     const resp = ForbiddenResponse(INVALID_API_KEY, req.traceId);
     return res.status(resp.status).json(resp);

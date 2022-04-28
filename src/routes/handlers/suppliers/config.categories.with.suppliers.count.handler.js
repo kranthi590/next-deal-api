@@ -36,6 +36,9 @@ const fetchAllCategoriesWithSuppliersCount = async (req, res) => {
         },
       ],
       group: ['categories.id'],
+      order: [
+        ['name', 'ASC'],
+      ],
     };
     const dbResponse = await Categories.findAll(query);
     response = OkResponse(dbResponse, req.traceId);
