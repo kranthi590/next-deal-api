@@ -18,3 +18,7 @@ VALUES
     ('Servicios Generales', true, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
     ('Suministro Eléctrico', true, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
     ('Transporte y Combustibles', true, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+
+UPDATE categories SET name = 'Delivery / Despachos' WHERE name = 'delivery';
+UPDATE categories SET name = 'Imprenta y Gráficos' WHERE name = 'Imprenta y gráficas';
+UPDATE categories SET name = 'Maquinaria y Contrucción' WHERE name = 'Maquinaria y construcción';
