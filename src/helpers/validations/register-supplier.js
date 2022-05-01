@@ -58,7 +58,7 @@ const supplierSchemaV2 = {
 
   // Optional Fields
   webSiteUrl: Joi.string(),
-  emailId: Joi.string().email(),
+  emailId: Joi.string().email().allow(null),
   inchargeFullName: Joi.string(),
   inchargeRole: Joi.string(),
   inchargeContactInfo: BillingAddress,
