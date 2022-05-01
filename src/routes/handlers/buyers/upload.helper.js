@@ -5,7 +5,7 @@ const { supplierSchemaV2 } = require('../../../helpers/validations/register-supp
 
 const getCategories = (categories, categoriesString = '') => {
   const categoriesIds = [];
-  categoriesString.split(',').forEach((category) => {
+  categoriesString.split(';').forEach((category) => {
     // eslint-disable-next-line max-len
     const categoryFound = categories.find(({ name }) => name.toLowerCase() === category.trim().toLowerCase());
     if (categoryFound) {

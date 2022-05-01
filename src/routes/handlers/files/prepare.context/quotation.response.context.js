@@ -1,5 +1,6 @@
-const { FILE_TYPE, BUYER_DOMAIN_BUCKET_FORMAT, INVALID_QUOTATION_ID } = require('../../../../helpers/constants');
+const { FILE_TYPE, INVALID_QUOTATION_ID } = require('../../../../helpers/constants');
 const { QuotationsRequest, QuotationsResponse, Projects } = require('../../../../helpers/db.models');
+const { getProjectFolderPath, getBuyerDomainBucket } = require('./project.context');
 
 const prepareQuotationResponseContext = async (req) => {
   const quotation = await QuotationsResponse.findOne({
@@ -12,7 +13,7 @@ const prepareQuotationResponseContext = async (req) => {
       include: [{
         model: Projects,
         as: 'project',
-        attributes: ['code'],
+        attributes: ['code', 'id'],
       }],
     }],
   });
@@ -25,14 +26,15 @@ const prepareQuotationResponseContext = async (req) => {
       id: quotationRequestId,
       project: {
         code,
+        id: projectId,
       },
     },
   } = quotation.toJSON();
   return {
-    bucketName: BUYER_DOMAIN_BUCKET_FORMAT.replace('subdomain', `${req.user.domain}-${req.user.buyerId}`),
+    bucketName: getBuyerDomainBucket(req.user),
     isPublic: false,
     entityId: id,
-    folder: `project-${code}/quotation_requests_${quotationRequestId}/quotation_responses_${id}`,
+    folder: `${getProjectFolderPath(projectId, code)}/quotation_requests_${quotationRequestId}/quotation_responses_${id}`,
     entityType: FILE_TYPE.QUOTATION_RESPONSE,
   };
 };

@@ -54,6 +54,7 @@ const fetchAllCategories = require('./handlers/config/config.categories.handler'
 const { deleteFileHandler } = require('./handlers/files/file.delete.handler');
 const { projectUpdateHandler } = require('./handlers/projects/project.update.handler');
 const { getBuyerCategorySuppliersHandler } = require('./handlers/buyers/buyer.category.suppliers.list.handler');
+const { quotationRequestAddSuppliersHandler } = require('./handlers/quotations/quotation.request.add.supplier.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -122,6 +123,14 @@ router.post(
   authMiddleware,
   verifyDomainMiddleware,
   quotationResponseCreationHandler,
+);
+
+router.post(
+  '/quotations/:quotationRequestId/assignSuppliers',
+  validateMiddleware,
+  authMiddleware,
+  verifyDomainMiddleware,
+  quotationRequestAddSuppliersHandler,
 );
 
 router.get(

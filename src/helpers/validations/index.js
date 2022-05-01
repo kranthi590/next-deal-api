@@ -11,6 +11,7 @@ const { calendarDataSchema } = require('./fetch-calendar-data');
 const { extendBuyerRegistrationSchema } = require('./extend-buyer-registration');
 const { commonQuotationUpdateSchema } = require('./quotation-update-common');
 const { projectUpdateSchema } = require('./project-update');
+const { quotationRequestAddSuppliersSchema } = require('./quotation-request-add-suppliers');
 
 const getValidationSchema = (routePath, method) => {
   switch (true) {
@@ -49,6 +50,8 @@ const getValidationSchema = (routePath, method) => {
     case /^\/api\/v1\/quotations\/\d+\/retain$/.test(routePath):
     case /^\/api\/v1\/quotations\/\d+\/award$/.test(routePath):
       return commonQuotationUpdateSchema;
+    case /^\/api\/v1\/quotations\/\d+\/addSuppliers$/.test(routePath):
+      return quotationRequestAddSuppliersSchema;
     default:
       throw new Error('NO_SCHEMA');
   }

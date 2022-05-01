@@ -21,7 +21,17 @@ const QuotationToSupplierMappings = getConnection().define(
       },
     },
   },
-  { timestamps: false, tableName: 'quotation_request_supplier_mappings' },
+  {
+    timestamps: false,
+    tableName: 'quotation_request_supplier_mappings',
+    indexes: [
+      {
+        fields: ['supplier_id', 'quotation_request_id'],
+        unique: true,
+        name: 'quotation_supplier_unique',
+      },
+    ],
+  },
 );
 
 module.exports = {

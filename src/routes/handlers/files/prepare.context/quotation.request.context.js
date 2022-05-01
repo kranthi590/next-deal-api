@@ -1,5 +1,6 @@
-const { FILE_TYPE, BUYER_DOMAIN_BUCKET_FORMAT, INVALID_QUOTATION_ID } = require('../../../../helpers/constants');
+const { FILE_TYPE, INVALID_QUOTATION_ID } = require('../../../../helpers/constants');
 const { QuotationsRequest } = require('../../../../helpers/db.models');
+const { getProjectFolderPath, getBuyerDomainBucket } = require('./project.context');
 
 const prepareQuotationRequestContext = async (req) => {
   const quotation = await QuotationsRequest.findOne({
@@ -10,10 +11,10 @@ const prepareQuotationRequestContext = async (req) => {
     throw new Error(INVALID_QUOTATION_ID);
   }
   return {
-    bucketName: BUYER_DOMAIN_BUCKET_FORMAT.replace('subdomain', `${req.user.domain}-${req.user.buyerId}`),
+    bucketName: getBuyerDomainBucket(req.user),
     isPublic: false,
     entityId: quotation.dataValues.id,
-    folder: `project-${quotation.dataValues.project.code}/quotation_requests_${quotation.dataValues.id}`,
+    folder: `${getProjectFolderPath(quotation.dataValues.project.id, quotation.dataValues.project.code)}/quotation_requests_${quotation.dataValues.id}`,
     entityType: FILE_TYPE.QUOTATION_REQUEST,
   };
 };

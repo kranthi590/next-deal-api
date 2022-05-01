@@ -35,12 +35,21 @@ const {
   PROJECT_ALREADY_DELETED,
   INVALID_SHEET_NAME,
   SUPPLIERS_EXCEL_SHEET_NAME,
+  SUPPLIER_ALREADY_ADDED_TO_QUOTATION,
+  QUOTATION_ALREADY_ABORTED,
 } = require('./constants');
 
 const parseError = (error, traceId, context) => {
   if (_.get(error, 'original.code', null) === ER_DUP_ENTRY && _.get(error, 'fields.code', false)) {
     return ConflictResponse(context === 'quotation_create'
       ? ER_DUP_ENTRY_QUOTATION_CODE : ER_DUP_ENTRY_PROJECT_CODE, traceId);
+  }
+  if (
+    _.get(error, 'original.code', null) === ER_DUP_ENTRY
+    && _.get(error, 'fields.unique_index', false)
+    && context === 'quotation_supplier_add'
+  ) {
+    return ConflictResponse(SUPPLIER_ALREADY_ADDED_TO_QUOTATION, traceId);
   }
   if (
     _.get(error, 'original.code', null) === ER_DUP_ENTRY
@@ -114,6 +123,9 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === QUOTATION_ALREADY_COMPLETED) {
     return ForbiddenResponse(QUOTATION_ALREADY_COMPLETED, traceId);
+  }
+  if (_.get(error, 'message', null) === QUOTATION_ALREADY_ABORTED) {
+    return ForbiddenResponse(QUOTATION_ALREADY_ABORTED, traceId);
   }
   if (_.get(error, 'message', null) === QUOTATION_NOT_AWARDED) {
     return ForbiddenResponse(QUOTATION_NOT_AWARDED, traceId);
