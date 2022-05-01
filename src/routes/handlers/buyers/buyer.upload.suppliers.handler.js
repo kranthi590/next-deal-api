@@ -56,7 +56,7 @@ const uploadBuyerSuppliersHandler = async (req, res) => {
     }) => {
       const row = worksheet.getRow(rowNumber);
       row.getCell(6).value = status;
-      row.getCell(7).value = error;
+      row.getCell(7).value = error || '';
       row.commit();
     });
     res.status(200);
