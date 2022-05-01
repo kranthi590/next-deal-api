@@ -5,7 +5,7 @@ const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
 
-const quotationRequestAddSuppliersHandler = async (req, res) => {
+const quotationRequestAssignSuppliersHandler = async (req, res) => {
   let response;
   try {
     const {
@@ -57,5 +57,5 @@ const quotationRequestAddSuppliersHandler = async (req, res) => {
 };
 
 module.exports = {
-  quotationRequestAddSuppliersHandler,
+  quotationRequestAssignSuppliersHandler,
 };

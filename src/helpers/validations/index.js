@@ -51,6 +51,7 @@ const getValidationSchema = (routePath, method) => {
     case /^\/api\/v1\/quotations\/\d+\/award$/.test(routePath):
       return commonQuotationUpdateSchema;
     case /^\/api\/v1\/quotations\/\d+\/assignSuppliers$/.test(routePath):
+    case /^\/api\/v1\/quotations\/\d+\/unassignSuppliers$/.test(routePath):
       return quotationRequestAddSuppliersSchema;
     default:
       throw new Error('NO_SCHEMA');

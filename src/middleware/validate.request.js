@@ -12,7 +12,10 @@ const validate = async (req, res, next) => {
     next();
   } catch (error) {
     logger.error('Error while validating request', error);
-    const response = BadRequestResponse(error.details, req.traceId, 'Validation errors');
+    const response = BadRequestResponse(
+      error.message === 'NO_SCHEMA' ? 'NO_VALIDATION_SCHEMA_DEFINED' : error.details,
+      req.traceId, 'Validation errors',
+    );
     res.status(response.status).json(response);
   }
 };
