@@ -1,8 +1,25 @@
-const { INVALID_QUOTATION_ID } = require('../../../helpers/constants');
+const { INVALID_QUOTATION_ID, QUOTATION_STATUS, QUOTATION_ALREADY_AWARDED } = require('../../../helpers/constants');
 const { QuotationsRequest, QuotationsResponse, Projects } = require('../../../helpers/db.models');
+const { QuotationToSupplierMappings } = require('../../../helpers/db.models/quotation.supplier.mappings.model');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
+
+const deleteResponseAndUnassignSupplier = async ({
+  id, supplierId, quotationRequestId,
+}) => {
+  await QuotationsResponse.destroy({
+    where: {
+      id,
+    },
+  });
+  await QuotationToSupplierMappings.destroy({
+    where: {
+      quotation_request_id: quotationRequestId,
+      supplier_id: supplierId,
+    },
+  });
+};
 
 const deleteQuotationResponseHandler = async (req, res) => {
   let response;
@@ -11,11 +28,11 @@ const deleteQuotationResponseHandler = async (req, res) => {
       where: {
         id: req.params.quotationResponseId,
       },
-      attributes: ['id'],
+      attributes: ['id', 'supplierId', 'quotationRequestId', 'isAwarded'],
       include: [{
         model: QuotationsRequest,
         as: 'quotation',
-        attributes: [],
+        attributes: ['status'],
         include: [{
           model: Projects,
           as: 'project',
@@ -31,10 +48,27 @@ const deleteQuotationResponseHandler = async (req, res) => {
     if (!quotationResponse) {
       throw new Error(INVALID_QUOTATION_ID);
     }
-    await QuotationsResponse.destroy({
-      where: {
-        id: req.params.quotationResponseId,
-      },
+    const {
+      id,
+      supplierId,
+      quotationRequestId,
+      quotation: { status },
+      isAwarded,
+    } = quotationResponse.toJSON();
+    if (
+      status === QUOTATION_STATUS.AWARDED
+      || status === QUOTATION_STATUS.ABORTED
+      || status === QUOTATION_STATUS.COMPLETED
+    ) {
+      throw new Error(`QUOTATION_ALREADY_${status.toUpperCase()}`);
+    }
+    if (isAwarded) {
+      throw new Error(QUOTATION_ALREADY_AWARDED);
+    }
+    await deleteResponseAndUnassignSupplier({
+      id,
+      supplierId,
+      quotationRequestId,
     });
     response = OkResponse({}, req.traceId);
   } catch (error) {
