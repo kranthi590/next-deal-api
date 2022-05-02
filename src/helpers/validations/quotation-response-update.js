@@ -13,12 +13,13 @@ const inProgressOrCreatedSchema = {
   paymentCondition: Joi.string().required(),
   deliveryDate: Joi.date().required(),
   validityDate: Joi.date().required(),
-  comments: Joi.string(),
+  comments: Joi.string().allow('').allow(null),
 };
 
 const awardedQuotationSchema = {
-  purchaseOrderNumber: Joi.string().required(),
+  purchaseOrderNumber: Joi.string().allow('').allow(null),
   deliveryDate: Joi.date().required(),
+  comments: Joi.string().allow('').allow(null),
 };
 
 module.exports = { inProgressOrCreatedSchema, awardedQuotationSchema };
