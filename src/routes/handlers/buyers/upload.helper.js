@@ -12,7 +12,6 @@ const getCategories = (categories, categoriesString = '') => {
       categoriesIds.push(categoryFound.id);
     }
   });
-  console.log(categoriesIds);
   return categoriesIds;
 };
 

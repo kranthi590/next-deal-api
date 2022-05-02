@@ -3,6 +3,7 @@ const {
   ConflictResponse,
   InternalServerErrorResponse,
   ForbiddenResponse,
+  BadRequestResponse,
 } = require('./response.transforms');
 const {
   ER_DUP_ENTRY,
@@ -180,6 +181,12 @@ const parseError = (error, traceId, context) => {
   }
   if (_.get(error, 'message', null) === ER_DUP_ENTRY_RUT) {
     return ForbiddenResponse(ER_DUP_ENTRY_RUT, traceId);
+  }
+  if (error.details) {
+    return BadRequestResponse(
+      error.message === 'NO_SCHEMA' ? 'NO_VALIDATION_SCHEMA_DEFINED' : error.details,
+      traceId, 'Validation errors',
+    );
   }
   return InternalServerErrorResponse(error, traceId);
 };

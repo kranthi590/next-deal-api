@@ -56,6 +56,7 @@ const { projectUpdateHandler } = require('./handlers/projects/project.update.han
 const { getBuyerCategorySuppliersHandler } = require('./handlers/buyers/buyer.category.suppliers.list.handler');
 const { quotationRequestAssignSuppliersHandler } = require('./handlers/quotations/quotation.request.assign.supplier.handler');
 const { quotationRequestUnassignSuppliersHandler } = require('./handlers/quotations/quotation.request.unassign.supplier.handler');
+const { quotationResponseUpdateHandler } = require('./handlers/quotations/quotation.response.update.handler');
 
 router.get(['/', '/health'], (req, res) => {
   const response = OkResponse(null, req.traceId, 'OK Response');
@@ -206,6 +207,13 @@ router.delete(
   authMiddleware,
   verifyDomainMiddleware,
   deleteQuotationResponseHandler,
+);
+
+router.put(
+  '/quotations/response/:quotationResponseId',
+  authMiddleware,
+  verifyDomainMiddleware,
+  quotationResponseUpdateHandler,
 );
 
 // Activities routes
