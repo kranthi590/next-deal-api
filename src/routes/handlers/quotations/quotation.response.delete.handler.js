@@ -1,4 +1,4 @@
-const { INVALID_QUOTATION_ID, QUOTATION_NOT_MAPPED_TO_THIS_BUYER, QUOTATION_ALREADY_DELETED } = require('../../../helpers/constants');
+const { INVALID_QUOTATION_ID } = require('../../../helpers/constants');
 const { QuotationsRequest, QuotationsResponse, Projects } = require('../../../helpers/db.models');
 const { parseError } = require('../../../helpers/error.parser');
 const logger = require('../../../helpers/logger');
@@ -11,47 +11,31 @@ const deleteQuotationResponseHandler = async (req, res) => {
       where: {
         id: req.params.quotationResponseId,
       },
-      attributes: ['id', 'isDeleted'],
+      attributes: ['id'],
       include: [{
         model: QuotationsRequest,
         as: 'quotation',
-        attributes: ['id'],
+        attributes: [],
         include: [{
           model: Projects,
           as: 'project',
-          attributes: ['buyerId'],
+          attributes: [],
+          where: {
+            buyerId: req.user.buyerId,
+          },
+          required: true,
         }],
+        required: true,
       }],
     });
     if (!quotationResponse) {
       throw new Error(INVALID_QUOTATION_ID);
     }
-    const {
-      id,
-      isDeleted,
-      quotation: {
-        id: quotationRequestId,
-        project: {
-          buyerId,
-        },
+    await QuotationsResponse.destroy({
+      where: {
+        id: req.params.quotationResponseId,
       },
-    } = quotationResponse.toJSON();
-    if (isDeleted) {
-      throw new Error(QUOTATION_ALREADY_DELETED);
-    }
-    if (req.user.buyerId !== buyerId) {
-      throw new Error(QUOTATION_NOT_MAPPED_TO_THIS_BUYER);
-    }
-    await QuotationsResponse.update(
-      { isDeleted: true },
-      {
-        where: {
-          id,
-          quotationRequestId,
-        },
-        returning: true,
-      },
-    );
+    });
     response = OkResponse({}, req.traceId);
   } catch (error) {
     response = parseError(error, req.traceId);

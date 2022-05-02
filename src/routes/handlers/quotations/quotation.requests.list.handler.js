@@ -38,7 +38,6 @@ const quotationsListHandler = async (req, res) => {
             model: QuotationsResponse,
             as: 'quotationResponse',
             attributes: [],
-            where: { isDeleted: false },
             required: false,
           },
           {

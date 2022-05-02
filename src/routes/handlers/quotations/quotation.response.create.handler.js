@@ -98,7 +98,6 @@ const quotationResponseCreationHandler = async (req, res) => {
       buyerId: req.user.buyerId,
       projectId,
       responsesCount: quotationsCount,
-      isDeleted: false,
     });
     response = OkResponse(quotation, req.traceId);
   } catch (error) {

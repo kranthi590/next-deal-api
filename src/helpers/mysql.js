@@ -15,10 +15,10 @@ const init = async () => {
     });
     await connection.authenticate();
     setConnection(connection);
-    require('./db.models');
-    await connection.sync({ force: false });
-    const { checkAndInsertData } = require('./master.data');
-    await checkAndInsertData();
+    // require('./db.models');
+    // await connection.sync({ force: false });
+    // const { checkAndInsertData } = require('./master.data');
+    // await checkAndInsertData();
     logger.info('Connection has been established successfully.');
     return true;
   } catch (error) {

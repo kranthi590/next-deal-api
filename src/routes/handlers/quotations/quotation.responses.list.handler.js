@@ -17,7 +17,6 @@ const quotationResponsesListHandler = async (req, res) => {
     const quotations = await QuotationsResponse.findAndCountAll({
       where: {
         quotationRequestId: req.params.quotationRequestId,
-        isDeleted: false,
       },
       limit,
       offset,

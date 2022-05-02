@@ -26,7 +26,6 @@ const fetchQuotationsByDatesAndBuyer = async ({
         [Op.lte]: endDate,
       },
     },
-    isDeleted: false,
     isAwarded: dateField === DATE_FIELD_TYPES.DELIVERY_DATE_TYPE,
   },
   include: [
