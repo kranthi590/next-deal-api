@@ -209,7 +209,7 @@ router.delete(
   deleteQuotationResponseHandler,
 );
 
-router.put(
+router.patch(
   '/quotations/response/:quotationResponseId',
   authMiddleware,
   verifyDomainMiddleware,
