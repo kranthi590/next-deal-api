@@ -14,3 +14,6 @@ UPDATE suppliers SET status = 'active';
 ALTER TABLE suppliers DROP COLUMN `type`;
 ALTER TABLE suppliers DROP COLUMN `fantasy_name`;
 DROP TABLE supplier_service_locations_mappings;
+ALTER TABLE supplier_category_mappings ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE supplier_category_mappings ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+ALTER TABLE suppliers MODIFY created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

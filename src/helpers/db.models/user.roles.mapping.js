@@ -22,8 +22,16 @@ const UsersRolesMappings = getConnection().define(
         key: 'id',
       },
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
-  { timestamps: false, tableName: 'users_roles_mappings' },
+  { timestamps: true, tableName: 'users_roles_mappings' },
 );
 
 module.exports = {

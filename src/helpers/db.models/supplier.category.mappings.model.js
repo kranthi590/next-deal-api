@@ -20,8 +20,16 @@ const SupplierCategoryMappings = getConnection().define(
         key: 'id',
       },
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
-  { timestamps: false, tableName: 'supplier_category_mappings' },
+  { timestamps: true, tableName: 'supplier_category_mappings' },
 );
 
 module.exports = {

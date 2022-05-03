@@ -58,9 +58,17 @@ const Users = getConnection().define(
       type: Sequelize.INTEGER,
       field: 'supplier_id',
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
     validate: {
       invalidBuyerId() {
         if (this.type === 'buyer' && !this.buyerId) {

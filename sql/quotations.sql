@@ -10,3 +10,5 @@ ALTER TABLE quotation_responses MODIFY `is_deleted` tinyint(1) DEFAULT 0 NOT NUL
 ALTER TABLE quotation_responses MODIFY `comments` TEXT default '';
 ALTER TABLE `quotation_request_supplier_mappings` ADD UNIQUE `unique_index`(`supplier_id`, `quotation_request_id`);
 ALTER TABLE quotation_responses DROP COLUMN is_deleted;
+ALTER TABLE quotation_request_supplier_mappings ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE quotation_request_supplier_mappings ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

@@ -65,8 +65,16 @@ const Addresses = getConnection().define(
       type: Sequelize.STRING,
       field: 'additional_data',
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
-  { timestamps: false, tableName: 'addresses' },
+  { timestamps: true, tableName: 'addresses' },
 );
 
 module.exports = {

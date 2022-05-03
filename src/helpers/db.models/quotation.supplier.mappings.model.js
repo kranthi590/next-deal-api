@@ -20,9 +20,17 @@ const QuotationToSupplierMappings = getConnection().define(
         key: 'id',
       },
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
     tableName: 'quotation_request_supplier_mappings',
     indexes: [
       {

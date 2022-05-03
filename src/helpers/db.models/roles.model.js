@@ -18,14 +18,21 @@ const Roles = getConnection().define(
       unique: true,
       allowNull: false,
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'updated_at',
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
     tableName: 'roles',
-    freezeTableName: true,
-    paranoid: true,
   },
 );
+
 Roles.sync({ force: false });
 
 module.exports = {
