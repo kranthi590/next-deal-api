@@ -16,14 +16,20 @@ const { OkResponse } = require('../../../helpers/response.transforms');
 
 const completeQuotation = async (data) => getConnection().transaction(async (t) => {
   const {
-    quotationRequestId, projectId, user, purchaseOrderNumber, quotationResponseId, comments,
+    quotationRequestId,
+    projectId,
+    user,
+    purchaseOrderNumber,
+    quotationResponseId,
+    comments,
+    deliveryDate,
   } = data;
-  const updateQuotationResponse = { purchaseOrderNumber };
-  if (comments) {
-    updateQuotationResponse.comments = comments;
-  }
   await QuotationsResponse.update(
-    updateQuotationResponse,
+    {
+      purchaseOrderNumber,
+      comments,
+      deliveryDate,
+    },
     {
       where: { id: quotationResponseId },
       transaction: t,
@@ -50,7 +56,7 @@ const completeQuotation = async (data) => getConnection().transaction(async (t) 
 const completeQuotationHandler = async (req, res) => {
   let response;
   try {
-    const { comments = '' } = req.body;
+    const { comments, deliveryDate, purchaseOrderNumber } = req.body;
     const quotationResponse = await QuotationsResponse.findOne({
       where: {
         id: req.params.quotationResponseId,
@@ -81,12 +87,13 @@ const completeQuotationHandler = async (req, res) => {
       throw new Error(QUOTATION_ALREADY_COMPLETED);
     }
     await completeQuotation({
-      purchaseOrderNumber: req.body.purchaseOrderNumber,
+      purchaseOrderNumber,
       quotationRequestId: quotation.quotation.id,
       projectId: quotationResponse.quotation.projectId,
       user: req.user,
       quotationResponseId: req.params.quotationResponseId,
       comments,
+      deliveryDate,
     });
     response = OkResponse(null, req.traceId);
   } catch (error) {
