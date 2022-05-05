@@ -42,4 +42,5 @@ const deleteFileHandler = async (req, res) => {
 
 module.exports = {
   deleteFileHandler,
+  deleteFile,
 };

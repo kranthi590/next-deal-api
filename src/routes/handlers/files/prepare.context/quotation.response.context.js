@@ -2,6 +2,22 @@ const { FILE_TYPE, INVALID_QUOTATION_ID } = require('../../../../helpers/constan
 const { QuotationsRequest, QuotationsResponse, Projects } = require('../../../../helpers/db.models');
 const { getProjectFolderPath, getBuyerDomainBucket } = require('./project.context');
 
+const getQuotationResponseContext = (user, quotation) => {
+  const {
+    projectId,
+    code,
+    quotationRequestId,
+    id,
+  } = quotation;
+  return {
+    bucketName: getBuyerDomainBucket(user),
+    isPublic: false,
+    entityId: id,
+    folder: `${getProjectFolderPath(projectId, code)}/quotation_requests_${quotationRequestId}/quotation_responses_${id}`,
+    entityType: FILE_TYPE.QUOTATION_RESPONSE,
+  };
+};
+
 const prepareQuotationResponseContext = async (req) => {
   const quotation = await QuotationsResponse.findOne({
     where: { id: req.body.assetRelationId },
@@ -30,13 +46,15 @@ const prepareQuotationResponseContext = async (req) => {
       },
     },
   } = quotation.toJSON();
-  return {
-    bucketName: getBuyerDomainBucket(req.user),
-    isPublic: false,
-    entityId: id,
-    folder: `${getProjectFolderPath(projectId, code)}/quotation_requests_${quotationRequestId}/quotation_responses_${id}`,
-    entityType: FILE_TYPE.QUOTATION_RESPONSE,
-  };
+  return getQuotationResponseContext(req.user, {
+    projectId,
+    code,
+    quotationRequestId,
+    id,
+  });
 };
 
-module.exports = prepareQuotationResponseContext;
+module.exports = {
+  prepareQuotationResponseContext,
+  getQuotationResponseContext,
+};

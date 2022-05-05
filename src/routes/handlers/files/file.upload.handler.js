@@ -13,7 +13,9 @@ const logger = require('../../../helpers/logger');
 const { OkResponse } = require('../../../helpers/response.transforms');
 const { prepareProjectContext } = require('./prepare.context/project.context');
 const prepareQuotationRequestContext = require('./prepare.context/quotation.request.context');
-const prepareQuotationResponseContext = require('./prepare.context/quotation.response.context');
+const {
+  prepareQuotationResponseContext,
+} = require('./prepare.context/quotation.response.context');
 const prepareSupplierContext = require('./prepare.context/supplier.context');
 
 const saveFileAndUpdateMeta = async (req, context) => {
