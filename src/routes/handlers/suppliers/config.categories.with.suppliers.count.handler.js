@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { Categories, SupplierCategoryMappings, Suppliers } = require('../../../helpers/db.models');
 
 const logger = require('../../../helpers/logger');
@@ -39,6 +39,7 @@ const fetchAllCategoriesWithSuppliersCount = async (req, res) => {
       order: [
         ['name', 'ASC'],
       ],
+      having: { suppliersCount: { [Op.gt]: 0 } },
     };
     const dbResponse = await Categories.findAll(query);
     response = OkResponse(dbResponse, req.traceId);

@@ -2,13 +2,15 @@ const logger = require('../../../helpers/logger');
 
 const { Suppliers, SupplierCategoryMappings } = require('../../../helpers/db.models');
 const { InternalServerErrorResponse, OkResponse } = require('../../../helpers/response.transforms');
-const { DB_FETCH_SIZE, DB_OFFSET_DEFAULT } = require('../../../helpers/constants');
+const { initPagination } = require('../../../helpers/init.pagination');
 
 const getBuyerCategorySuppliersHandler = async (req, res) => {
   let response;
   try {
-    const limit = req.query.size ? parseInt(req.query.size, 10) : DB_FETCH_SIZE;
-    const offset = req.query.size ? parseInt(req.query.offset, 10) : DB_OFFSET_DEFAULT;
+    const {
+      limit,
+      offset,
+    } = initPagination(req);
     const query = {
       where: {
         buyerId: req.user.buyerId,
