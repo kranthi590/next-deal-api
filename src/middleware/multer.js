@@ -30,24 +30,31 @@ function makeMulterUploadMiddleware(multerUploadFunction) {
     if (err) {
       logger.error('Error while uploading files', err);
       let errorJSON = {
-        error: 'FILE_UPLOAD_ERROR',
+        errorCode: 'FILE_UPLOAD_ERROR',
         message: 'Something wrong ocurred when trying to upload the file',
       };
       // Handle File type error
       if (err.message === INVALID_FILE_TYPE) {
         errorJSON = {
-          error: err.message,
+          errorCode: err.message,
           message: `Invalid file type: ${err.message}`,
         };
-      }
-      // handle Multer error
-      if (err.name === 'MulterError') {
+      } else if (err.code === 'LIMIT_FILE_SIZE') { // Handle File size error
         errorJSON = {
-          error: err.name,
+          errorCode: 'LIMIT_FILE_SIZE',
+          message: `Invalid file type: ${err.message}`,
+        };
+      } else if (err.name === 'MulterError') { // handle Multer error
+        errorJSON = {
+          errorCode: err.name,
           message: `File upload error: ${err.message}`,
         };
       }
-      const response = BadRequestResponse(errorJSON, req.traceId, 'Validation errors');
+      const response = BadRequestResponse({
+        errors: [
+          errorJSON,
+        ],
+      }, req.traceId, 'Validation errors');
       return res.status(response.status).json(response);
     }
     return next();
