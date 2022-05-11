@@ -1,4 +1,4 @@
-const ExcelJS = require('xlsx-populate');
+const ExcelJS = require('exceljs');
 const { INVALID_DOMAIN } = require('../helpers/constants');
 const { ForbiddenResponse } = require('../helpers/response.transforms');
 const logger = require('../helpers/logger');
