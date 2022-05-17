@@ -31,10 +31,6 @@ const userLoginHandler = async (req, res) => {
     const { emailId, password } = req.body;
     const user = await getUser(emailId);
     if (user && user.status && bcrypt.compareSync(password, user.password)) {
-      //  const date = moment(user.buyer.licensedUntil);
-      // if (moment(date).diff(moment(), 'days') <= 0) {
-      //   throw new Error(ACCOUNT_LICENSE_EXPIRED);
-      // }
       const lastLoginDate = new Date();
       const token = jwt.sign(
         {
@@ -45,7 +41,6 @@ const userLoginHandler = async (req, res) => {
         },
         process.env.JWT_SECRET_KEY,
         {
-          //  expiresIn: `${moment(date).diff(moment(), 'days')}d`,
           expiresIn: '30d',
         },
       );
