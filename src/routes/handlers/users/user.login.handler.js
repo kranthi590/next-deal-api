@@ -17,6 +17,14 @@ const getUser = async (emailId) => {
   return Users.findOne(query);
 };
 
+const updateLastLoginDate = async (userId, lastLoginDate) => Users.update(
+  { lastLoginDate },
+  {
+    where: { id: userId },
+    returning: true,
+  },
+);
+
 const userLoginHandler = async (req, res) => {
   let response;
   try {
@@ -27,6 +35,7 @@ const userLoginHandler = async (req, res) => {
       // if (moment(date).diff(moment(), 'days') <= 0) {
       //   throw new Error(ACCOUNT_LICENSE_EXPIRED);
       // }
+      const lastLoginDate = new Date();
       const token = jwt.sign(
         {
           emailId: user.emailId,
@@ -40,7 +49,9 @@ const userLoginHandler = async (req, res) => {
           expiresIn: '30d',
         },
       );
+      await updateLastLoginDate(user.id, lastLoginDate);
       delete user.password;
+      user.lastLoginDate = lastLoginDate;
       response = OkResponse({ user, token }, req.traceId);
     } else {
       throw new Error(INVALID_ACCOUNT_CREDENTIALS);
